@@ -43,7 +43,7 @@ Car-Rent is a front-end web template for a car rental business. It features a st
 
 1. **Clone or Download** this repository:
    ```bash
-   git clone <repo-url>
+   git clone https://github.com/ZahaAnass/Car-Rent.git
    # or download and unzip
    ```
 2. **Open `index.html`** in your browser to view the homepage.
