@@ -1,0 +1,45 @@
+Car-Rent/
+├── config/
+│   ├── database.php           # Database connection
+│   └── config.php            # Global settings
+├── admin/
+│   ├── dashboard.php         # Admin main page
+│   ├── manage-cars.php       # Cars CRUD
+│   ├── manage-users.php      # Users management
+│   ├── manage-reservations.php
+│   ├── manage-testimonials.php
+│   └── manage-messages.php    # Contact form messages
+├── auth/
+│   ├── login.php
+│   ├── register.php
+│   └── logout.php
+├── user/
+│   ├── dashboard.php         # User dashboard
+│   ├── profile.php           # Edit profile
+│   ├── my-reservations.php
+│   └── book-car.php
+├── includes/
+│   ├── header.php
+│   ├── footer.php
+│   ├── functions.php
+│   └── session.php
+├── public/                   # Your current pages converted to PHP
+│   ├── index.php            # Homepage
+│   ├── about.php
+│   ├── services.php
+│   ├── cars.php             # Car listing
+│   ├── contact.php
+│   ├── team.php
+│   ├── testimonials.php
+│   └── blog.php
+├── assets/                   # Keep your current assets
+│   ├── css/
+│   │   ├── bootstrap.min.css
+│   │   └── style.css
+│   ├── js/
+│   │   ├── main.js
+│   │   └── header_footer.js
+│   ├── img/
+│   └── lib/                 # Your current libraries
+└── uploads/                 # For uploaded images
+    └── cars/               # Car images
