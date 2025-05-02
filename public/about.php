@@ -340,27 +340,27 @@
         </div>
         <!-- Team End -->
 
-    <!-- Banner Start -->
-    <div class="container-fluid banner pb-5 wow zoomInDown" data-wow-delay="0.1s">
-        <div class="container pb-5">
-            <div class="banner-item rounded">
-                <img src="../assets/img/banner-1.jpg" class="img-fluid rounded w-100" alt="Car Rental Banner">
-                <div class="banner-content">
-                    <h2 class="text-primary">Your Journey Starts Here</h2>
-                    <h1 class="text-white">Ready to Hit the Road?</h1>
-                    <p class="text-white">Discover the perfect vehicle for your next adventure. Quick, easy, and hassle-free rentals.</p>
-                    <div class="banner-btn">
-                        <a href="#" class="btn btn-secondary rounded-pill py-3 px-4 px-md-5 me-2">
-                            <i class="fab fa-whatsapp me-2"></i>WhatsApp
-                        </a>
-                        <a href="contact.php" class="btn btn-primary rounded-pill py-3 px-4 px-md-5 ms-2">
-                            <i class="fas fa-envelope me-2"></i>Contact Us
-                        </a>
+        <!-- Banner Start -->
+        <div class="container-fluid banner pb-5 wow zoomInDown" data-wow-delay="0.1s">
+            <div class="container pb-5">
+                <div class="banner-item rounded">
+                    <img src="../assets/img/banner-1.jpg" class="img-fluid rounded w-100" alt="Car Rental Banner">
+                    <div class="banner-content">
+                        <h2 class="text-primary">Your Journey Starts Here</h2>
+                        <h1 class="text-white">Ready to Hit the Road?</h1>
+                        <p class="text-white">Discover the perfect vehicle for your next adventure. Quick, easy, and hassle-free rentals.</p>
+                        <div class="banner-btn">
+                            <a href="#" class="btn btn-secondary rounded-pill py-3 px-4 px-md-5 me-2">
+                                <i class="fab fa-whatsapp me-2"></i>WhatsApp
+                            </a>
+                            <a href="contact.php" class="btn btn-primary rounded-pill py-3 px-4 px-md-5 ms-2">
+                                <i class="fas fa-envelope me-2"></i>Contact Us
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Banner End -->
+        <!-- Banner End -->
 
 <?php require_once '../includes/footer.php'; ?>
