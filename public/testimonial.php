@@ -25,72 +25,71 @@
         <div class="container-fluid testimonial py-5">
             <div class="container py-5">
                 <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 800px;">
-                    <h1 class="display-5 text-capitalize mb-3">Our Clients<span class="text-primary"> Riviews</span></h1>
-                    <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut amet nemo expedita asperiores commodi accusantium at cum harum, excepturi, quia tempora cupiditate! Adipisci facilis modi quisquam quia distinctio,
-                    </p>
+                    <h1 class="display-5 text-capitalize mb-3">Our Clients<span class="text-primary"> Reviews</span></h1>
+                    <p class="mb-0">Hear directly from our satisfied customers who have experienced the Zoomix difference. Their stories showcase our commitment to exceptional service, reliability, and unforgettable travel experiences.</p>
                 </div>
                 <div class="owl-carousel testimonial-carousel wow fadeInUp" data-wow-delay="0.1s">
                     <div class="testimonial-item">
                         <div class="testimonial-quote"><i class="fa fa-quote-right fa-2x"></i>
                         </div>
                         <div class="testimonial-inner p-4">
-                            <img src="img/testimonial-1.jpg" class="img-fluid" alt="">
+                            <img src="../assets/img/testimonial-1.jpg" class="img-fluid" alt="David Martinez, Business Traveler">
                             <div class="ms-4">
-                                <h4>Person Name</h4>
-                                <p>Profession</p>
+                                <h4>David Martinez</h4>
+                                <p>Business Consultant</p>
                                 <div class="d-flex text-primary">
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
-                                    <i class="fas fa-star text-body"></i>
+                                    <i class="fas fa-star"></i>
                                 </div>
                             </div>
                         </div>
                         <div class="border-top rounded-bottom p-4">
-                            <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam soluta neque ab repudiandae reprehenderit ipsum eos cumque esse repellendus impedit.</p>
+                            <p class="mb-0">"As a frequent business traveler, I've tried numerous car rental services. Zoomix stands out with their impeccable fleet, seamless booking process, and exceptional customer support. They've made my business trips significantly smoother."</p>
                         </div>
                     </div>
                     <div class="testimonial-item">
                         <div class="testimonial-quote"><i class="fa fa-quote-right fa-2x"></i>
                         </div>
                         <div class="testimonial-inner p-4">
-                            <img src="img/testimonial-2.jpg" class="img-fluid" alt="">
+                            <img src="../assets/img/testimonial-2.jpg" class="img-fluid" alt="Emily Chen, Travel Enthusiast">
                             <div class="ms-4">
-                                <h4>Person Name</h4>
-                                <p>Profession</p>
+                                <h4>Emily Chen</h4>
+                                <p>Travel Blogger</p>
                                 <div class="d-flex text-primary">
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
-                                    <i class="fas fa-star text-body"></i>
+                                    <i class="fas fa-star"></i>
                                     <i class="fas fa-star text-body"></i>
                                 </div>
                             </div>
                         </div>
                         <div class="border-top rounded-bottom p-4">
-                            <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam soluta neque ab repudiandae reprehenderit ipsum eos cumque esse repellendus impedit.</p>
+                            <p class="mb-0">"Zoomix has been my trusted companion for road trips across the country. Their diverse vehicle selection, competitive pricing, and user-friendly service make every journey an adventure. Highly recommended for fellow travelers!"</p>
                         </div>
                     </div>
                     <div class="testimonial-item">
                         <div class="testimonial-quote"><i class="fa fa-quote-right fa-2x"></i>
                         </div>
                         <div class="testimonial-inner p-4">
-                            <img src="img/testimonial-3.jpg" class="img-fluid" alt="">
+                            <img src="../assets/img/testimonial-3.jpg" class="img-fluid" alt="Michael Rodriguez, Family Traveler">
                             <div class="ms-4">
-                                <h4>Person Name</h4>
-                                <p>Profession</p>
+                                <h4>Michael Rodriguez</h4>
+                                <p>Family Vacationer</p>
                                 <div class="d-flex text-primary">
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
-                                    <i class="fas fa-star text-body"></i>
+                                    <i class="fas fa-star"></i>
                                     <i class="fas fa-star text-body"></i>
                                     <i class="fas fa-star text-body"></i>
                                 </div>
                             </div>
                         </div>
                         <div class="border-top rounded-bottom p-4">
-                            <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam soluta neque ab repudiandae reprehenderit ipsum eos cumque esse repellendus impedit.</p>
+                            <p class="mb-0">"Family road trips can be challenging, but Zoomix made our vacation planning effortless. They helped us find the perfect SUV for our needs, with excellent customer service and transparent pricing. We'll definitely use them again!"</p>
                         </div>
                     </div>
                 </div>
