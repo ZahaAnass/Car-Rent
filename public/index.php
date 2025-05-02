@@ -18,79 +18,71 @@
                 </ol>
                 <div class="carousel-inner" role="listbox">
                     <div class="carousel-item active">
-                        <img src="img/carousel-2.jpg" class="img-fluid w-100" alt="First slide"/>
+                        <img src="../assets/img/carousel-2.jpg" class="img-fluid w-100" alt="Premium Car Rental Experience"/>
                         <div class="carousel-caption">
                             <div class="container py-4">
                                 <div class="row g-5">
                                     <div class="col-lg-6 fadeInLeft animated" data-animation="fadeInLeft" data-delay="1s" style="animation-delay: 1s;">
                                         <div class="bg-secondary rounded p-5">
-                                            <h4 class="text-white mb-4">CONTINUE CAR RESERVATION</h4>
+                                            <h4 class="text-white mb-4">START YOUR JOURNEY</h4>
                                             <form>
                                                 <div class="row g-3">
                                                     <div class="col-12">
-                                                        <select class="form-select" aria-label="Default select example">
-                                                            <option selected>Select Your Car type</option>
-                                                            <option value="1">VW Golf VII</option>
-                                                            <option value="2">Audi A1 S-Line</option>
-                                                            <option value="3">Toyota Camry</option>
-                                                            <option value="4">BMW 320 ModernLine</option>
+                                                        <select class="form-select" aria-label="Select vehicle type">
+                                                            <option selected>Choose Your Perfect Vehicle</option>
+                                                            <option value="1">Compact - VW Golf VII</option>
+                                                            <option value="2">Luxury - Audi A1 S-Line</option>
+                                                            <option value="3">Sedan - Toyota Camry</option>
+                                                            <option value="4">Premium - BMW 320 ModernLine</option>
                                                         </select>
                                                     </div>
                                                     <div class="col-12">
                                                         <div class="input-group">
                                                             <div class="d-flex align-items-center bg-light text-body rounded-start p-2">
-                                                                <span class="fas fa-map-marker-alt"></span> <span class="ms-1">Pick Up</span>
+                                                                <span class="fas fa-map-marker-alt"></span> <span class="ms-1">Pickup</span>
                                                             </div>
-                                                            <input class="form-control" type="text" placeholder="Enter a City or Airport" aria-label="Enter a City or Airport">
+                                                            <input class="form-control" type="text" placeholder="Enter pickup city or airport" aria-label="Pickup location">
                                                         </div>
                                                     </div>
                                                     <div class="col-12">
-                                                        <a href="#" class="text-start text-white d-block mb-2">Need a different drop-off location?</a>
+                                                        <a href="#" class="text-white d-block mb-2 small">Different drop-off location?</a>
                                                         <div class="input-group">
                                                             <div class="d-flex align-items-center bg-light text-body rounded-start p-2">
-                                                                <span class="fas fa-map-marker-alt"></span><span class="ms-1">Drop off</span>
+                                                                <span class="fas fa-map-marker-alt"></span><span class="ms-1">Dropoff</span>
                                                             </div>
-                                                            <input class="form-control" type="text" placeholder="Enter a City or Airport" aria-label="Enter a City or Airport">
+                                                            <input class="form-control" type="text" placeholder="Enter dropoff city or airport" aria-label="Dropoff location">
                                                         </div>
                                                     </div>
                                                     <div class="col-12">
                                                         <div class="input-group">
                                                             <div class="d-flex align-items-center bg-light text-body rounded-start p-2">
-                                                                <span class="fas fa-calendar-alt"></span><span class="ms-1">Pick Up</span>
+                                                                <span class="fas fa-calendar-alt"></span><span class="ms-1">Pickup</span>
                                                             </div>
                                                             <input class="form-control" type="date">
-                                                            <select class="form-select ms-3" aria-label="Default select example">
-                                                                <option selected>12:00AM</option>
-                                                                <option value="1">1:00AM</option>
-                                                                <option value="2">2:00AM</option>
-                                                                <option value="3">3:00AM</option>
-                                                                <option value="4">4:00AM</option>
-                                                                <option value="5">5:00AM</option>
-                                                                <option value="6">6:00AM</option>
-                                                                <option value="7">7:00AM</option>
+                                                            <select class="form-select ms-3" aria-label="Pickup time">
+                                                                <option selected>Select Time</option>
+                                                                <option value="06:00">6:00 AM</option>
+                                                                <option value="12:00">12:00 PM</option>
+                                                                <option value="18:00">6:00 PM</option>
                                                             </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-12">
                                                         <div class="input-group">
                                                             <div class="d-flex align-items-center bg-light text-body rounded-start p-2">
-                                                                <span class="fas fa-calendar-alt"></span><span class="ms-1">Drop off</span>
+                                                                <span class="fas fa-calendar-alt"></span><span class="ms-1">Dropoff</span>
                                                             </div>
                                                             <input class="form-control" type="date">
-                                                            <select class="form-select ms-3" aria-label="Default select example">
-                                                                <option selected>12:00AM</option>
-                                                                <option value="1">1:00AM</option>
-                                                                <option value="2">2:00AM</option>
-                                                                <option value="3">3:00AM</option>
-                                                                <option value="4">4:00AM</option>
-                                                                <option value="5">5:00AM</option>
-                                                                <option value="6">6:00AM</option>
-                                                                <option value="7">7:00AM</option>
+                                                            <select class="form-select ms-3" aria-label="Dropoff time">
+                                                                <option selected>Select Time</option>
+                                                                <option value="06:00">6:00 AM</option>
+                                                                <option value="12:00">12:00 PM</option>
+                                                                <option value="18:00">6:00 PM</option>
                                                             </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-12">
-                                                        <button class="btn btn-light w-100 py-2">Book Now</button>
+                                                        <button class="btn btn-primary w-100 py-2">Find Your Perfect Ride</button>
                                                     </div>
                                                 </div>
                                             </form>
@@ -98,8 +90,14 @@
                                     </div>
                                     <div class="col-lg-6 d-none d-lg-flex fadeInRight animated" data-animation="fadeInRight" data-delay="1s" style="animation-delay: 1s;">
                                         <div class="text-start">
-                                            <h1 class="display-5 text-white">Get 15% off your rental Plan your trip now</h1>
-                                            <p>Treat yourself in USA</p>
+                                            <h1 class="display-5 text-white">Unlock Your Freedom: Premium Car Rentals</h1>
+                                            <p class="lead text-light">Discover the perfect ride for your next adventure. Exclusive 15% off for new bookings!</p>
+                                            <div class="d-flex align-items-center mt-4">
+                                                <i class="fas fa-check-circle text-primary me-2"></i>
+                                                <span class="text-light">Flexible Bookings</span>
+                                                <i class="fas fa-check-circle text-primary mx-2"></i>
+                                                <span class="text-light">24/7 Support</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -107,79 +105,71 @@
                         </div>
                     </div>
                     <div class="carousel-item">
-                        <img src="img/carousel-1.jpg" class="img-fluid w-100" alt="First slide"/>
+                        <img src="../assets/img/carousel-1.jpg" class="img-fluid w-100" alt="Explore with Comfort and Style"/>
                         <div class="carousel-caption">
                             <div class="container py-4">
                                 <div class="row g-5">
                                     <div class="col-lg-6 fadeInLeft animated" data-animation="fadeInLeft" data-delay="1s" style="animation-delay: 1s;">
                                         <div class="bg-secondary rounded p-5">
-                                            <h4 class="text-white mb-4">CONTINUE CAR RESERVATION</h4>
+                                            <h4 class="text-white mb-4">CUSTOMIZE YOUR RENTAL</h4>
                                             <form>
                                                 <div class="row g-3">
                                                     <div class="col-12">
-                                                        <select class="form-select" aria-label="Default select example">
-                                                            <option selected>Select Your Car type</option>
-                                                            <option value="1">VW Golf VII</option>
-                                                            <option value="2">Audi A1 S-Line</option>
-                                                            <option value="3">Toyota Camry</option>
-                                                            <option value="4">BMW 320 ModernLine</option>
+                                                        <select class="form-select" aria-label="Select vehicle type">
+                                                            <option selected>Select Your Ideal Vehicle</option>
+                                                            <option value="1">Economy - Volkswagen Polo</option>
+                                                            <option value="2">Mid-Size - Honda Accord</option>
+                                                            <option value="3">SUV - Jeep Grand Cherokee</option>
+                                                            <option value="4">Luxury - Mercedes-Benz E-Class</option>
                                                         </select>
                                                     </div>
                                                     <div class="col-12">
                                                         <div class="input-group">
                                                             <div class="d-flex align-items-center bg-light text-body rounded-start p-2">
-                                                                <span class="fas fa-map-marker-alt"></span><span class="ms-1">Pick Up</span>
+                                                                <span class="fas fa-map-marker-alt"></span><span class="ms-1">Pickup</span>
                                                             </div>
-                                                            <input class="form-control" type="text" placeholder="Enter a City or Airport" aria-label="Enter a City or Airport">
+                                                            <input class="form-control" type="text" placeholder="Enter pickup city or airport" aria-label="Pickup location">
                                                         </div>
                                                     </div>
                                                     <div class="col-12">
-                                                        <a href="#" class="text-start text-white d-block mb-2">Need a different drop-off location?</a>
+                                                        <a href="#" class="text-white d-block mb-2 small">Different drop-off location?</a>
                                                         <div class="input-group">
                                                             <div class="d-flex align-items-center bg-light text-body rounded-start p-2">
-                                                                <span class="fas fa-map-marker-alt"></span><span class="ms-1">Drop off</span>
+                                                                <span class="fas fa-map-marker-alt"></span><span class="ms-1">Dropoff</span>
                                                             </div>
-                                                            <input class="form-control" type="text" placeholder="Enter a City or Airport" aria-label="Enter a City or Airport">
+                                                            <input class="form-control" type="text" placeholder="Enter dropoff city or airport" aria-label="Dropoff location">
                                                         </div>
                                                     </div>
                                                     <div class="col-12">
                                                         <div class="input-group">
                                                             <div class="d-flex align-items-center bg-light text-body rounded-start p-2">
-                                                                <span class="fas fa-calendar-alt"></span><span class="ms-1">Pick Up</span>
+                                                                <span class="fas fa-calendar-alt"></span><span class="ms-1">Pickup</span>
                                                             </div>
                                                             <input class="form-control" type="date">
-                                                            <select class="form-select ms-3" aria-label="Default select example">
-                                                                <option selected>12:00AM</option>
-                                                                <option value="1">1:00AM</option>
-                                                                <option value="2">2:00AM</option>
-                                                                <option value="3">3:00AM</option>
-                                                                <option value="4">4:00AM</option>
-                                                                <option value="5">5:00AM</option>
-                                                                <option value="6">6:00AM</option>
-                                                                <option value="7">7:00AM</option>
+                                                            <select class="form-select ms-3" aria-label="Pickup time">
+                                                                <option selected>Select Time</option>
+                                                                <option value="06:00">6:00 AM</option>
+                                                                <option value="12:00">12:00 PM</option>
+                                                                <option value="18:00">6:00 PM</option>
                                                             </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-12">
                                                         <div class="input-group">
                                                             <div class="d-flex align-items-center bg-light text-body rounded-start p-2">
-                                                                <span class="fas fa-calendar-alt"></span><span class="ms-1">Drop off</span>
+                                                                <span class="fas fa-calendar-alt"></span><span class="ms-1">Dropoff</span>
                                                             </div>
                                                             <input class="form-control" type="date">
-                                                            <select class="form-select ms-3" aria-label="Default select example">
-                                                                <option selected>12:00AM</option>
-                                                                <option value="1">1:00AM</option>
-                                                                <option value="2">2:00AM</option>
-                                                                <option value="3">3:00AM</option>
-                                                                <option value="4">4:00AM</option>
-                                                                <option value="5">5:00AM</option>
-                                                                <option value="6">6:00AM</option>
-                                                                <option value="7">7:00AM</option>
+                                                            <select class="form-select ms-3" aria-label="Dropoff time">
+                                                                <option selected>Select Time</option>
+                                                                <option value="06:00">6:00 AM</option>
+                                                                <option value="12:00">12:00 PM</option>
+                                                                <option value="18:00">6:00 PM</option>
                                                             </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-12">
-                                                        <button class="btn btn-light w-100 py-2">Book Now</button>
+                                                        <button class="btn btn-primary w-100 py-2">Explore Your Options</button>
                                                     </div>
                                                 </div>
                                             </form>
@@ -187,8 +177,14 @@
                                     </div>
                                     <div class="col-lg-6 d-none d-lg-flex fadeInRight animated" data-animation="fadeInRight" data-delay="1s" style="animation-delay: 1s;">
                                         <div class="text-start">
-                                            <h1 class="display-5 text-white">Get 15% off your rental! Choose Your Model </h1>
-                                            <p>Treat yourself in USA</p>
+                                            <h1 class="display-5 text-white">Your Journey, Your Choice: Rent Smart</h1>
+                                            <p class="lead text-light">Choose from our premium fleet and experience comfort like never before. Book now and save!</p>
+                                            <div class="d-flex align-items-center mt-4">
+                                                <i class="fas fa-check-circle text-primary me-2"></i>
+                                                <span class="text-light">Wide Vehicle Selection</span>
+                                                <i class="fas fa-check-circle text-primary mx-2"></i>
+                                                <span class="text-light">Best Price Guarantee</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -205,8 +201,7 @@
             <div class="container py-5">
                 <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 800px;">
                     <h1 class="display-5 text-capitalize mb-3">Zoomix <span class="text-primary">Features</span></h1>
-                    <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut amet nemo expedita asperiores commodi accusantium at cum harum, excepturi, quia tempora cupiditate! Adipisci facilis modi quisquam quia distinctio,
-                    </p>
+                    <p class="mb-0">Experience the ultimate in car rental convenience with Zoomix. We're committed to providing a seamless, high-quality rental experience that puts you in the driver's seat of your perfect journey.</p>
                 </div>
                 <div class="row g-4 align-items-center">
                     <div class="col-xl-4">
@@ -217,8 +212,8 @@
                                         <span class="fa fa-trophy fa-2x"></span>
                                     </div>
                                     <div class="ms-4">
-                                        <h5 class="mb-3">First Class services</h5>
-                                        <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur, in illum aperiam ullam magni eligendi?</p>
+                                        <h5 class="mb-3">First-Class Service</h5>
+                                        <p class="mb-0">Our dedicated team goes above and beyond to ensure your rental experience is smooth, professional, and tailored to your exact needs. From premium vehicle selection to personalized assistance.</p>
                                     </div>
                                 </div>
                             </div>
@@ -228,23 +223,23 @@
                                         <span class="fa fa-road fa-2x"></span>
                                     </div>
                                     <div class="ms-4">
-                                        <h5 class="mb-3">24/7 road assistance</h5>
-                                        <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur, in illum aperiam ullam magni eligendi?</p>
+                                        <h5 class="mb-3">24/7 Road Assistance</h5>
+                                        <p class="mb-0">Travel with confidence knowing our expert support team is available around the clock. Whether you need roadside help or have a question, we're just a call away, ensuring your safety and peace of mind.</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-12 col-xl-4 wow fadeInUp" data-wow-delay="0.2s">
-                        <img src="img/features-img.png" class="img-fluid w-100" style="object-fit: cover;" alt="Img">
+                        <img src="../assets/img/features-img.png" class="img-fluid w-100" style="object-fit: cover;" alt="Zoomix Premium Car Rental Features">
                     </div>
                     <div class="col-xl-4">
                         <div class="row gy-4 gx-0">
                             <div class="col-12 wow fadeInUp" data-wow-delay="0.1s">
                                 <div class="feature-item justify-content-end">
                                     <div class="text-end me-4">
-                                        <h5 class="mb-3">Quality at Minimum</h5>
-                                        <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur, in illum aperiam ullam magni eligendi?</p>
+                                        <h5 class="mb-3">Unbeatable Value</h5>
+                                        <p class="mb-0">We deliver top-quality vehicles at competitive prices. Our commitment to excellence means you get premium service without breaking the bank, making luxury travel accessible to everyone.</p>
                                     </div>
                                     <div class="feature-icon">
                                         <span class="fa fa-tag fa-2x"></span>
@@ -254,8 +249,8 @@
                             <div class="col-12 wow fadeInUp" data-wow-delay="0.3s">
                                 <div class="feature-item justify-content-end">
                                     <div class="text-end me-4">
-                                        <h5 class="mb-3">Free Pick-Up & Drop-Off</h5>
-                                        <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur, in illum aperiam ullam magni eligendi?</p>
+                                        <h5 class="mb-3">Convenient Pickup & Drop-Off</h5>
+                                        <p class="mb-0">Enjoy hassle-free rentals with our complimentary pickup and drop-off service. We bring convenience to your doorstep, saving you time and making your rental experience as smooth as possible.</p>
                                     </div>
                                     <div class="feature-icon">
                                         <span class="fa fa-map-pin fa-2x"></span>
@@ -277,44 +272,42 @@
                         <div class="about-item">
                             <div class="pb-5">
                                 <h1 class="display-5 text-capitalize">Zoomix <span class="text-primary">About</span></h1>
-                                <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut amet nemo expedita asperiores commodi accusantium at cum harum, excepturi, quia tempora cupiditate! Adipisci facilis modi quisquam quia distinctio,
-                                </p>
+                                <p class="mb-0">Experience the ultimate in car rental convenience with Zoomix. We're committed to providing a seamless, high-quality rental experience that puts you in the driver's seat of your perfect journey.</p>
                             </div>
                             <div class="row g-4">
                                 <div class="col-lg-6">
                                     <div class="about-item-inner border p-4">
                                         <div class="about-icon mb-4">
-                                            <img src="img/about-icon-1.png" class="img-fluid w-50 h-50" alt="Icon">
+                                            <img src="../assets/img/about-icon-1.png" class="img-fluid w-50 h-50" alt="Vision Icon">
                                         </div>
                                         <h5 class="mb-3">Our Vision</h5>
-                                        <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                                        <p class="mb-0">To be the go-to car rental company for premium vehicles, offering exceptional service and value to our customers.</p>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="about-item-inner border p-4">
                                         <div class="about-icon mb-4">
-                                            <img src="img/about-icon-2.png" class="img-fluid h-50 w-50" alt="Icon">
+                                            <img src="../assets/img/about-icon-2.png" class="img-fluid h-50 w-50" alt="Mission Icon">
                                         </div>
-                                        <h5 class="mb-3">Our Mision</h5>
-                                        <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                                        <h5 class="mb-3">Our Mission</h5>
+                                        <p class="mb-0">To revolutionize car rentals by providing top-quality vehicles, unparalleled customer service, and innovative solutions that make every journey memorable.</p>
                                     </div>
                                 </div>
                             </div>
-                            <p class="text-item my-4">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae, aliquam ipsum. Sed suscipit dolorem libero sequi aut natus debitis reprehenderit facilis quaerat similique, est at in eum. Quo, obcaecati in!
-                            </p>
+                            <p class="text-item my-4">At Zoomix, we believe that a great journey starts with the right vehicle. With over 17 years of experience, we've perfected the art of car rentals, combining cutting-edge technology, a diverse fleet, and a passion for customer satisfaction. Whether you're traveling for business or pleasure, we're here to ensure your transportation needs are met with excellence.</p>
                             <div class="row g-4">
                                 <div class="col-lg-6">
                                     <div class="text-center rounded bg-secondary p-4">
                                         <h1 class="display-6 text-white">17</h1>
-                                        <h5 class="text-light mb-0">Years Of Experience</h5>
+                                        <h5 class="text-light mb-0">Years Of Excellence</h5>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="rounded">
-                                        <p class="mb-2"><i class="fa fa-check-circle text-primary me-1"></i> Morbi tristique senectus</p>
-                                        <p class="mb-2"><i class="fa fa-check-circle text-primary me-1"></i> A scelerisque purus</p>
-                                        <p class="mb-2"><i class="fa fa-check-circle text-primary me-1"></i> Dictumst vestibulum</p>
-                                        <p class="mb-0"><i class="fa fa-check-circle text-primary me-1"></i> dio aenean sed adipiscing</p>
+                                        <p class="mb-2"><i class="fa fa-check-circle text-primary me-1"></i> Premium Vehicle Selection</p>
+                                        <p class="mb-2"><i class="fa fa-check-circle text-primary me-1"></i> Competitive Pricing</p>
+                                        <p class="mb-2"><i class="fa fa-check-circle text-primary me-1"></i> 24/7 Customer Support</p>
+                                        <p class="mb-0"><i class="fa fa-check-circle text-primary me-1"></i> Flexible Booking Options</p>
                                     </div>
                                 </div>
                                 <div class="col-lg-5 d-flex align-items-center">
@@ -322,10 +315,10 @@
                                 </div>
                                 <div class="col-lg-7">
                                     <div class="d-flex align-items-center">
-                                        <img src="img/attachment-img.jpg" class="img-fluid rounded-circle border border-4 border-secondary" style="width: 100px; height: 100px;" alt="Image">
+                                        <img src="../assets/img/attachment-img.jpg" class="img-fluid rounded-circle border border-4 border-secondary" style="width: 100px; height: 100px;" alt="William Burgess">
                                         <div class="ms-4">
                                             <h4>William Burgess</h4>
-                                            <p class="mb-0">Carveo Founder</p>
+                                            <p class="mb-0">Zoomix Founder</p>
                                         </div>
                                     </div>
                                 </div>
@@ -335,10 +328,10 @@
                     <div class="col-xl-6 wow fadeInRight" data-wow-delay="0.2s">
                         <div class="about-img">
                             <div class="img-1">
-                                <img src="img/about-img.jpg" class="img-fluid rounded h-100 w-100" alt="">
+                                <img src="../assets/img/about-img.jpg" class="img-fluid rounded h-100 w-100" alt="Zoomix Car Rental Fleet">
                             </div>
                             <div class="img-2">
-                                <img src="img/about-img-1.jpg" class="img-fluid rounded w-100" alt="">
+                                <img src="../assets/img/about-img-1.jpg" class="img-fluid rounded w-100" alt="Zoomix Customer Service">
                             </div>
                         </div>
                     </div>
@@ -360,7 +353,8 @@
                                 <span class="text-white fs-2 fw-bold" data-toggle="counter-up">829</span>
                                 <span class="h1 fw-bold text-white">+</span>
                             </div>
-                            <h4 class="text-white mb-0">Happy Clients</h4>
+                            <h4 class="text-white mb-0">Satisfied Customers</h4>
+                            <p class="text-light mt-2">Our commitment to excellence has earned us loyal clients worldwide.</p>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.3s">
@@ -372,7 +366,8 @@
                                 <span class="text-white fs-2 fw-bold" data-toggle="counter-up">56</span>
                                 <span class="h1 fw-bold text-white">+</span>
                             </div>
-                            <h4 class="text-white mb-0">Number of Cars</h4>
+                            <h4 class="text-white mb-0">Premium Vehicles</h4>
+                            <p class="text-light mt-2">A diverse fleet of modern, well-maintained cars for every need.</p>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.5s">
@@ -384,7 +379,8 @@
                                 <span class="text-white fs-2 fw-bold" data-toggle="counter-up">127</span>
                                 <span class="h1 fw-bold text-white">+</span>
                             </div>
-                            <h4 class="text-white mb-0">Car Center</h4>
+                            <h4 class="text-white mb-0">Rental Locations</h4>
+                            <p class="text-light mt-2">Conveniently located centers across multiple cities and airports.</p>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.7s">
@@ -396,7 +392,8 @@
                                 <span class="text-white fs-2 fw-bold" data-toggle="counter-up">589</span>
                                 <span class="h1 fw-bold text-white">+</span>
                             </div>
-                            <h4 class="text-white mb-0">Total kilometers</h4>
+                            <h4 class="text-white mb-0">Total Kilometers</h4>
+                            <p class="text-light mt-2">Miles of adventure and memories created with our reliable vehicles.</p>
                         </div>
                     </div>
                 </div>
@@ -409,8 +406,7 @@
             <div class="container py-5">
                 <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 800px;">
                     <h1 class="display-5 text-capitalize mb-3">Zoomix <span class="text-primary">Services</span></h1>
-                    <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut amet nemo expedita asperiores commodi accusantium at cum harum, excepturi, quia tempora cupiditate! Adipisci facilis modi quisquam quia distinctio,
-                    </p>
+                    <p class="mb-0">Discover a world of convenience and flexibility with our comprehensive car rental services. We're committed to making your journey smooth, affordable, and tailored to your unique needs.</p>
                 </div>
                 <div class="row g-4">
                     <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.1s">
@@ -418,8 +414,8 @@
                             <div class="service-icon mb-4">
                                 <i class="fa fa-phone-alt fa-2x"></i>
                             </div>
-                            <h5 class="mb-3">Phone Reservation</h5>
-                            <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit ipsam quasi quibusdam ipsa perferendis iusto?</p>
+                            <h5 class="mb-3">Easy Phone Reservation</h5>
+                            <p class="mb-0">Simplify your booking with our hassle-free phone reservation service. Our friendly representatives are ready to help you find the perfect vehicle and answer any questions.</p>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.3s">
@@ -427,8 +423,8 @@
                             <div class="service-icon mb-4">
                                 <i class="fa fa-money-bill-alt fa-2x"></i>
                             </div>
-                            <h5 class="mb-3">Special Rates</h5>
-                            <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit ipsam quasi quibusdam ipsa perferendis iusto?</p>
+                            <h5 class="mb-3">Competitive Rates</h5>
+                            <p class="mb-0">Enjoy unbeatable pricing with our special rates. We offer transparent, budget-friendly options without compromising on quality or service.</p>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.5s">
@@ -436,8 +432,8 @@
                             <div class="service-icon mb-4">
                                 <i class="fa fa-road fa-2x"></i>
                             </div>
-                            <h5 class="mb-3">One Way Rental</h5>
-                            <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit ipsam quasi quibusdam ipsa perferendis iusto?</p>
+                            <h5 class="mb-3">Flexible One-Way Rental</h5>
+                            <p class="mb-0">Travel with ultimate freedom. Our one-way rental service allows you to pick up and drop off your vehicle at different locations, making your journey more convenient.</p>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.1s">
@@ -445,8 +441,8 @@
                             <div class="service-icon mb-4">
                                 <i class="fa fa-umbrella fa-2x"></i>
                             </div>
-                            <h5 class="mb-3">Life Insurance</h5>
-                            <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit ipsam quasi quibusdam ipsa perferendis iusto?</p>
+                            <h5 class="mb-3">Comprehensive Protection</h5>
+                            <p class="mb-0">Drive with peace of mind. Our comprehensive insurance coverage ensures you're protected throughout your journey, giving you confidence on the road.</p>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.3s">
@@ -454,8 +450,8 @@
                             <div class="service-icon mb-4">
                                 <i class="fa fa-building fa-2x"></i>
                             </div>
-                            <h5 class="mb-3">City to City</h5>
-                            <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit ipsam quasi quibusdam ipsa perferendis iusto?</p>
+                            <h5 class="mb-3">Seamless City-to-City Travel</h5>
+                            <p class="mb-0">Explore beyond city limits with our city-to-city rental service. Enjoy the freedom to travel between destinations with ease and comfort.</p>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.5s">
@@ -463,8 +459,8 @@
                             <div class="service-icon mb-4">
                                 <i class="fa fa-car-alt fa-2x"></i>
                             </div>
-                            <h5 class="mb-3">Free Rides</h5>
-                            <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit ipsam quasi quibusdam ipsa perferendis iusto?</p>
+                            <h5 class="mb-3">Welcome Perks</h5>
+                            <p class="mb-0">Experience our special welcome offers. From complimentary upgrades to bonus miles, we go the extra mile to make your rental experience exceptional.</p>
                         </div>
                     </div>
                 </div>
@@ -477,14 +473,13 @@
             <div class="container pb-5">
                 <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 800px;">
                     <h1 class="display-5 text-capitalize mb-3">Vehicle <span class="text-primary">Categories</span></h1>
-                    <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut amet nemo expedita asperiores commodi accusantium at cum harum, excepturi, quia tempora cupiditate! Adipisci facilis modi quisquam quia distinctio,
-                    </p>
+                    <p class="mb-0">Explore our diverse fleet of premium vehicles designed to meet every need and preference. From luxurious sedans to eco-friendly electric cars, we have the perfect ride for your journey.</p>
                 </div>
                 <div class="categories-carousel owl-carousel wow fadeInUp" data-wow-delay="0.1s">
                     <div class="categories-item p-4">
                         <div class="categories-item-inner">
                             <div class="categories-img rounded-top">
-                                <img src="img/car-1.png" class="img-fluid w-100 rounded-top" alt="">
+                                <img src="../assets/img/car-1.png" class="img-fluid w-100 rounded-top" alt="Mercedes Benz R3 Luxury Sedan">
                             </div>
                             <div class="categories-content rounded-bottom p-4">
                                 <h4>Mercedes Benz R3</h4>
@@ -528,7 +523,7 @@
                     <div class="categories-item p-4">
                         <div class="categories-item-inner">
                             <div class="categories-img rounded-top">
-                                <img src="img/car-2.png" class="img-fluid w-100 rounded-top" alt="">
+                                <img src="../assets/img/car-2.png" class="img-fluid w-100 rounded-top" alt="Toyota Corolla Cross Compact SUV">
                             </div>
                             <div class="categories-content rounded-bottom p-4">
                                 <h4>Toyota Corolla Cross</h4>
@@ -572,7 +567,7 @@
                     <div class="categories-item p-4">
                         <div class="categories-item-inner">
                             <div class="categories-img rounded-top">
-                                <img src="img/car-3.png" class="img-fluid w-100 rounded-top" alt="">
+                                <img src="../assets/img/car-3.png" class="img-fluid w-100 rounded-top" alt="Tesla Model S Plaid Electric Performance Sedan">
                             </div>
                             <div class="categories-content rounded-bottom p-4">
                                 <h4>Tesla Model S Plaid</h4>
@@ -616,7 +611,7 @@
                     <div class="categories-item p-4">
                         <div class="categories-item-inner">
                             <div class="categories-img rounded-top">
-                                <img src="img/car-4.png" class="img-fluid w-100 rounded-top" alt="">
+                                <img src="../assets/img/car-4.png" class="img-fluid w-100 rounded-top" alt="Hyundai Kona Electric Eco-Friendly SUV">
                             </div>
                             <div class="categories-content rounded-bottom p-4">
                                 <h4>Hyundai Kona Electric</h4>
@@ -666,29 +661,28 @@
         <div class="container-fluid steps py-5">
             <div class="container py-5">
                 <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 800px;">
-                    <h1 class="display-5 text-capitalize text-white mb-3">Zoomix<span class="text-primary"> Process</span></h1>
-                    <p class="mb-0 text-white">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut amet nemo expedita asperiores commodi accusantium at cum harum, excepturi, quia tempora cupiditate! Adipisci facilis modi quisquam quia distinctio,
-                    </p>
+                    <h1 class="display-5 text-capitalize text-white mb-3">Zoomix<span class="text-primary"> Rental Process</span></h1>
+                    <p class="mb-0 text-white">Renting a car has never been easier. Our streamlined process ensures a smooth, hassle-free experience from first contact to hitting the road. Let us guide you through three simple steps to your perfect rental.</p>
                 </div>
                 <div class="row g-4">
                     <div class="col-lg-4 wow fadeInUp" data-wow-delay="0.1s">
                         <div class="steps-item p-4 mb-4">
-                            <h4>Come In Contact</h4>
-                            <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad, dolorem!</p>
+                            <h4>Initial Consultation</h4>
+                            <p class="mb-0">Connect with our friendly team to discuss your travel needs. We'll help you find the perfect vehicle that matches your requirements and budget.</p>
                             <div class="setps-number">01.</div>
                         </div>
                     </div>
                     <div class="col-lg-4 wow fadeInUp" data-wow-delay="0.3s">
                         <div class="steps-item p-4 mb-4">
-                            <h4>Choose A Car</h4>
-                            <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad, dolorem!</p>
+                            <h4>Select Your Ideal Vehicle</h4>
+                            <p class="mb-0">Browse our diverse fleet and choose the car that suits your style and needs. From compact cars to luxury sedans, we have the perfect ride waiting for you.</p>
                             <div class="setps-number">02.</div>
                         </div>
                     </div>
                     <div class="col-lg-4 wow fadeInUp" data-wow-delay="0.5s">
                         <div class="steps-item p-4 mb-4">
-                            <h4>Enjoy Driving</h4>
-                            <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad, dolorem!</p>
+                            <h4>Hit the Road</h4>
+                            <p class="mb-0">Complete your booking, pick up your vehicle, and start your adventure. With our comprehensive service, you'll be driving in comfort and style in no time.</p>
                             <div class="setps-number">03.</div>
                         </div>
                     </div>
@@ -701,24 +695,23 @@
         <div class="container-fluid blog py-5">
             <div class="container py-5">
                 <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 800px;">
-                    <h1 class="display-5 text-capitalize mb-3">Zoomix<span class="text-primary"> Blog & News</span></h1>
-                    <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut amet nemo expedita asperiores commodi accusantium at cum harum, excepturi, quia tempora cupiditate! Adipisci facilis modi quisquam quia distinctio,
-                    </p>
+                    <h1 class="display-5 text-capitalize mb-3">Zoomix<span class="text-primary"> Insights</span></h1>
+                    <p class="mb-0">Stay informed with our latest articles. From rental tips and travel advice to industry insights, our blog is your go-to resource for everything related to car rentals and travel.</p>
                 </div>
                 <div class="row g-4">
                     <div class="col-lg-4 wow fadeInUp" data-wow-delay="0.1s">
                         <div class="blog-item">
                             <div class="blog-img">
-                                <img src="img/blog-1.jpg" class="img-fluid rounded-top w-100" alt="Image">
+                                <img src="../assets/img/blog-1.jpg" class="img-fluid rounded-top w-100" alt="Navigating Driving Fines and Rental Cars">
                             </div>
                             <div class="blog-content rounded-bottom p-4">
                                 <div class="blog-date">30 Dec 2025</div>
                                 <div class="blog-comment my-3">
-                                    <div class="small"><span class="fa fa-user text-primary"></span><span class="ms-2">Martin.C</span></div>
+                                    <div class="small"><span class="fa fa-user text-primary"></span><span class="ms-2">Martin Chapman</span></div>
                                     <div class="small"><span class="fa fa-comment-alt text-primary"></span><span class="ms-2">6 Comments</span></div>
                                 </div>
-                                <a href="#" class="h4 d-block mb-3">Rental Cars how to check driving fines?</a>
-                                <p class="mb-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eius libero soluta impedit eligendi? Quibusdam, laudantium.</p>
+                                <a href="#" class="h4 d-block mb-3">Understanding Driving Fines with Rental Cars</a>
+                                <p class="mb-3">Learn how to handle and prevent driving fines when renting a vehicle. Our comprehensive guide helps you stay informed and avoid unexpected penalties.</p>
                                 <a href="#" class="">Read More  <i class="fa fa-arrow-right"></i></a>
                             </div>
                         </div>
@@ -726,16 +719,16 @@
                     <div class="col-lg-4 wow fadeInUp" data-wow-delay="0.3s">
                         <div class="blog-item">
                             <div class="blog-img">
-                                <img src="img/blog-2.jpg" class="img-fluid rounded-top w-100" alt="Image">
+                                <img src="../assets/img/blog-2.jpg" class="img-fluid rounded-top w-100" alt="Car Rental Pricing Guide for Sports and Luxury Vehicles">
                             </div>
                             <div class="blog-content rounded-bottom p-4">
                                 <div class="blog-date">25 Dec 2025</div>
                                 <div class="blog-comment my-3">
-                                    <div class="small"><span class="fa fa-user text-primary"></span><span class="ms-2">Martin.C</span></div>
+                                    <div class="small"><span class="fa fa-user text-primary"></span><span class="ms-2">Emily Rodriguez</span></div>
                                     <div class="small"><span class="fa fa-comment-alt text-primary"></span><span class="ms-2">6 Comments</span></div>
                                 </div>
-                                <a href="#" class="h4 d-block mb-3">Rental cost of sport and other cars</a>
-                                <p class="mb-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eius libero soluta impedit eligendi? Quibusdam, laudantium.</p>
+                                <a href="#" class="h4 d-block mb-3">Sports Cars and Luxury Vehicle Rentals</a>
+                                <p class="mb-3">Discover the true costs and benefits of renting sports and luxury vehicles. Our expert breakdown helps you make an informed decision.</p>
                                 <a href="#" class="">Read More  <i class="fa fa-arrow-right"></i></a>
                             </div>
                         </div>
@@ -743,16 +736,16 @@
                     <div class="col-lg-4 wow fadeInUp" data-wow-delay="0.5s">
                         <div class="blog-item">
                             <div class="blog-img">
-                                <img src="img/blog-3.jpg" class="img-fluid rounded-top w-100" alt="Image">
+                                <img src="../assets/img/blog-3.jpg" class="img-fluid rounded-top w-100" alt="Essential Documents for Car Rental">
                             </div>
                             <div class="blog-content rounded-bottom p-4">
                                 <div class="blog-date">27 Dec 2025</div>
                                 <div class="blog-comment my-3">
-                                    <div class="small"><span class="fa fa-user text-primary"></span><span class="ms-2">Martin.C</span></div>
+                                    <div class="small"><span class="fa fa-user text-primary"></span><span class="ms-2">Alex Turner</span></div>
                                     <div class="small"><span class="fa fa-comment-alt text-primary"></span><span class="ms-2">6 Comments</span></div>
                                 </div>
-                                <a href="#" class="h4 d-block mb-3">Document required for car rental</a>
-                                <p class="mb-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eius libero soluta impedit eligendi? Quibusdam, laudantium.</p>
+                                <a href="#" class="h4 d-block mb-3">Car Rental Documentation Essentials</a>
+                                <p class="mb-3">A comprehensive checklist of all documents you'll need for a smooth car rental experience. Be prepared and avoid last-minute hassles.</p>
                                 <a href="#" class="">Read More  <i class="fa fa-arrow-right"></i></a>
                             </div>
                         </div>
@@ -763,17 +756,21 @@
         <!-- Blog End -->
 
         <!-- Banner Start -->
-        <div class="container-fluid banner pb-5 wow zoomInDown" data-wow-delay="0.1s">
-            <div class="container pb-5">
+        <div class="container-fluid banner py-5 wow zoomInDown" data-wow-delay="0.1s">
+            <div class="container py-5">
                 <div class="banner-item rounded">
-                    <img src="img/banner-1.jpg" class="img-fluid rounded w-100" alt="">
+                    <img src="../assets/img/banner-1.jpg" class="img-fluid rounded w-100" alt="Car Rental Banner">
                     <div class="banner-content">
-                        <h2 class="text-primary">Rent Your Car</h2>
-                        <h1 class="text-white">Interested in Renting?</h1>
-                        <p class="text-white">Don't hesitate and send us a message.</p>
+                        <h2 class="text-primary">Your Journey Starts Here</h2>
+                        <h1 class="text-white">Ready to Hit the Road?</h1>
+                        <p class="text-white">Discover the perfect vehicle for your next adventure. Quick, easy, and hassle-free rentals.</p>
                         <div class="banner-btn">
-                            <a href="#" class="btn btn-secondary rounded-pill py-3 px-4 px-md-5 me-2">WhatchApp</a>
-                            <a href="#" class="btn btn-primary rounded-pill py-3 px-4 px-md-5 ms-2">Contact Us</a>
+                            <a href="#" class="btn btn-secondary rounded-pill py-3 px-4 px-md-5 me-2">
+                                <i class="fab fa-whatsapp me-2"></i>WhatsApp
+                            </a>
+                            <a href="contact.php" class="btn btn-primary rounded-pill py-3 px-4 px-md-5 ms-2">
+                                <i class="fas fa-envelope me-2"></i>Contact Us
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -785,19 +782,18 @@
         <div class="container-fluid team pb-5">
             <div class="container pb-5">
                 <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 800px;">
-                    <h1 class="display-5 text-capitalize mb-3">Customer<span class="text-primary"> Suport</span> Center</h1>
-                    <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut amet nemo expedita asperiores commodi accusantium at cum harum, excepturi, quia tempora cupiditate! Adipisci facilis modi quisquam quia distinctio,
-                    </p>
+                    <h1 class="display-5 text-capitalize mb-3">Customer<span class="text-primary"> Support</span> Team</h1>
+                    <p class="mb-0">Meet our dedicated customer support professionals who are committed to ensuring your car rental experience is seamless, comfortable, and enjoyable. We're here to assist you every step of the way.</p>
                 </div>
                 <div class="row g-4">
                     <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.1s">
                         <div class="team-item p-4 pt-0">
                             <div class="team-img">
-                                <img src="img/team-1.jpg" class="img-fluid rounded w-100" alt="Image">
+                                <img src="../assets/img/team-1.jpg" class="img-fluid rounded w-100" alt="Customer Support Representative Sarah Thompson">
                             </div>
                             <div class="team-content pt-4">
-                                <h4>MARTIN DOE</h4>
-                                <p>Profession</p>
+                                <h4>Sarah Thompson</h4>
+                                <p>Customer Relations Manager</p>
                                 <div class="team-icon d-flex justify-content-center">
                                     <a class="btn btn-square btn-light rounded-circle mx-1" href=""><i class="fab fa-facebook-f"></i></a>
                                     <a class="btn btn-square btn-light rounded-circle mx-1" href=""><i class="fab fa-twitter"></i></a>
@@ -810,11 +806,11 @@
                     <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.3s">
                         <div class="team-item p-4 pt-0">
                             <div class="team-img">
-                                <img src="img/team-2.jpg" class="img-fluid rounded w-100" alt="Image">
+                                <img src="../assets/img/team-2.jpg" class="img-fluid rounded w-100" alt="Vehicle Specialist Michael Rodriguez">
                             </div>
                             <div class="team-content pt-4">
-                                <h4>MARTIN DOE</h4>
-                                <p>Profession</p>
+                                <h4>Michael Rodriguez</h4>
+                                <p>Vehicle Specialist</p>
                                 <div class="team-icon d-flex justify-content-center">
                                     <a class="btn btn-square btn-light rounded-circle mx-1" href=""><i class="fab fa-facebook-f"></i></a>
                                     <a class="btn btn-square btn-light rounded-circle mx-1" href=""><i class="fab fa-twitter"></i></a>
@@ -827,11 +823,11 @@
                     <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.5s">
                         <div class="team-item p-4 pt-0">
                             <div class="team-img">
-                                <img src="img/team-3.jpg" class="img-fluid rounded w-100" alt="Image">
+                                <img src="../assets/img/team-3.jpg" class="img-fluid rounded w-100" alt="Booking Coordinator Emily Chen">
                             </div>
                             <div class="team-content pt-4">
-                                <h4>MARTIN DOE</h4>
-                                <p>Profession</p>
+                                <h4>Emily Chen</h4>
+                                <p>Booking Coordinator</p>
                                 <div class="team-icon d-flex justify-content-center">
                                     <a class="btn btn-square btn-light rounded-circle mx-1" href=""><i class="fab fa-facebook-f"></i></a>
                                     <a class="btn btn-square btn-light rounded-circle mx-1" href=""><i class="fab fa-twitter"></i></a>
@@ -844,11 +840,11 @@
                     <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.7s">
                         <div class="team-item p-4 pt-0">
                             <div class="team-img">
-                                <img src="img/team-4.jpg" class="img-fluid rounded w-100" alt="Image">
+                                <img src="../assets/img/team-4.jpg" class="img-fluid rounded w-100" alt="Customer Support Specialist Alex Turner">
                             </div>
                             <div class="team-content pt-4">
-                                <h4>MARTIN DOE</h4>
-                                <p>Profession</p>
+                                <h4>Alex Turner</h4>
+                                <p>Customer Support Specialist</p>
                                 <div class="team-icon d-flex justify-content-center">
                                     <a class="btn btn-square btn-light rounded-circle mx-1" href=""><i class="fab fa-facebook-f"></i></a>
                                     <a class="btn btn-square btn-light rounded-circle mx-1" href=""><i class="fab fa-twitter"></i></a>
@@ -867,72 +863,71 @@
         <div class="container-fluid testimonial pb-5">
             <div class="container pb-5">
                 <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 800px;">
-                    <h1 class="display-5 text-capitalize mb-3">Our Clients<span class="text-primary"> Riviews</span></h1>
-                    <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut amet nemo expedita asperiores commodi accusantium at cum harum, excepturi, quia tempora cupiditate! Adipisci facilis modi quisquam quia distinctio,
-                    </p>
+                    <h1 class="display-5 text-capitalize mb-3">Our Clients<span class="text-primary"> Reviews</span></h1>
+                    <p class="mb-0">Hear directly from our satisfied customers who have experienced the Zoomix difference. Their stories showcase our commitment to exceptional service and unforgettable travel experiences.</p>
                 </div>
                 <div class="owl-carousel testimonial-carousel wow fadeInUp" data-wow-delay="0.1s">
                     <div class="testimonial-item">
                         <div class="testimonial-quote"><i class="fa fa-quote-right fa-2x"></i>
                         </div>
                         <div class="testimonial-inner p-4">
-                            <img src="img/testimonial-1.jpg" class="img-fluid" alt="">
+                            <img src="../assets/img/testimonial-1.jpg" class="img-fluid" alt="David Martinez, Business Traveler">
                             <div class="ms-4">
-                                <h4>Person Name</h4>
-                                <p>Profession</p>
+                                <h4>David Martinez</h4>
+                                <p>Business Consultant</p>
                                 <div class="d-flex text-primary">
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
-                                    <i class="fas fa-star text-body"></i>
+                                    <i class="fas fa-star"></i>
                                 </div>
                             </div>
                         </div>
                         <div class="border-top rounded-bottom p-4">
-                            <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam soluta neque ab repudiandae reprehenderit ipsum eos cumque esse repellendus impedit.</p>
+                            <p class="mb-0">"Zoomix has been my go-to car rental service for business trips. Their fleet is always clean, reliable, and perfectly maintained. The booking process is seamless, and their customer support is exceptional."</p>
                         </div>
                     </div>
                     <div class="testimonial-item">
                         <div class="testimonial-quote"><i class="fa fa-quote-right fa-2x"></i>
                         </div>
                         <div class="testimonial-inner p-4">
-                            <img src="img/testimonial-2.jpg" class="img-fluid" alt="">
+                            <img src="../assets/img/testimonial-2.jpg" class="img-fluid" alt="Emily Chen, Travel Enthusiast">
                             <div class="ms-4">
-                                <h4>Person Name</h4>
-                                <p>Profession</p>
+                                <h4>Emily Chen</h4>
+                                <p>Travel Blogger</p>
                                 <div class="d-flex text-primary">
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
-                                    <i class="fas fa-star text-body"></i>
+                                    <i class="fas fa-star"></i>
                                     <i class="fas fa-star text-body"></i>
                                 </div>
                             </div>
                         </div>
                         <div class="border-top rounded-bottom p-4">
-                            <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam soluta neque ab repudiandae reprehenderit ipsum eos cumque esse repellendus impedit.</p>
+                            <p class="mb-0">"As a travel blogger, I've rented cars from many companies, but Zoomix stands out. Their diverse vehicle selection, competitive prices, and friendly service make every trip memorable. Highly recommended!"</p>
                         </div>
                     </div>
                     <div class="testimonial-item">
                         <div class="testimonial-quote"><i class="fa fa-quote-right fa-2x"></i>
                         </div>
                         <div class="testimonial-inner p-4">
-                            <img src="img/testimonial-3.jpg" class="img-fluid" alt="">
+                            <img src="../assets/img/testimonial-3.jpg" class="img-fluid" alt="Michael Rodriguez, Family Traveler">
                             <div class="ms-4">
-                                <h4>Person Name</h4>
-                                <p>Profession</p>
+                                <h4>Michael Rodriguez</h4>
+                                <p>Family Vacationer</p>
                                 <div class="d-flex text-primary">
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
-                                    <i class="fas fa-star text-body"></i>
+                                    <i class="fas fa-star"></i>
                                     <i class="fas fa-star text-body"></i>
                                     <i class="fas fa-star text-body"></i>
                                 </div>
                             </div>
                         </div>
                         <div class="border-top rounded-bottom p-4">
-                            <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam soluta neque ab repudiandae reprehenderit ipsum eos cumque esse repellendus impedit.</p>
+                            <p class="mb-0">"Planning a family road trip can be stressful, but Zoomix made it easy. They helped us find the perfect SUV for our needs, and the whole process was smooth from start to finish. Great service!"</p>
                         </div>
                     </div>
                 </div>
