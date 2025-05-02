@@ -25,8 +25,8 @@
         <div class="container-fluid contact py-5">
             <div class="container py-5">
                 <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 800px;">
-                    <h1 class="display-5 text-capitalize text-primary mb-3">Contact Us</h1>
-                    <p class="mb-0">The contact form is currently inactive. Get a functional and working contact form with Ajax & PHP in a few minutes. Just copy and paste the files, add a little code and you're done. <a class="text-primary fw-bold" href="https://htmlcodex.com/contact-form">Download Now</a>.</p>
+                    <h1 class="display-5 text-capitalize text-primary mb-3">Contact Zoomix</h1>
+                    <p class="mb-0">Have questions or need assistance? Our dedicated support team is ready to help you. Reach out through the form below or use our contact information.</p>
                 </div>
                 <div class="row g-5">
                     <div class="col-12 wow fadeInUp" data-wow-delay="0.1s">
@@ -37,8 +37,8 @@
                                         <i class="fas fa-map-marker-alt fa-2x"></i>
                                     </div>
                                     <div>
-                                        <h4>Address</h4>
-                                        <p class="mb-0">123 Street New York.USA</p>
+                                        <h4>Our Headquarters</h4>
+                                        <p class="mb-0">Maroc, Mohammedia, 20200</p>
                                     </div>
                                 </div>
                             </div>
@@ -48,8 +48,8 @@
                                         <i class="fas fa-envelope fa-2x"></i>
                                     </div>
                                     <div>
-                                        <h4>Mail Us</h4>
-                                        <p class="mb-0">info@example.com</p>
+                                        <h4>Email Support</h4>
+                                        <p class="mb-0">support@zoomixrentals.com</p>
                                     </div>
                                 </div>
                             </div>
@@ -59,19 +59,19 @@
                                         <i class="fa fa-phone-alt fa-2x"></i>
                                     </div>
                                     <div>
-                                        <h4>Telephone</h4>
-                                        <p class="mb-0">(+012) 3456 7890</p>
+                                        <h4>Customer Helpline</h4>
+                                        <p class="mb-0">+1 (888) ZOOMIX-RENT</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.7s">
                                 <div class="contact-add-item p-4">
                                     <div class="contact-icon mb-4">
-                                        <i class="fab fa-firefox-browser fa-2x"></i>
+                                        <i class="fab fa-whatsapp fa-2x"></i>
                                     </div>
                                     <div>
-                                        <h4>Yoursite@ex.com</h4>
-                                        <p class="mb-0">(+012) 3456 7890</p>
+                                        <h4>WhatsApp Support</h4>
+                                        <p class="mb-0">+1 (415) 555-ZOOM</p>
                                     </div>
                                 </div>
                             </div>
@@ -84,43 +84,50 @@
                                 <div class="row g-4">
                                     <div class="col-lg-12 col-xl-6">
                                         <div class="form-floating">
-                                            <input type="text" class="form-control" id="name" placeholder="Your Name">
-                                            <label for="name">Your Name</label>
+                                            <input type="text" class="form-control" id="name" placeholder="Your Name" required>
+                                            <label for="name">Full Name</label>
                                         </div>
                                     </div>
                                     <div class="col-lg-12 col-xl-6">
                                         <div class="form-floating">
-                                            <input type="email" class="form-control" id="email" placeholder="Your Email">
-                                            <label for="email">Your Email</label>
+                                            <input type="email" class="form-control" id="email" placeholder="Your Email" required>
+                                            <label for="email">Email Address</label>
                                         </div>
                                     </div>
                                     <div class="col-lg-12 col-xl-6">
                                         <div class="form-floating">
-                                            <input type="phone" class="form-control" id="phone" placeholder="Phone">
-                                            <label for="phone">Your Phone</label>
+                                            <input type="tel" class="form-control" id="phone" placeholder="Phone Number" required>
+                                            <label for="phone">Phone Number</label>
                                         </div>
                                     </div>
                                     <div class="col-lg-12 col-xl-6">
                                         <div class="form-floating">
-                                            <input type="text" class="form-control" id="project" placeholder="Project">
-                                            <label for="project">Your Project</label>
+                                            <select class="form-select" id="inquiry-type" required>
+                                                <option value="">Select Inquiry Type</option>
+                                                <option value="rental">Car Rental Inquiry</option>
+                                                <option value="support">Customer Support</option>
+                                                <option value="feedback">Feedback</option>
+                                                <option value="other">Other</option>
+                                            </select>
+                                            <label for="inquiry-type">Inquiry Type</label>
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-floating">
-                                            <input type="text" class="form-control" id="subject" placeholder="Subject">
-                                            <label for="subject">Subject</label>
+                                            <input type="text" class="form-control" id="subject" placeholder="Subject" required>
+                                            <label for="subject">Subject Line</label>
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-floating">
-                                            <textarea class="form-control" placeholder="Leave a message here" id="message" style="height: 160px"></textarea>
-                                            <label for="message">Message</label>
+                                            <textarea class="form-control" placeholder="Describe your inquiry" id="message" style="height: 160px" required></textarea>
+                                            <label for="message">Your Message</label>
                                         </div>
-
                                     </div>
                                     <div class="col-12">
-                                        <button class="btn btn-light w-100 py-3">Send Message</button>
+                                        <button class="btn btn-primary btn-contact w-100 py-3">
+                                            <i class="fas fa-paper-plane me-2"></i>Send Message
+                                        </button>
                                     </div>
                                 </div>
                             </form>
@@ -137,30 +144,30 @@
                     <div class="col-12 col-xl-5 wow fadeInUp" data-wow-delay="0.1s">
                         <div class="p-5 bg-light rounded">
                             <div class="bg-white rounded p-4 mb-4">
-                                <h4 class="mb-3">Our Branch 01</h4>
+                                <h4 class="mb-3">Casablanca Branch</h4>
                                 <div class="d-flex align-items-center flex-shrink-0 mb-3">
-                                    <p class="mb-0 text-dark me-2">Address:</p><i class="fas fa-map-marker-alt text-primary me-2"></i><p class="mb-0">123 Street New York.USA</p>
+                                    <p class="mb-0 text-dark me-2">Address:</p><i class="fas fa-map-marker-alt text-primary me-2"></i><p class="mb-0">Boulevard Mohammed V, Casablanca 20250, Morocco</p>
                                 </div>
                                 <div class="d-flex align-items-center">
-                                    <p class="mb-0 text-dark me-2">Telephone:</p><i class="fa fa-phone-alt text-primary me-2"></i><p class="mb-0">(+012) 3456 7890</p>
+                                    <p class="mb-0 text-dark me-2">Telephone:</p><i class="fa fa-phone-alt text-primary me-2"></i><p class="mb-0">+212 (0) 522 54 54 54</p>
                                 </div>
                             </div>
                             <div class="bg-white rounded p-4 mb-4">
-                                <h4 class="mb-3">Our Branch 02</h4>
+                                <h4 class="mb-3">Rabat Branch</h4>
                                 <div class="d-flex align-items-center mb-3">
-                                    <p class="mb-0 text-dark me-2">Address:</p><i class="fas fa-map-marker-alt text-primary me-2"></i><p class="mb-0">123 Street New York.USA</p>
+                                    <p class="mb-0 text-dark me-2">Address:</p><i class="fas fa-map-marker-alt text-primary me-2"></i><p class="mb-0">Avenue Mohammed VI, Rabat 10000, Morocco</p>
                                 </div>
                                 <div class="d-flex align-items-center">
-                                    <p class="mb-0 text-dark me-2">Telephone:</p><i class="fa fa-phone-alt text-primary me-2"></i><p class="mb-0">(+012) 3456 7890</p>
+                                    <p class="mb-0 text-dark me-2">Telephone:</p><i class="fa fa-phone-alt text-primary me-2"></i><p class="mb-0">+212 (0) 537 70 70 70</p>
                                 </div>
                             </div>
                             <div class="bg-white rounded p-4 mb-0">
-                                <h4 class="mb-3">Our Branch 03</h4>
+                                <h4 class="mb-3">Marrakech Branch</h4>
                                 <div class="d-flex align-items-center mb-3">
-                                    <p class="mb-0 text-dark me-2">Address:</p><i class="fas fa-map-marker-alt text-primary me-2"></i><p class="mb-0">123 Street New York.USA</p>
+                                    <p class="mb-0 text-dark me-2">Address:</p><i class="fas fa-map-marker-alt text-primary me-2"></i><p class="mb-0">Avenue Mohammed V, Marrakech 40000, Morocco</p>
                                 </div>
                                 <div class="d-flex align-items-center">
-                                    <p class="mb-0 text-dark me-2">Telephone:</p><i class="fa fa-phone-alt text-primary me-2"></i><p class="mb-0">(+012) 3456 7890</p>
+                                    <p class="mb-0 text-dark me-2">Telephone:</p><i class="fa fa-phone-alt text-primary me-2"></i><p class="mb-0">+212 (0) 524 44 44 44</p>
                                 </div>
                             </div>
                         </div>
@@ -168,11 +175,10 @@
                     <div class="col-12">
                         <div class="rounded">
                             <iframe class="rounded w-100" 
-                            style="height: 400px;" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387191.33750346623!2d-73.97968099999999!3d40.6974881!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2sbd!4v1694259649153!5m2!1sen!2sbd" 
+                            style="height: 400px;" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3319.363463855426!2d-7.375437123710808!3d33.69954277329198!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda7b6dd53776a79%3A0xbae399f544a58122!2sISTA%20%3A%20Institut%20Sp%C3%A9cialis%C3%A9%20de%20Technologie%20Appliqu%C3%A9e_Mohammedia!5e0!3m2!1sen!2sma!4v1746195010047!5m2!1sen!2sma" 
                             loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
