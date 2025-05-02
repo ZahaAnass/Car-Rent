@@ -26,8 +26,7 @@
             <div class="container py-5">
                 <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 800px;">
                     <h1 class="display-5 text-capitalize mb-3">Zoomix <span class="text-primary">Features</span></h1>
-                    <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut amet nemo expedita asperiores commodi accusantium at cum harum, excepturi, quia tempora cupiditate! Adipisci facilis modi quisquam quia distinctio,
-                    </p>
+                    <p class="mb-0">Experience unparalleled car rental services designed to make your journey smooth, convenient, and memorable. Our commitment to excellence sets us apart in the automotive rental industry.</p>
                 </div>
                 <div class="row g-4 align-items-center">
                     <div class="col-xl-4">
@@ -38,8 +37,8 @@
                                         <span class="fa fa-trophy fa-2x"></span>
                                     </div>
                                     <div class="ms-4">
-                                        <h5 class="mb-3">First Class services</h5>
-                                        <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur, in illum aperiam ullam magni eligendi?</p>
+                                        <h5 class="mb-3">First-Class Services</h5>
+                                        <p class="mb-0">Our premium service guarantees top-tier vehicles, personalized customer support, and a seamless rental experience tailored to your specific needs.</p>
                                     </div>
                                 </div>
                             </div>
@@ -49,23 +48,23 @@
                                         <span class="fa fa-road fa-2x"></span>
                                     </div>
                                     <div class="ms-4">
-                                        <h5 class="mb-3">24/7 road assistance</h5>
-                                        <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur, in illum aperiam ullam magni eligendi?</p>
+                                        <h5 class="mb-3">24/7 Road Assistance</h5>
+                                        <p class="mb-0">Travel with confidence knowing our dedicated support team is available around the clock to assist you with any roadside emergencies or queries.</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-12 col-xl-4 wow fadeInUp" data-wow-delay="0.2s">
-                        <img src="img/features-img.png" class="img-fluid w-100" style="object-fit: cover;" alt="Img">
+                        <img src="../assets/img/features-img.png" class="img-fluid w-100" style="object-fit: cover;" alt="Zoomix Car Rental Features">
                     </div>
                     <div class="col-xl-4">
                         <div class="row gy-4 gx-0">
                             <div class="col-12 wow fadeInUp" data-wow-delay="0.1s">
                                 <div class="feature-item justify-content-end">
                                     <div class="text-end me-4">
-                                        <h5 class="mb-3">Quality at Minimum</h5>
-                                        <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur, in illum aperiam ullam magni eligendi?</p>
+                                        <h5 class="mb-3">Quality at Minimum Cost</h5>
+                                        <p class="mb-0">We offer competitive pricing without compromising on vehicle quality, ensuring you get the best value for your rental experience.</p>
                                     </div>
                                     <div class="feature-icon">
                                         <span class="fa fa-tag fa-2x"></span>
@@ -76,7 +75,7 @@
                                 <div class="feature-item justify-content-end">
                                     <div class="text-end me-4">
                                         <h5 class="mb-3">Free Pick-Up & Drop-Off</h5>
-                                        <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur, in illum aperiam ullam magni eligendi?</p>
+                                        <p class="mb-0">Enjoy the convenience of our complimentary pick-up and drop-off service, making your car rental experience hassle-free and comfortable.</p>
                                     </div>
                                     <div class="feature-icon">
                                         <span class="fa fa-map-pin fa-2x"></span>
@@ -151,14 +150,18 @@
         <div class="container-fluid banner py-5 wow zoomInDown" data-wow-delay="0.1s">
             <div class="container py-5">
                 <div class="banner-item rounded">
-                    <img src="img/banner-1.jpg" class="img-fluid rounded w-100" alt="">
+                    <img src="../assets/img/banner-1.jpg" class="img-fluid rounded w-100" alt="Car Rental Banner">
                     <div class="banner-content">
-                        <h2 class="text-primary">Rent Your Car</h2>
-                        <h1 class="text-white">Interested in Renting?</h1>
-                        <p class="text-white">Don't hesitate and send us a message.</p>
+                        <h2 class="text-primary">Your Journey Starts Here</h2>
+                        <h1 class="text-white">Ready to Hit the Road?</h1>
+                        <p class="text-white">Discover the perfect vehicle for your next adventure. Quick, easy, and hassle-free rentals.</p>
                         <div class="banner-btn">
-                            <a href="#" class="btn btn-secondary rounded-pill py-3 px-4 px-md-5 me-2">WhatchApp</a>
-                            <a href="#" class="btn btn-primary rounded-pill py-3 px-4 px-md-5 ms-2">Contact Us</a>
+                            <a href="#" class="btn btn-secondary rounded-pill py-3 px-4 px-md-5 me-2">
+                                <i class="fab fa-whatsapp me-2"></i>WhatsApp
+                            </a>
+                            <a href="contact.php" class="btn btn-primary rounded-pill py-3 px-4 px-md-5 ms-2">
+                                <i class="fas fa-envelope me-2"></i>Contact Us
+                            </a>
                         </div>
                     </div>
                 </div>
