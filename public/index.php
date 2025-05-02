@@ -82,7 +82,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-12">
-                                                        <button class="btn btn-primary w-100 py-2">Find Your Perfect Ride</button>
+                                                        <button class="btn btn-primary btn-contact w-100 py-2">Find Your Perfect Ride</button>
                                                     </div>
                                                 </div>
                                             </form>
@@ -169,7 +169,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-12">
-                                                        <button class="btn btn-primary w-100 py-2">Explore Your Options</button>
+                                                        <button class="btn btn-primary btn-contact w-100 py-2">Explore Your Options</button>
                                                     </div>
                                                 </div>
                                             </form>
@@ -415,7 +415,7 @@
                                 <i class="fa fa-phone-alt fa-2x"></i>
                             </div>
                             <h5 class="mb-3">Easy Phone Reservation</h5>
-                            <p class="mb-0">Simplify your booking with our hassle-free phone reservation service. Our friendly representatives are ready to help you find the perfect vehicle and answer any questions.</p>
+                            <p class="mb-0">Simplify your booking with our hassle-free phone reservation service. Our friendly representatives are ready to help you find the perfect vehicle, answer questions, and ensure a smooth rental experience.</p>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.3s">
@@ -424,7 +424,7 @@
                                 <i class="fa fa-money-bill-alt fa-2x"></i>
                             </div>
                             <h5 class="mb-3">Competitive Rates</h5>
-                            <p class="mb-0">Enjoy unbeatable pricing with our special rates. We offer transparent, budget-friendly options without compromising on quality or service.</p>
+                            <p class="mb-0">Enjoy unbeatable pricing with our special rates. We offer transparent, budget-friendly options without compromising on quality. Our competitive pricing ensures you get the best value for your rental.</p>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.5s">
@@ -433,7 +433,7 @@
                                 <i class="fa fa-road fa-2x"></i>
                             </div>
                             <h5 class="mb-3">Flexible One-Way Rental</h5>
-                            <p class="mb-0">Travel with ultimate freedom. Our one-way rental service allows you to pick up and drop off your vehicle at different locations, making your journey more convenient.</p>
+                            <p class="mb-0">Travel with ultimate freedom through our one-way rental service. Pick up and drop off your vehicle at different locations, giving you maximum flexibility and convenience for your journey.</p>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.1s">
@@ -442,7 +442,7 @@
                                 <i class="fa fa-umbrella fa-2x"></i>
                             </div>
                             <h5 class="mb-3">Comprehensive Protection</h5>
-                            <p class="mb-0">Drive with peace of mind. Our comprehensive insurance coverage ensures you're protected throughout your journey, giving you confidence on the road.</p>
+                            <p class="mb-0">Drive with complete peace of mind through our comprehensive insurance coverage. We protect you throughout your journey, ensuring confidence and security with every mile you travel.</p>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.3s">
@@ -450,8 +450,8 @@
                             <div class="service-icon mb-4">
                                 <i class="fa fa-building fa-2x"></i>
                             </div>
-                            <h5 class="mb-3">Seamless City-to-City Travel</h5>
-                            <p class="mb-0">Explore beyond city limits with our city-to-city rental service. Enjoy the freedom to travel between destinations with ease and comfort.</p>
+                            <h5 class="mb-3">City-to-City Travel</h5>
+                            <p class="mb-0">Explore beyond city limits with our seamless city-to-city rental service. Experience the freedom to travel between destinations with ease, comfort, and unparalleled convenience.</p>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.5s">
@@ -460,7 +460,7 @@
                                 <i class="fa fa-car-alt fa-2x"></i>
                             </div>
                             <h5 class="mb-3">Welcome Perks</h5>
-                            <p class="mb-0">Experience our special welcome offers. From complimentary upgrades to bonus miles, we go the extra mile to make your rental experience exceptional.</p>
+                            <p class="mb-0">Enjoy our special welcome offers designed to enhance your rental experience. From complimentary upgrades to bonus miles, we go the extra mile to make your journey truly exceptional.</p>
                         </div>
                     </div>
                 </div>
@@ -494,7 +494,7 @@
                                     </div>
                                 </div>
                                 <div class="mb-4">
-                                    <h4 class="bg-white text-primary rounded-pill py-2 px-4 mb-0">$99:00/Day</h4>
+                                    <h4 class="bg-white text-primary rounded-pill py-2 px-4 mb-0">$199.00/Day</h4>
                                 </div>
                                 <div class="row gy-2 gx-0 text-center mb-4">
                                     <div class="col-4 border-end border-white">
@@ -538,7 +538,7 @@
                                     </div>
                                 </div>
                                 <div class="mb-4">
-                                    <h4 class="bg-white text-primary rounded-pill py-2 px-4 mb-0">$128:00/Day</h4>
+                                    <h4 class="bg-white text-primary rounded-pill py-2 px-4 mb-0">$128.00/Day</h4>
                                 </div>
                                 <div class="row gy-2 gx-0 text-center mb-4">
                                     <div class="col-4 border-end border-white">
@@ -582,7 +582,7 @@
                                     </div>
                                 </div>
                                 <div class="mb-4">
-                                    <h4 class="bg-white text-primary rounded-pill py-2 px-4 mb-0">$170:00/Day</h4>
+                                    <h4 class="bg-white text-primary rounded-pill py-2 px-4 mb-0">$170.00/Day</h4>
                                 </div>
                                 <div class="row gy-2 gx-0 text-center mb-4">
                                     <div class="col-4 border-end border-white">
@@ -626,7 +626,7 @@
                                     </div>
                                 </div>
                                 <div class="mb-4">
-                                    <h4 class="bg-white text-primary rounded-pill py-2 px-4 mb-0">$187:00/Day</h4>
+                                    <h4 class="bg-white text-primary rounded-pill py-2 px-4 mb-0">$187.00/Day</h4>
                                 </div>
                                 <div class="row gy-2 gx-0 text-center mb-4">
                                     <div class="col-4 border-end border-white">
@@ -662,27 +662,27 @@
             <div class="container py-5">
                 <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 800px;">
                     <h1 class="display-5 text-capitalize text-white mb-3">Zoomix<span class="text-primary"> Rental Process</span></h1>
-                    <p class="mb-0 text-white">Renting a car has never been easier. Our streamlined process ensures a smooth, hassle-free experience from first contact to hitting the road. Let us guide you through three simple steps to your perfect rental.</p>
+                    <p class="mb-0 text-white">Discover our simple, three-step rental process designed to make your car rental experience quick, easy, and hassle-free.</p>
                 </div>
                 <div class="row g-4">
                     <div class="col-lg-4 wow fadeInUp" data-wow-delay="0.1s">
                         <div class="steps-item p-4 mb-4">
                             <h4>Initial Consultation</h4>
-                            <p class="mb-0">Connect with our friendly team to discuss your travel needs. We'll help you find the perfect vehicle that matches your requirements and budget.</p>
+                            <p class="mb-0">Discuss your travel needs with our team and find the perfect vehicle for your journey.</p>
                             <div class="setps-number">01.</div>
                         </div>
                     </div>
                     <div class="col-lg-4 wow fadeInUp" data-wow-delay="0.3s">
                         <div class="steps-item p-4 mb-4">
                             <h4>Select Your Ideal Vehicle</h4>
-                            <p class="mb-0">Browse our diverse fleet and choose the car that suits your style and needs. From compact cars to luxury sedans, we have the perfect ride waiting for you.</p>
+                            <p class="mb-0">Choose from our diverse fleet the car that best matches your style and requirements.</p>
                             <div class="setps-number">02.</div>
                         </div>
                     </div>
                     <div class="col-lg-4 wow fadeInUp" data-wow-delay="0.5s">
                         <div class="steps-item p-4 mb-4">
                             <h4>Hit the Road</h4>
-                            <p class="mb-0">Complete your booking, pick up your vehicle, and start your adventure. With our comprehensive service, you'll be driving in comfort and style in no time.</p>
+                            <p class="mb-0">Complete your booking, pick up your vehicle, and start your adventure with ease.</p>
                             <div class="setps-number">03.</div>
                         </div>
                     </div>
