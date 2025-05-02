@@ -75,6 +75,11 @@
     border: 1px solid var(--bs-secondary);
 }
 
+.btn.btn-contact:hover {
+    color: var(--bs-primary);
+    background-color: var(--bs-white);
+}
+
 .btn.btn-secondary {
     color: var(--bs-white);
 }
