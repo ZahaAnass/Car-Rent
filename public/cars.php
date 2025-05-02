@@ -26,14 +26,13 @@
             <div class="container py-5">
                 <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 800px;">
                     <h1 class="display-5 text-capitalize mb-3">Vehicle <span class="text-primary">Categories</span></h1>
-                    <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut amet nemo expedita asperiores commodi accusantium at cum harum, excepturi, quia tempora cupiditate! Adipisci facilis modi quisquam quia distinctio,
-                    </p>
+                    <p class="mb-0">Explore our diverse fleet of premium vehicles designed to meet your every need. From compact city cars to luxurious electric models, we have the perfect ride for your journey.</p>
                 </div>
                 <div class="categories-carousel owl-carousel wow fadeInUp" data-wow-delay="0.1s">
                     <div class="categories-item p-4">
                         <div class="categories-item-inner">
                             <div class="categories-img rounded-top">
-                                <img src="img/car-1.png" class="img-fluid w-100 rounded-top" alt="">
+                                <img src="../assets/img/car-1.png" class="img-fluid w-100 rounded-top" alt="">
                             </div>
                             <div class="categories-content rounded-bottom p-4">
                                 <h4>Mercedes Benz R3</h4>
@@ -48,7 +47,7 @@
                                     </div>
                                 </div>
                                 <div class="mb-4">
-                                    <h4 class="bg-white text-primary rounded-pill py-2 px-4 mb-0">$99:00/Day</h4>
+                                    <h4 class="bg-white text-primary rounded-pill py-2 px-4 mb-0">$199.00/Day</h4>
                                 </div>
                                 <div class="row gy-2 gx-0 text-center mb-4">
                                     <div class="col-4 border-end border-white">
@@ -58,7 +57,7 @@
                                         <i class="fa fa-car text-dark"></i> <span class="text-body ms-1">AT/MT</span>
                                     </div>
                                     <div class="col-4">
-                                        <i class="fa fa-gas-pump text-dark"></i> <span class="text-body ms-1">Petrol</span>
+                                        <i class="fa fa-gas-pump text-dark"></i> <span class="text-body ms-1">Disel</span>
                                     </div>
                                     <div class="col-4 border-end border-white">
                                         <i class="fa fa-car text-dark"></i> <span class="text-body ms-1">2015</span>
@@ -77,7 +76,7 @@
                     <div class="categories-item p-4">
                         <div class="categories-item-inner">
                             <div class="categories-img rounded-top">
-                                <img src="img/car-2.png" class="img-fluid w-100 rounded-top" alt="">
+                                <img src="../assets/img/car-2.png" class="img-fluid w-100 rounded-top" alt="">
                             </div>
                             <div class="categories-content rounded-bottom p-4">
                                 <h4>Toyota Corolla Cross</h4>
@@ -92,7 +91,7 @@
                                     </div>
                                 </div>
                                 <div class="mb-4">
-                                    <h4 class="bg-white text-primary rounded-pill py-2 px-4 mb-0">$128:00/Day</h4>
+                                    <h4 class="bg-white text-primary rounded-pill py-2 px-4 mb-0">$128.00/Day</h4>
                                 </div>
                                 <div class="row gy-2 gx-0 text-center mb-4">
                                     <div class="col-4 border-end border-white">
@@ -102,7 +101,7 @@
                                         <i class="fa fa-car text-dark"></i> <span class="text-body ms-1">AT/MT</span>
                                     </div>
                                     <div class="col-4">
-                                        <i class="fa fa-gas-pump text-dark"></i> <span class="text-body ms-1">Petrol</span>
+                                        <i class="fa fa-gas-pump text-dark"></i> <span class="text-body ms-1">Disel</span>
                                     </div>
                                     <div class="col-4 border-end border-white">
                                         <i class="fa fa-car text-dark"></i> <span class="text-body ms-1">2015</span>
@@ -121,7 +120,7 @@
                     <div class="categories-item p-4">
                         <div class="categories-item-inner">
                             <div class="categories-img rounded-top">
-                                <img src="img/car-3.png" class="img-fluid w-100 rounded-top" alt="">
+                                <img src="../assets/img/car-3.png" class="img-fluid w-100 rounded-top" alt="">
                             </div>
                             <div class="categories-content rounded-bottom p-4">
                                 <h4>Tesla Model S Plaid</h4>
@@ -136,7 +135,7 @@
                                     </div>
                                 </div>
                                 <div class="mb-4">
-                                    <h4 class="bg-white text-primary rounded-pill py-2 px-4 mb-0">$170:00/Day</h4>
+                                    <h4 class="bg-white text-primary rounded-pill py-2 px-4 mb-0">$170.00/Day</h4>
                                 </div>
                                 <div class="row gy-2 gx-0 text-center mb-4">
                                     <div class="col-4 border-end border-white">
@@ -146,7 +145,7 @@
                                         <i class="fa fa-car text-dark"></i> <span class="text-body ms-1">AT/MT</span>
                                     </div>
                                     <div class="col-4">
-                                        <i class="fa fa-gas-pump text-dark"></i> <span class="text-body ms-1">Petrol</span>
+                                        <i class="fa fa-gas-pump text-dark"></i> <span class="text-body ms-1">Disel</span>
                                     </div>
                                     <div class="col-4 border-end border-white">
                                         <i class="fa fa-car text-dark"></i> <span class="text-body ms-1">2015</span>
@@ -165,7 +164,7 @@
                     <div class="categories-item p-4">
                         <div class="categories-item-inner">
                             <div class="categories-img rounded-top">
-                                <img src="img/car-4.png" class="img-fluid w-100 rounded-top" alt="">
+                                <img src="../assets/img/car-4.png" class="img-fluid w-100 rounded-top" alt="">
                             </div>
                             <div class="categories-content rounded-bottom p-4">
                                 <h4>Hyundai Kona Electric</h4>
@@ -180,7 +179,7 @@
                                     </div>
                                 </div>
                                 <div class="mb-4">
-                                    <h4 class="bg-white text-primary rounded-pill py-2 px-4 mb-0">$187:00/Day</h4>
+                                    <h4 class="bg-white text-primary rounded-pill py-2 px-4 mb-0">$187.00/Day</h4>
                                 </div>
                                 <div class="row gy-2 gx-0 text-center mb-4">
                                     <div class="col-4 border-end border-white">
@@ -190,7 +189,7 @@
                                         <i class="fa fa-car text-dark"></i> <span class="text-body ms-1">AT/MT</span>
                                     </div>
                                     <div class="col-4">
-                                        <i class="fa fa-gas-pump text-dark"></i> <span class="text-body ms-1">Petrol</span>
+                                        <i class="fa fa-gas-pump text-dark"></i> <span class="text-body ms-1">Disel</span>
                                     </div>
                                     <div class="col-4 border-end border-white">
                                         <i class="fa fa-car text-dark"></i> <span class="text-body ms-1">2015</span>
@@ -216,28 +215,27 @@
             <div class="container py-5">
                 <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 800px;">
                     <h1 class="display-5 text-capitalize text-white mb-3">Zoomix<span class="text-primary"> Process</span></h1>
-                    <p class="mb-0 text-white">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut amet nemo expedita asperiores commodi accusantium at cum harum, excepturi, quia tempora cupiditate! Adipisci facilis modi quisquam quia distinctio,
-                    </p>
+                    <p class="mb-0 text-white">Experience the simplicity of our car rental process. From initial contact to enjoying your drive, we ensure a smooth and stress-free journey.</p>
                 </div>
                 <div class="row g-4">
                     <div class="col-lg-4 wow fadeInUp" data-wow-delay="0.1s">
                         <div class="steps-item p-4 mb-4">
                             <h4>Come In Contact</h4>
-                            <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad, dolorem!</p>
+                            <p class="mb-0">Reach out to our friendly team. We're here to help you find the perfect vehicle for your needs.</p>
                             <div class="setps-number">01.</div>
                         </div>
                     </div>
                     <div class="col-lg-4 wow fadeInUp" data-wow-delay="0.3s">
                         <div class="steps-item p-4 mb-4">
                             <h4>Choose A Car</h4>
-                            <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad, dolorem!</p>
+                            <p class="mb-0">Find the perfect car for your needs and budget. Our diverse fleet offers options for every occasion.</p>
                             <div class="setps-number">02.</div>
                         </div>
                     </div>
                     <div class="col-lg-4 wow fadeInUp" data-wow-delay="0.5s">
                         <div class="steps-item p-4 mb-4">
                             <h4>Enjoy Driving</h4>
-                            <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad, dolorem!</p>
+                            <p class="mb-0">Quick pickup, seamless handover. Enjoy your journey with our full support.</p>
                             <div class="setps-number">03.</div>
                         </div>
                     </div>
@@ -250,14 +248,18 @@
         <div class="container-fluid banner py-5 wow zoomInDown" data-wow-delay="0.1s">
             <div class="container py-5">
                 <div class="banner-item rounded">
-                    <img src="img/banner-1.jpg" class="img-fluid rounded w-100" alt="">
+                    <img src="../assets/img/banner-1.jpg" class="img-fluid rounded w-100" alt="Car Rental Banner">
                     <div class="banner-content">
-                        <h2 class="text-primary">Rent Your Car</h2>
-                        <h1 class="text-white">Interested in Renting?</h1>
-                        <p class="text-white">Don't hesitate and send us a message.</p>
+                        <h2 class="text-primary">Your Journey Starts Here</h2>
+                        <h1 class="text-white">Ready to Hit the Road?</h1>
+                        <p class="text-white">Discover the perfect vehicle for your next adventure. Quick, easy, and hassle-free rentals.</p>
                         <div class="banner-btn">
-                            <a href="#" class="btn btn-secondary rounded-pill py-3 px-4 px-md-5 me-2">WhatchApp</a>
-                            <a href="#" class="btn btn-primary rounded-pill py-3 px-4 px-md-5 ms-2">Contact Us</a>
+                            <a href="#" class="btn btn-secondary rounded-pill py-3 px-4 px-md-5 me-2">
+                                <i class="fab fa-whatsapp me-2"></i>WhatsApp
+                            </a>
+                            <a href="contact.php" class="btn btn-primary rounded-pill py-3 px-4 px-md-5 ms-2">
+                                <i class="fas fa-envelope me-2"></i>Contact Us
+                            </a>
                         </div>
                     </div>
                 </div>
