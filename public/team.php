@@ -25,19 +25,18 @@
         <div class="container-fluid team py-5">
             <div class="container py-5">
                 <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 800px;">
-                    <h1 class="display-5 text-capitalize mb-3">Customer<span class="text-primary"> Suport</span> Center</h1>
-                    <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut amet nemo expedita asperiores commodi accusantium at cum harum, excepturi, quia tempora cupiditate! Adipisci facilis modi quisquam quia distinctio,
-                    </p>
+                    <h1 class="display-5 text-capitalize mb-3">Customer<span class="text-primary"> Support</span> Team</h1>
+                    <p class="mb-0">Meet the dedicated professionals behind Zoomix's exceptional customer service. Our team is committed to ensuring your car rental experience is smooth, enjoyable, and tailored to your unique needs.</p>
                 </div>
                 <div class="row g-4">
                     <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.1s">
                         <div class="team-item p-4 pt-0">
                             <div class="team-img">
-                                <img src="img/team-1.jpg" class="img-fluid rounded w-100" alt="Image">
+                                <img src="../assets/img/team-1.jpg" class="img-fluid rounded w-100" alt="Sarah Thompson, Customer Support Manager">
                             </div>
                             <div class="team-content pt-4">
-                                <h4>MARTIN DOE</h4>
-                                <p>Profession</p>
+                                <h4>Sarah Thompson</h4>
+                                <p>Customer Support Manager</p>
                                 <div class="team-icon d-flex justify-content-center">
                                     <a class="btn btn-square btn-light rounded-circle mx-1" href=""><i class="fab fa-facebook-f"></i></a>
                                     <a class="btn btn-square btn-light rounded-circle mx-1" href=""><i class="fab fa-twitter"></i></a>
@@ -50,11 +49,11 @@
                     <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.3s">
                         <div class="team-item p-4 pt-0">
                             <div class="team-img">
-                                <img src="img/team-2.jpg" class="img-fluid rounded w-100" alt="Image">
+                                <img src="../assets/img/team-2.jpg" class="img-fluid rounded w-100" alt="Michael Rodriguez, Senior Rental Advisor">
                             </div>
                             <div class="team-content pt-4">
-                                <h4>MARTIN DOE</h4>
-                                <p>Profession</p>
+                                <h4>Michael Rodriguez</h4>
+                                <p>Senior Rental Advisor</p>
                                 <div class="team-icon d-flex justify-content-center">
                                     <a class="btn btn-square btn-light rounded-circle mx-1" href=""><i class="fab fa-facebook-f"></i></a>
                                     <a class="btn btn-square btn-light rounded-circle mx-1" href=""><i class="fab fa-twitter"></i></a>
@@ -67,11 +66,11 @@
                     <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.5s">
                         <div class="team-item p-4 pt-0">
                             <div class="team-img">
-                                <img src="img/team-3.jpg" class="img-fluid rounded w-100" alt="Image">
+                                <img src="../assets/img/team-3.jpg" class="img-fluid rounded w-100" alt="Emily Chen, Fleet Coordinator">
                             </div>
                             <div class="team-content pt-4">
-                                <h4>MARTIN DOE</h4>
-                                <p>Profession</p>
+                                <h4>Emily Chen</h4>
+                                <p>Fleet Coordinator</p>
                                 <div class="team-icon d-flex justify-content-center">
                                     <a class="btn btn-square btn-light rounded-circle mx-1" href=""><i class="fab fa-facebook-f"></i></a>
                                     <a class="btn btn-square btn-light rounded-circle mx-1" href=""><i class="fab fa-twitter"></i></a>
@@ -84,11 +83,11 @@
                     <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.7s">
                         <div class="team-item p-4 pt-0">
                             <div class="team-img">
-                                <img src="img/team-4.jpg" class="img-fluid rounded w-100" alt="Image">
+                                <img src="../assets/img/team-4.jpg" class="img-fluid rounded w-100" alt="David Martinez, Technical Support Specialist">
                             </div>
                             <div class="team-content pt-4">
-                                <h4>MARTIN DOE</h4>
-                                <p>Profession</p>
+                                <h4>David Martinez</h4>
+                                <p>Technical Support Specialist</p>
                                 <div class="team-icon d-flex justify-content-center">
                                     <a class="btn btn-square btn-light rounded-circle mx-1" href=""><i class="fab fa-facebook-f"></i></a>
                                     <a class="btn btn-square btn-light rounded-circle mx-1" href=""><i class="fab fa-twitter"></i></a>
