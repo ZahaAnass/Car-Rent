@@ -1,6 +1,6 @@
 <?php
 $current_page = basename($_SERVER['PHP_SELF']);
-$site_name = "Zoomix Car Rentals";
+$site_name = "Zoomix";
 $site_description = "Explore the world with our premium car rental services";
 $keywords = "car rental, travel, transportation";
 ?>
