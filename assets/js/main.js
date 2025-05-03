@@ -1,15 +1,34 @@
 (function ($) {
     "use strict";
 
+    // Password Show/Hide Functionality
+    $(document).ready(function() {
+        // Toggle Password Visibility
+        $('.toggle-password').on('click', function() {
+            const passwordInput = $(this).siblings('input[type="password"], input[type="text"]');
+            const eyeIcon = $(this).find('i');
+            
+            // Toggle input type
+            const currentType = passwordInput.attr('type');
+            passwordInput.attr('type', currentType === 'password' ? 'text' : 'password');
+            
+            // Toggle eye icon classes
+            eyeIcon.toggleClass('fa-eye-slash fa-eye');
+        });
+    });
+
     // Spinner
-    var spinner = function () {
-        setTimeout(function () {
-            if ($('#spinner').length > 0) {
-                $('#spinner').removeClass('show');
-            }
-        }, 1);
-    };
-    spinner(0);
+    $(window).on('load', function() {
+        // Delay to ensure all resources are loaded
+        setTimeout(function() {
+            $('#spinner').addClass('hide');
+            
+            // Optional: Remove from DOM after animation
+            setTimeout(function() {
+                $('#spinner').remove();
+            }, 500);
+        }, 200);
+    });
     
     
     // Initiate the wowjs
@@ -101,7 +120,7 @@
 
 
    // Back to top button
-   $(window).scroll(function () {
+    $(window).scroll(function () {
     if ($(this).scrollTop() > 300) {
         $('.back-to-top').fadeIn('slow');
     } else {
@@ -115,4 +134,3 @@
 
 
 })(jQuery);
-
