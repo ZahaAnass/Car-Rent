@@ -1,59 +1,105 @@
+<?php
+    $company_name = "Zoomix Car Rentals";
+    $current_year = date('Y');
+    $contact_email = "info@zoomixrentals.com";
+    $contact_phone = "+212 (522) 987-654";
+    $address = "Boulevard Mohammed V, Casablanca 20250, Morocco";
+?>
+
 <!-- Footer Start -->
 <div class="container-fluid footer py-5 wow fadeIn" data-wow-delay="0.2s">
     <div class="container py-5">
         <div class="row g-5">
+            <!-- About Us Section -->
             <div class="col-md-6 col-lg-6 col-xl-3">
                 <div class="footer-item d-flex flex-column">
-                    <div class="footer-item">
-                        <h4 class="text-white mb-4">About Us</h4>
-                        <p class="mb-3">Dolor amet sit justo amet elitr clita ipsum elitr est. Lorem ipsum dolor sit amet, consectetur adipiscing elit consectetur adipiscing elit.</p>
-                    </div>
-                    <div class="position-relative">
-                        <input class="form-control rounded-pill w-100 py-3 ps-4 pe-5" type="text" placeholder="Enter your email">
-                        <button type="button" class="btn btn-secondary rounded-pill position-absolute top-0 end-0 py-2 mt-2 me-2">Subscribe</button>
+                    <h4 class="text-white mb-4">About <?php echo $company_name; ?></h4>
+                    <p class="mb-3">Providing premium car rental services with comfort, convenience, and reliability. Your journey starts with us.</p>
+                    
+                    <!-- Newsletter Signup -->
+                    <div class="position-relative mt-3">
+                        <form id="newsletter-form" action="#" method="POST">
+                            <input class="form-control rounded-pill w-100 py-3 ps-4 pe-5" 
+                                    type="email" 
+                                    name="newsletter_email" 
+                                    placeholder="Enter your email" 
+                                    required>
+                            <button type="submit" 
+                                    class="btn btn-secondary rounded-pill position-absolute top-0 end-0 py-2 mt-2 me-2">
+                                <i class="fas fa-paper-plane me-2"></i>Subscribe
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
+
+            <!-- Quick Links -->
             <div class="col-md-6 col-lg-6 col-xl-3">
                 <div class="footer-item d-flex flex-column">
                     <h4 class="text-white mb-4">Quick Links</h4>
-                    <a href="about.php"><i class="fas fa-angle-right me-2"></i> About</a>
-                    <a href="cars.php"><i class="fas fa-angle-right me-2"></i> Cars</a>
-                    <a href="#"><i class="fas fa-angle-right me-2"></i> Car Types</a>
-                    <a href="team.php"><i class="fas fa-angle-right me-2"></i> Team</a>
-                    <a href="contact.php"><i class="fas fa-angle-right me-2"></i> Contact us</a>
-                    <a href="#"><i class="fas fa-angle-right me-2"></i> Terms & Conditions</a>
+                    <?php 
+                    $links = [
+                        'about.php' => 'About',
+                        'cars.php' => 'Cars',
+                        'team.php' => 'Team',
+                        'contact.php' => 'Contact Us',
+                        'public/terms.php' => 'Terms & Conditions',
+                        'public/privacy.php' => 'Privacy Policy'
+                    ];
+                    
+                    foreach ($links as $url => $title):
+                    ?>
+                        <a href="<?php echo $url; ?>">
+                            <i class="fas fa-angle-right me-2"></i> <?php echo $title; ?>
+                        </a>
+                    <?php endforeach; ?>
                 </div>
             </div>
+
+            <!-- Business Hours -->
             <div class="col-md-6 col-lg-6 col-xl-3">
                 <div class="footer-item d-flex flex-column">
                     <h4 class="text-white mb-4">Business Hours</h4>
-                    <div class="mb-3">
-                        <h6 class="text-muted mb-0">Mon - Friday:</h6>
-                        <p class="text-white mb-0">09.00 am to 07.00 pm</p>
-                    </div>
-                    <div class="mb-3">
-                        <h6 class="text-muted mb-0">Saturday:</h6>
-                        <p class="text-white mb-0">10.00 am to 05.00 pm</p>
-                    </div>
-                    <div class="mb-3">
-                        <h6 class="text-muted mb-0">Vacation:</h6>
-                        <p class="text-white mb-0">All Sunday is our vacation</p>
-                    </div>
+                    <?php 
+                    $hours = [
+                        'Mon - Friday' => '09:00 AM to 07:00 PM',
+                        'Saturday' => '10:00 AM to 05:00 PM',
+                        'Sunday' => 'Closed'
+                    ];
+                    
+                    foreach ($hours as $day => $time):
+                    ?>
+                        <div class="mb-3">
+                            <h6 class="text-muted mb-0"><?php echo $day; ?>:</h6>
+                            <p class="text-white mb-0"><?php echo $time; ?></p>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
+
+            <!-- Contact Info -->
             <div class="col-md-6 col-lg-6 col-xl-3">
                 <div class="footer-item d-flex flex-column">
                     <h4 class="text-white mb-4">Contact Info</h4>
-                    <a href="#"><i class="fa fa-map-marker-alt me-2"></i> 123 Street, New York, USA</a>
-                    <a href="mailto:info@example.com"><i class="fas fa-envelope me-2"></i> info@example.com</a>
-                    <a href="tel:+012 345 67890"><i class="fas fa-phone me-2"></i> +012 345 67890</a>
-                    <a href="tel:+012 345 67890" class="mb-3"><i class="fas fa-print me-2"></i> +012 345 67890</a>
-                    <div class="d-flex">
-                        <a class="btn btn-secondary btn-md-square rounded-circle me-3" href=""><i class="fab fa-facebook-f text-white"></i></a>
-                        <a class="btn btn-secondary btn-md-square rounded-circle me-3" href=""><i class="fab fa-twitter text-white"></i></a>
-                        <a class="btn btn-secondary btn-md-square rounded-circle me-3" href=""><i class="fab fa-instagram text-white"></i></a>
-                        <a class="btn btn-secondary btn-md-square rounded-circle me-0" href=""><i class="fab fa-linkedin-in text-white"></i></a>
+                    <a href="#"><i class="fa fa-map-marker-alt me-2"></i> <?php echo $address; ?></a>
+                    <a href="mailto:<?php echo $contact_email; ?>"><i class="fas fa-envelope me-2"></i> <?php echo $contact_email; ?></a>
+                    <a href="tel:<?php echo $contact_phone; ?>"><i class="fas fa-phone me-2"></i> <?php echo $contact_phone; ?></a>
+                    
+                    <div class="d-flex mt-3">
+                        <?php 
+                        $social_links = [
+                            'https://facebook.com' => 'fab fa-facebook-f',
+                            'https://twitter.com' => 'fab fa-twitter',
+                            'https://instagram.com' => 'fab fa-instagram',
+                            'https://linkedin.com' => 'fab fa-linkedin-in'
+                        ];
+                        
+                        foreach ($social_links as $url => $icon):
+                        ?>
+                            <a class="btn btn-secondary btn-md-square rounded-circle me-3" href="<?php echo $url; ?>" target="_blank">
+                                <i class="<?php echo $icon; ?> text-white"></i>
+                            </a>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </div>
@@ -67,7 +113,16 @@
     <div class="container">
         <div class="row g-4 align-items-center">
             <div class="col-md-6 text-center text-md-start mb-md-0">
-                <span class="text-body"><a href="#" class="border-bottom text-white"><i class="fas fa-copyright text-light me-2"></i>Zoomix</a>, All right reserved.</span>
+                <span class="text-body">
+                    <a href="#" class="border-bottom text-white">
+                        <i class="fas fa-copyright text-light me-2"></i>
+                        <?php echo $company_name; ?> <?php echo $current_year; ?>
+                    </a>
+                    , All rights reserved.
+                </span>
+            </div>
+            <div class="col-md-6 text-center text-md-end">
+                Designed by <a href="#" class="text-white">Zaha Anass</a>
             </div>
         </div>
     </div>
