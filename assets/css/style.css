@@ -1200,3 +1200,118 @@
 }
 
 /*** Privacy Page End ***/
+
+/*** Login and Register Start ***/
+.login-page, .register-page {
+    background: linear-gradient(135deg, rgba(var(--bs-primary-rgb), 0.1) 0%, rgba(var(--bs-secondary-rgb), 0.1) 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+.login-container, .register-container {
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    transition: all 0.3s ease;
+}
+
+.login-container:hover, .register-container:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.login-header, .register-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.login-header h2, .register-header h2 {
+    color: var(--bs-dark);
+    margin-bottom: 10px;
+}
+
+.login-form .input-group, .register-form .input-group {
+    position: relative;
+}
+
+.login-form .input-group-text, .register-form .input-group-text {
+    background-color: transparent;
+    border-right: none;
+    color: var(--bs-primary);
+}
+
+.login-form .form-control, .register-form .form-control {
+    border-left: none;
+    box-shadow: none;
+}
+
+.login-form .form-control:focus, .register-form .form-control:focus {
+    box-shadow: none;
+    border-color: var(--bs-primary);
+}
+
+.toggle-password {
+    cursor: pointer;
+    background-color: transparent;
+    border-left: none;
+}
+
+.login-divider, .register-divider {
+    position: relative;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.login-divider span, .register-divider span {
+    background-color: white;
+    padding: 0 10px;
+    position: relative;
+    z-index: 1;
+}
+
+.login-divider::before, .register-divider::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    border-top: 1px solid #ddd;
+    z-index: 0;
+}
+
+.social-login {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.btn-google, .btn-facebook {
+    width: 48%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-google {
+    background-color: #db4437;
+    color: white;
+}
+
+.btn-facebook {
+    background-color: #4267B2;
+    color: white;
+}
+
+.login-footer, .register-footer {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.login-footer a, .register-footer a {
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/*** Login and Register End ***/
