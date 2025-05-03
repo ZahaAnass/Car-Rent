@@ -1,5 +1,5 @@
 <?php
-    $company_name = "Zoomix Car Rentals";
+    $company_name = "Zoomix";
     $current_year = date('Y');
     $contact_email = "info@zoomixrentals.com";
     $contact_phone = "+212 (522) 987-654";
@@ -13,7 +13,7 @@
             <!-- About Us Section -->
             <div class="col-md-6 col-lg-6 col-xl-3">
                 <div class="footer-item d-flex flex-column">
-                    <h4 class="text-white mb-4">About <?php echo $company_name; ?></h4>
+                    <h4 class="text-primary mb-4">About <?php echo $company_name; ?></h4>
                     <p class="mb-3">Providing premium car rental services with comfort, convenience, and reliability. Your journey starts with us.</p>
                     
                     <!-- Newsletter Signup -->
