@@ -779,21 +779,21 @@
         <!-- Banner End -->
 
         <!-- Team Start -->
-        <div class="container-fluid team pb-5">
-            <div class="container pb-5">
+        <div class="container-fluid team py-5">
+            <div class="container py-5">
                 <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 800px;">
                     <h1 class="display-5 text-capitalize mb-3">Customer<span class="text-primary"> Support</span> Team</h1>
-                    <p class="mb-0">Meet our dedicated customer support professionals who are committed to ensuring your car rental experience is seamless, comfortable, and enjoyable. We're here to assist you every step of the way.</p>
+                    <p class="mb-0">Meet the dedicated professionals behind Zoomix's exceptional customer service. Our team is committed to ensuring your car rental experience is smooth, enjoyable, and tailored to your unique needs.</p>
                 </div>
                 <div class="row g-4">
                     <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.1s">
                         <div class="team-item p-4 pt-0">
                             <div class="team-img">
-                                <img src="../assets/img/team-1.jpg" class="img-fluid rounded w-100" alt="Customer Support Representative Sarah Thompson">
+                                <img src="../assets/img/team-1.jpg" class="img-fluid rounded w-100" alt="Alex Johnson, Customer Support Manager">
                             </div>
                             <div class="team-content pt-4">
-                                <h4>Sarah Thompson</h4>
-                                <p>Customer Relations Manager</p>
+                                <h4>Alex Johnson</h4>
+                                <p>Customer Support Manager</p>
                                 <div class="team-icon d-flex justify-content-center">
                                     <a class="btn btn-square btn-light rounded-circle mx-1" href=""><i class="fab fa-facebook-f"></i></a>
                                     <a class="btn btn-square btn-light rounded-circle mx-1" href=""><i class="fab fa-twitter"></i></a>
@@ -806,11 +806,11 @@
                     <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.3s">
                         <div class="team-item p-4 pt-0">
                             <div class="team-img">
-                                <img src="../assets/img/team-2.jpg" class="img-fluid rounded w-100" alt="Vehicle Specialist Michael Rodriguez">
+                                <img src="../assets/img/team-2.jpg" class="img-fluid rounded w-100" alt="Ryan Rodriguez, Senior Rental Advisor">
                             </div>
                             <div class="team-content pt-4">
-                                <h4>Michael Rodriguez</h4>
-                                <p>Vehicle Specialist</p>
+                                <h4>Ryan Rodriguez</h4>
+                                <p>Senior Rental Advisor</p>
                                 <div class="team-icon d-flex justify-content-center">
                                     <a class="btn btn-square btn-light rounded-circle mx-1" href=""><i class="fab fa-facebook-f"></i></a>
                                     <a class="btn btn-square btn-light rounded-circle mx-1" href=""><i class="fab fa-twitter"></i></a>
@@ -823,11 +823,11 @@
                     <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.5s">
                         <div class="team-item p-4 pt-0">
                             <div class="team-img">
-                                <img src="../assets/img/team-3.jpg" class="img-fluid rounded w-100" alt="Booking Coordinator Emily Chen">
+                                <img src="../assets/img/team-3.jpg" class="img-fluid rounded w-100" alt="Jason Chen, Fleet Coordinator">
                             </div>
                             <div class="team-content pt-4">
-                                <h4>Emily Chen</h4>
-                                <p>Booking Coordinator</p>
+                                <h4>Jason Chen</h4>
+                                <p>Fleet Coordinator</p>
                                 <div class="team-icon d-flex justify-content-center">
                                     <a class="btn btn-square btn-light rounded-circle mx-1" href=""><i class="fab fa-facebook-f"></i></a>
                                     <a class="btn btn-square btn-light rounded-circle mx-1" href=""><i class="fab fa-twitter"></i></a>
@@ -840,11 +840,11 @@
                     <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.7s">
                         <div class="team-item p-4 pt-0">
                             <div class="team-img">
-                                <img src="../assets/img/team-4.jpg" class="img-fluid rounded w-100" alt="Customer Support Specialist Alex Turner">
+                                <img src="../assets/img/team-4.jpg" class="img-fluid rounded w-100" alt="Daniel Martinez, Technical Support Specialist">
                             </div>
                             <div class="team-content pt-4">
-                                <h4>Alex Turner</h4>
-                                <p>Customer Support Specialist</p>
+                                <h4>Daniel Martinez</h4>
+                                <p>Technical Support Specialist</p>
                                 <div class="team-icon d-flex justify-content-center">
                                     <a class="btn btn-square btn-light rounded-circle mx-1" href=""><i class="fab fa-facebook-f"></i></a>
                                     <a class="btn btn-square btn-light rounded-circle mx-1" href=""><i class="fab fa-twitter"></i></a>
