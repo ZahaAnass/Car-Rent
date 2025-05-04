@@ -39,7 +39,7 @@
                         </div>
                         
                         <div class="form-group wow fadeInUp" data-wow-delay="0.5s">
-                            <button type="submit" class="btn btn-primary w-100 p-3">
+                            <button type="submit" class="btn btn-primary form-btn w-100 p-3">
                                 <i class="fas fa-sign-in-alt me-2"></i>Login
                             </button>
                         </div>
