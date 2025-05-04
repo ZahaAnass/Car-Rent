@@ -43,8 +43,8 @@
                         'cars.php' => 'Cars',
                         'team.php' => 'Team',
                         'contact.php' => 'Contact Us',
-                        'public/terms.php' => 'Terms & Conditions',
-                        'public/privacy.php' => 'Privacy Policy'
+                        'terms.php' => 'Terms & Conditions',
+                        'privacy.php' => 'Privacy Policy'
                     ];
                     
                     foreach ($links as $url => $title):
