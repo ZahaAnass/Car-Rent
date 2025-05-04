@@ -1325,4 +1325,16 @@
     font-weight: 600;
 }
 
+.form-btn{
+    background: var(--bs-danger) !important;
+    color: white;
+    border: none;
+}
+
+.form-btn:hover{
+    background: var(--bs-primary) !important;
+    color: white;
+    border: none !important;
+}
+
 /*** Login and Register End ***/
