@@ -43,7 +43,10 @@ $keywords = "car rental, travel, transportation";
             <div class="row gx-0 align-items-center" style="height: 45px;">
                 <div class="col-lg-6 text-center text-lg-start mb-lg-0">
                     <div class="d-flex flex-wrap">
-                        <a href="#" class="text-muted me-4"><i class="fas fa-map-marker-alt text-primary me-2"></i>Find A Location</a>
+                        <a href="../public/contact.php" class="text-muted me-4">
+                            <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                            Explore Our Rental Locations
+                        </a>
                         <a href="tel:+212 (522) 987-654" class="text-muted me-4"><i class="fas fa-phone-alt text-primary me-2"></i>+212 (522) 987-654</a>
                         <a href="mailto:info@zoomixrentals.com" class="text-muted me-0"><i class="fas fa-envelope text-primary me-2"></i>info@zoomixrentals.com</a>
                     </div>
@@ -73,10 +76,10 @@ $keywords = "car rental, travel, transportation";
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav mx-auto py-0">
-                        <a href="../public/index.php" class="nav-item nav-link <?php echo (basename($current_page) == 'index.php') ? 'active' : ''; ?>">Home</a>
-                        <a href="../public/about.php" class="nav-item nav-link <?php echo (basename($current_page) == 'about.php') ? 'active' : ''; ?>">About</a>
-                        <a href="../public/service.php" class="nav-item nav-link <?php echo (basename($current_page) == 'service.php') ? 'active' : ''; ?>">Service</a>
-                        <a href="../public/blog.php" class="nav-item nav-link <?php echo (basename($current_page) == 'blog.php') ? 'active' : ''; ?>">Blog</a>
+                        <a href="../public/index.php" class="nav-item nav-link">Home</a>
+                        <a href="../public/about.php" class="nav-item nav-link">About</a>
+                        <a href="../public/service.php" class="nav-item nav-link">Service</a>
+                        <a href="../public/blog.php" class="nav-item nav-link">Blog</a>
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                             <div class="dropdown-menu m-0">
@@ -85,9 +88,11 @@ $keywords = "car rental, travel, transportation";
                                 <a href="../public/team.php" class="dropdown-item">Our Team</a>
                                 <a href="../public/testimonial.php" class="dropdown-item">Testimonial</a>
                                 <a href="../public/404.php" class="dropdown-item">404 Page</a>
+                                <a href="../public/terms.php" class="dropdown-item">Terms & Conditions</a>
+                                <a href="../public/privacy.php" class="dropdown-item">Privacy Policy</a>
                             </div>
                         </div>
-                        <a href="../public/contact.php" class="nav-item nav-link <?php echo (basename($current_page) == 'contact.php') ? 'active' : ''; ?>">Contact</a>
+                        <a href="../public/contact.php" class="nav-item nav-link">Contact</a>
                     </div>
                     <a href="login.php" class="btn btn-primary rounded-pill me-2 py-2 px-4">Login</a>
                     <a href="register.php" class="btn btn-primary rounded-pill py-2 px-4">Register</a>
