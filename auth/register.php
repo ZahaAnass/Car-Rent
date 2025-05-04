@@ -16,13 +16,13 @@
                             <div class="col-md-6 mb-3 wow fadeInUp" data-wow-delay="0.2s">
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                    <input type="text" class="form-control" placeholder="First Name" required>
+                                    <input type="text" class="form-control p-3" placeholder="First Name" required>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3 wow fadeInUp" data-wow-delay="0.3s">
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                    <input type="text" class="form-control" placeholder="Last Name" required>
+                                    <input type="text" class="form-control p-3" placeholder="Last Name" required>
                                 </div>
                             </div>
                         </div>
@@ -30,21 +30,21 @@
                         <div class="form-group mb-3 wow fadeInUp" data-wow-delay="0.4s">
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                                <input type="email" class="form-control" placeholder="Email Address" required>
+                                <input type="email" class="form-control p-3" placeholder="Email Address" required>
                             </div>
                         </div>
                         
                         <div class="form-group mb-3 wow fadeInUp" data-wow-delay="0.5s">
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fas fa-phone"></i></span>
-                                <input type="tel" class="form-control" placeholder="Phone Number" required>
+                                <input type="tel" class="form-control p-3" placeholder="Phone Number" required>
                             </div>
                         </div>
                         
                         <div class="form-group mb-3 wow fadeInUp" data-wow-delay="0.6s">
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                                <input type="password" class="form-control" placeholder="Password" required>
+                                <input type="password" class="form-control p-3" placeholder="Password" required>
                                 <span class="input-group-text toggle-password">
                                     <i class="fas fa-eye-slash"></i>
                                 </span>
@@ -54,14 +54,14 @@
                         <div class="form-group mb-3 wow fadeInUp" data-wow-delay="0.7s">
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                                <input type="password" class="form-control" placeholder="Confirm Password" required>
+                                <input type="password" class="form-control p-3" placeholder="Confirm Password" required>
                                 <span class="input-group-text toggle-password">
                                     <i class="fas fa-eye-slash"></i>
                                 </span>
                             </div>
                         </div>
                         
-                        <div class="form-group mb-3 wow fadeInUp" data-wow-delay="0.8s">
+                        <div class="form-group mb-3 p-2 ps-1 wow fadeInUp" data-wow-delay="0.8s">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="terms-agree" required>
                                 <label class="form-check-label" for="terms-agree">
@@ -71,8 +71,21 @@
                         </div>
                         
                         <div class="form-group wow fadeInUp" data-wow-delay="0.9s">
-                            <button type="submit" class="btn btn-primary w-100">
+                            <button type="submit" class="btn btn-primary w-100 p-3">
                                 <i class="fas fa-user-plus me-2"></i>Register
+                            </button>
+                        </div>
+
+                        <div class="login-divider wow fadeInUp" data-wow-delay="0.6s">
+                            <span>or</span>
+                        </div>
+                        
+                        <div class="social-login wow fadeInUp" data-wow-delay="0.7s">
+                            <button type="button" class="btn btn-google p-3">
+                                <i class="fab fa-google me-2"></i>Register with Google
+                            </button>
+                            <button type="button" class="btn btn-facebook p-3">
+                                <i class="fab fa-facebook me-2"></i>Register with Facebook
                             </button>
                         </div>
                         
