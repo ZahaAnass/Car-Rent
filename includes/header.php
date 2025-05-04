@@ -43,9 +43,12 @@ $keywords = "car rental, travel, transportation";
             <div class="row gx-0 align-items-center" style="height: 45px;">
                 <div class="col-lg-6 text-center text-lg-start mb-lg-0">
                     <div class="d-flex flex-wrap">
-                        <a href="#" class="text-muted me-4"><i class="fas fa-map-marker-alt text-primary me-2"></i>Find A Location</a>
-                        <a href="tel:+01234567890" class="text-muted me-4"><i class="fas fa-phone-alt text-primary me-2"></i>+01234567890</a>
-                        <a href="mailto:example@gmail.com" class="text-muted me-0"><i class="fas fa-envelope text-primary me-2"></i>Example@gmail.com</a>
+                        <a href="../public/contact.php" class="text-muted me-4">
+                            <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                            Explore Our Rental Locations
+                        </a>
+                        <a href="tel:+212 (522) 987-654" class="text-muted me-4"><i class="fas fa-phone-alt text-primary me-2"></i>+212 (522) 987-654</a>
+                        <a href="mailto:info@zoomixrentals.com" class="text-muted me-0"><i class="fas fa-envelope text-primary me-2"></i>info@zoomixrentals.com</a>
                     </div>
                 </div>
                 <div class="col-lg-6 text-center text-lg-end">
@@ -78,13 +81,18 @@ $keywords = "car rental, travel, transportation";
                         <a href="service.php" class="nav-item nav-link <?php echo ($current_page == 'service.php') ? 'active' : ''; ?>">Service</a>
                         <a href="blog.php" class="nav-item nav-link <?php echo ($current_page == 'blog.php') ? 'active' : ''; ?>">Blog</a>
                         <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                            <a href="#" class="nav-link dropdown-toggle <?php 
+                                $dropdown_pages = ['feature.php', 'cars.php', 'team.php', 'testimonial.php', '404.php'];
+                                echo (in_array($current_page, $dropdown_pages)) ? 'active' : ''; 
+                                ?>" data-bs-toggle="dropdown">Pages</a>
                             <div class="dropdown-menu m-0">
-                                <a href="feature.php" class="dropdown-item">Our Feature</a>
-                                <a href="cars.php" class="dropdown-item">Our Cars</a>
-                                <a href="team.php" class="dropdown-item">Our Team</a>
-                                <a href="testimonial.php" class="dropdown-item">Testimonial</a>
-                                <a href="404.php" class="dropdown-item">404 Page</a>
+                                <a href="feature.php" class="dropdown-item <?php echo ($current_page == 'feature.php') ? 'active' : ''; ?>">Our Feature</a>
+                                <a href="cars.php" class="dropdown-item <?php echo ($current_page == 'cars.php') ? 'active' : ''; ?>">Our Cars</a>
+                                <a href="team.php" class="dropdown-item <?php echo ($current_page == 'team.php') ? 'active' : ''; ?>">Our Team</a>
+                                <a href="testimonial.php" class="dropdown-item <?php echo ($current_page == 'testimonial.php') ? 'active' : ''; ?>">Testimonial</a>
+                                <a href="404.php" class="dropdown-item <?php echo ($current_page == '404.php') ? 'active' : ''; ?>">404 Page</a>
+                                <a href="terms.php" class="dropdown-item <?php echo ($current_page == 'terms.php') ? 'active' : ''; ?>">Terms & Conditions</a>
+                                <a href="privacy.php" class="dropdown-item <?php echo ($current_page == 'privacy.php') ? 'active' : ''; ?>">Privacy Policy</a>
                             </div>
                         </div>
                         <a href="contact.php" class="nav-item nav-link <?php echo ($current_page == 'contact.php') ? 'active' : ''; ?>">Contact</a>
