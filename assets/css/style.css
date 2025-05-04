@@ -1236,7 +1236,7 @@
     position: relative;
 }
 
-.login-form .input-group-text, .register-form .input-group-text {
+.login-form .input-group-text:not(.toggle-password), .register-form .input-group-text:not(.toggle-password) {
     background-color: transparent;
     border-right: none;
     color: var(--bs-primary);
@@ -1256,6 +1256,7 @@
     cursor: pointer;
     background-color: transparent;
     border-left: none;
+    color: var(--bs-primary);
 }
 
 .login-divider, .register-divider {
@@ -1302,6 +1303,16 @@
 .btn-facebook {
     background-color: #4267B2;
     color: white;
+}
+
+.btn-google:hover{
+    background-color: #ff1900 !important;
+    color: white !important;
+}
+
+.btn-facebook:hover{
+    background-color: #0344d1 !important;
+    color: white !important;
 }
 
 .login-footer, .register-footer {
