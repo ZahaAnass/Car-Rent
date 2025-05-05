@@ -1338,3 +1338,28 @@
 }
 
 /*** Login and Register End ***/
+
+/* Dashbord User Start */
+
+body {
+    background-color: var(--bs-gray-100);
+}
+
+.stat-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 5px 15px 30px rgba(0,0,0,0.1) !important;
+}
+
+.activity-card .list-group-item {
+    transition: background-color 0.3s ease;
+}
+
+.activity-card .list-group-item:hover {
+    background-color: rgba(32, 178, 170, 0.05);
+}
+
+/* Dashbord User End*/
