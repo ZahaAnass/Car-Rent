@@ -31,6 +31,11 @@
                     <i class="fas fa-cog me-2"></i>Settings
                 </a>
             </li>
+            <li class="nav-item mb-2 wow fadeInRight" data-wow-delay="1.7s">
+                <a href="../auth/logout.php" class="nav-link text-danger"> 
+                    <i class="fas fa-sign-out-alt me-2"></i>Logout
+                </a>
+            </li>
         </ul>
     </div>
 </div>
