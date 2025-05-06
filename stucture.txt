@@ -1,45 +1,117 @@
-Car-Rent/
-├── config/
-│   ├── database.php           # Database connection
-│   └── config.php            # Global settings
-├── admin/
-│   ├── dashboard.php         # Admin main page
-│   ├── manage-cars.php       # Cars CRUD
-│   ├── manage-users.php      # Users management
-│   ├── manage-reservations.php
-│   ├── manage-testimonials.php
-│   └── manage-messages.php    # Contact form messages
-├── auth/
-│   ├── login.php
-│   ├── register.php
-│   └── logout.php
-├── user/
-│   ├── dashboard.php         # User dashboard
-│   ├── profile.php           # Edit profile
-│   ├── my-reservations.php
-│   └── book-car.php
-├── includes/
-│   ├── header.php
-│   ├── footer.php
-│   ├── functions.php
-│   └── session.php
-├── public/                   # Your current pages converted to PHP
-│   ├── index.php            # Homepage
-│   ├── about.php
-│   ├── services.php
-│   ├── cars.php             # Car listing
-│   ├── contact.php
-│   ├── team.php
-│   ├── testimonials.php
-│   └── blog.php
-├── assets/                   # Keep your current assets
-│   ├── css/
-│   │   ├── bootstrap.min.css
-│   │   └── style.css
-│   ├── js/
-│   │   ├── main.js
-│   │   └── header_footer.js
-│   ├── img/
-│   └── lib/                 # Your current libraries
-└── uploads/                 # For uploaded images
-    └── cars/               # Car images
+├── .gitattributes
+├── README.md
+├── admin
+    ├── dashboard.php
+    ├── manage-cars.php
+    ├── manage-message.php
+    ├── manage-reservations.php
+    ├── manage-testimonials.php
+    ├── manage-users.php
+    └── settings.php
+├── assets
+    ├── css
+    │   ├── bootstrap.min.css
+    │   └── style.css
+    ├── img
+    │   ├── Thumbs.db
+    │   ├── about-icon-1.png
+    │   ├── about-icon-2.png
+    │   ├── about-img-1.jpg
+    │   ├── about-img.jpg
+    │   ├── attachment-img.jpg
+    │   ├── banner-1.jpg
+    │   ├── bg-1.jpg
+    │   ├── blog-1.jpg
+    │   ├── blog-2.jpg
+    │   ├── blog-3.jpg
+    │   ├── car-1.png
+    │   ├── car-2.png
+    │   ├── car-3.png
+    │   ├── car-4.png
+    │   ├── carousel-1.jpg
+    │   ├── carousel-2.jpg
+    │   ├── fact-bg.jpg
+    │   ├── features-img.png
+    │   ├── team-1.jpg
+    │   ├── team-2.jpg
+    │   ├── team-3.jpg
+    │   ├── team-4.jpg
+    │   ├── testimonial-1.jpg
+    │   ├── testimonial-2.jpg
+    │   └── testimonial-3.jpg
+    ├── js
+    │   ├── header_footer.js
+    │   └── main.js
+    └── lib
+    │   ├── animate
+    │       ├── animate.css
+    │       └── animate.min.css
+    │   ├── counterup
+    │       └── counterup.min.js
+    │   ├── easing
+    │       ├── easing.js
+    │       └── easing.min.js
+    │   ├── lightbox
+    │       ├── css
+    │       │   └── lightbox.min.css
+    │       ├── images
+    │       │   ├── close.png
+    │       │   ├── loading.gif
+    │       │   ├── next.png
+    │       │   └── prev.png
+    │       └── js
+    │       │   └── lightbox.min.js
+    │   ├── owlcarousel
+    │       ├── LICENSE
+    │       ├── assets
+    │       │   ├── ajax-loader.gif
+    │       │   ├── owl.carousel.css
+    │       │   ├── owl.carousel.min.css
+    │       │   ├── owl.theme.default.css
+    │       │   ├── owl.theme.default.min.css
+    │       │   ├── owl.theme.green.css
+    │       │   ├── owl.theme.green.min.css
+    │       │   └── owl.video.play.png
+    │       ├── owl.carousel.js
+    │       └── owl.carousel.min.js
+    │   ├── waypoints
+    │       ├── links.php
+    │       └── waypoints.min.js
+    │   └── wow
+    │       ├── wow.js
+    │       └── wow.min.js
+├── auth
+    ├── login.php
+    ├── logout.php
+    └── register.php
+├── config
+    ├── config.php
+    └── database.php
+├── includes
+    ├── auth_footer.php
+    ├── auth_header.php
+    ├── bottom-nav.php
+    ├── footer.php
+    ├── functions.php
+    ├── header.php
+    ├── session.php
+    └── sidebar.php
+├── public
+    ├── 404.php
+    ├── about.php
+    ├── blog.php
+    ├── cars.php
+    ├── contact.php
+    ├── feature.php
+    ├── index.php
+    ├── privacy.php
+    ├── service.php
+    ├── team.php
+    ├── terms.php
+    └── testimonial.php
+├── stucture.txt
+└── user
+    ├── book-car.php
+    ├── dashboard.php
+    ├── my-reservations.php
+    └── settings.php
