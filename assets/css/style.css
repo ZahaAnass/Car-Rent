@@ -971,16 +971,20 @@
 }
 
 .terms-page .service-icon {
-    background: var(--bs-primary);
-    color: white;
-    width: 80px;
-    height: 80px;
+    width: 90px; 
+    height: 90px; 
+    border-radius: 67% 33% 29% 71% / 39% 46% 54% 61%;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
-    margin: 0 auto 20px;
-    transition: transform 0.5s ease;
+    color: var(--bs-secondary);
+    background: var(--bs-primary);
+    animation-name: icon-animat;
+    animation-duration: 5s;
+    animation-delay: 1s;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+    transition: 0.5s;
 }
 
 .terms-page .service-item:hover .service-icon {
@@ -1101,16 +1105,20 @@
 }
 
 .privacy-page .service-icon {
-    background: var(--bs-primary);
-    color: white;
-    width: 80px;
-    height: 80px;
+    width: 90px; 
+    height: 90px; 
+    border-radius: 67% 33% 29% 71% / 39% 46% 54% 61%;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
-    margin: 0 auto 20px;
-    transition: transform 0.5s ease;
+    color: var(--bs-secondary);
+    background: var(--bs-primary);
+    animation-name: icon-animat;
+    animation-duration: 5s;
+    animation-delay: 1s;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+    transition: 0.5s;
 }
 
 .privacy-page .service-item:hover .service-icon {
@@ -1360,6 +1368,23 @@ body {
 
 .activity-card .list-group-item:hover {
     background-color: rgba(32, 178, 170, 0.05);
+}
+
+.dashboard .dashboard-icons i{
+    width: 90px; 
+    height: 90px; 
+    border-radius: 67% 33% 29% 71% / 39% 46% 54% 61%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--bs-secondary) !important;
+    background: var(--bs-primary);
+    animation-name: icon-animat;
+    animation-duration: 5s;
+    animation-delay: 1s;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+    transition: 0.5s;
 }
 
 /* Dashbord User End*/
