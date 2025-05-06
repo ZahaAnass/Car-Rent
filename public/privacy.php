@@ -23,7 +23,7 @@
 
         <div class="row g-4">
             <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.1s">
-                <div class="service-item p-4">
+                <div class="service-item d-flex flex-column align-items-center p-4">
                     <div class="service-icon mb-4">
                         <i class="fa fa-lock fa-2x"></i>
                     </div>
@@ -37,7 +37,7 @@
             </div>
 
             <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.3s">
-                <div class="service-item p-4">
+                <div class="service-item d-flex flex-column align-items-center p-4">
                     <div class="service-icon mb-4">
                         <i class="fa fa-shield-alt fa-2x"></i>
                     </div>
@@ -51,7 +51,7 @@
             </div>
 
             <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.5s">
-                <div class="service-item p-4">
+                <div class="service-item d-flex flex-column align-items-center p-4">
                     <div class="service-icon mb-4">
                         <i class="fa fa-user-shield fa-2x"></i>
                     </div>
@@ -65,7 +65,7 @@
             </div>
 
             <div class="col-md-6 col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
-                <div class="service-item p-4">
+                <div class="service-item d-flex flex-column align-items-center p-4">
                     <div class="service-icon mb-4">
                         <i class="fa fa-globe fa-2x"></i>
                     </div>
@@ -79,7 +79,7 @@
             </div>
 
             <div class="col-md-6 col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
-                <div class="service-item p-4">
+                <div class="service-item d-flex flex-column align-items-center p-4">
                     <div class="service-icon mb-4">
                         <i class="fa fa-cookie fa-2x"></i>
                     </div>
