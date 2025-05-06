@@ -141,20 +141,7 @@ $userData = [
         </div>
     </div>
 
-    <!-- Performance Optimization: Defer JavaScript Loading -->
-    <script defer src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script defer src="../assets/lib/wow/wow.min.js"></script>
-    <script defer src="../assets/lib/easing/easing.min.js"></script>
-    <script defer src="../assets/lib/waypoints/waypoints.min.js"></script>
-    <script defer src="../assets/lib/counterup/counterup.min.js"></script>
-    <script defer src="../assets/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script defer src="../assets/lib/lightbox/js/lightbox.min.js"></script>
-
-    <!-- Template Javascript -->
-    <script defer src="../assets/js/main.js"></script>
-
-    <!-- Bottom Navigation -->
+    <!-- Bottom Navigation With The Scripts -->
     <?php include '../includes/bottom-nav.php'; ?>
 
 </body>
