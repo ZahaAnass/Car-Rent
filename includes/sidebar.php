@@ -15,7 +15,7 @@ $is_admin_section = strpos($current_path, '/admin/') !== false;
             <h2 class="text-primary display-6">
                 <i class="fas fa-car-alt me-3"></i>Zoomix
                 <?php if ($is_admin_section): ?>
-                    <small class="text-white fs-6 ms-2">Admin</small>
+                    <span class="text-white">Admin</span>
                 <?php endif; ?>
             </h2>
         </a>
@@ -25,7 +25,7 @@ $is_admin_section = strpos($current_path, '/admin/') !== false;
             <ul class="nav nav-pills flex-column mb-auto px-3">
                 <li class="nav-item mb-2 wow fadeInRight" data-wow-delay="0.3s">
                     <a href="../public/index.php" class="nav-link text-white">
-                        <i class="fas fa-home fa-fw me-2"></i>Home (Public)
+                        <i class="fas fa-home fa-fw me-2"></i>Home
                     </a>
                 </li>
                 <li class="nav-item mb-2 wow fadeInRight" data-wow-delay="0.5s">
