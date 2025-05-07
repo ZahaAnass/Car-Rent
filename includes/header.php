@@ -97,8 +97,10 @@ $keywords = "car rental, travel, transportation";
                         </div>
                         <a href="contact.php" class="nav-item nav-link <?php echo ($current_page == 'contact.php') ? 'active' : ''; ?>">Contact</a>
                     </div>
-                    <a href="../auth/login.php" class="btn btn-primary rounded-pill me-2 py-2 px-4">Login</a>
-                    <a href="../auth/register.php" class="btn btn-primary rounded-pill py-2 px-4">Register</a>
+                    <div class="controls d-flex align-items-center justify-content-center">
+                        <a href="../auth/login.php" class="btn btn-primary rounded-pill me-2 py-2 px-4">Login</a>
+                        <a href="../auth/register.php" class="btn btn-primary rounded-pill py-2 px-4">Register</a>
+                    </div>
                 </div>
             </nav>
         </div>
