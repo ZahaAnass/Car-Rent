@@ -38,6 +38,10 @@
     </div>
     <!-- Spinner End -->
 
+    <?php 
+        $car = ['id' => 1, 'name' => 'Toyota Camry', 'type' => 'Sedan', 'price' => 45, 'seats' => 5, 'transmission' => 'Automatic', 'fuel' => 'Hybrid', 'image' => '../assets/img/car-1.png'];
+    ?>
+
     <div class="container-fluid">
         <div class="row">
             <!-- Sidebar -->
@@ -48,8 +52,8 @@
                 <div class="container-fluid py-5">
                     <div class="row">
                         <div class="col-12">
-                            <h1 class="mb-3 display-6 wow fadeInDown">Book a Car</h1>
-                            <p class="text-muted wow fadeInUp">Select your perfect vehicle and complete your booking.</p>
+                            <h1 class="mb-3 display-6 wow fadeInDown">Book: <?= htmlspecialchars($car['name']) ?></h1>
+                            <p class="text-muted wow fadeInUp">Review your selected vehicle and complete your booking details.</p>
                         </div>
                     </div>
 
@@ -57,26 +61,22 @@
                         <!-- Car Listing -->
                         <div class="col-lg-6 wow fadeInLeft" data-wow-delay="0.5s">
                             <div class="row g-4">
-                                <?php 
-                                $car = ['id' => 1, 'name' => 'Toyota Camry', 'type' => 'Sedan', 'price' => 45, 'seats' => 5, 'transmission' => 'Automatic', 'fuel' => 'Hybrid', 'image' => '../assets/img/car-1.png'];
-                                ?>
                                 <div class="col wow fadeInUp" data-wow-delay="0.5s">
                                     <div class="card h-100 border-0 shadow-sm car-card">
                                         <div class="card-body">
                                             <div class="position-relative mb-3">
-                                                <img src="<?= $car['image'] ?>" class="card-img-top img-fluid rounded" alt="<?= $car['name'] ?>" style="object-fit: cover;">
+                                                <img src="<?= htmlspecialchars($car['image']) ?>" class="card-img-top img-fluid rounded" alt="<?= htmlspecialchars($car['name']) ?>" style="object-fit: cover;">
                                                 <div class="position-absolute top-0 end-0 bg-primary text-white px-2 py-1 m-2 rounded-pill">
-                                                    $<?= $car['price'] ?>/day
+                                                    $<?= htmlspecialchars($car['price']) ?>/day
                                                 </div>
                                             </div>
-                                            <h5 class="card-title"><?= $car['name'] ?></h5>
-                                            <p class="card-text text-muted"><?= $car['type'] ?></p>
+                                            <h5 class="card-title"><?= htmlspecialchars($car['name']) ?></h5>
+                                            <p class="card-text text-muted"><?= htmlspecialchars($car['type']) ?></p>
                                             <div class="d-flex justify-content-between align-items-center mb-3 text-muted small">
-                                                <span><i class="fas fa-users me-1 text-primary"></i><?= $car['seats'] ?> seats</span>
-                                                <span><i class="fas fa-car me-1 text-primary"></i><?= $car['transmission'] ?></span>
-                                                <span><i class="fas fa-gas-pump me-1 text-primary"></i><?= $car['fuel'] ?></span>
+                                                <span><i class="fas fa-users me-1 text-primary"></i><?= htmlspecialchars($car['seats']) ?> seats</span>
+                                                <span><i class="fas fa-car me-1 text-primary"></i><?= htmlspecialchars($car['transmission']) ?></span>
+                                                <span><i class="fas fa-gas-pump me-1 text-primary"></i><?= htmlspecialchars($car['fuel']) ?></span>
                                             </div>
-                                            <button class="btn btn-primary w-100 p-2 ">Select Car</button>
                                         </div>
                                     </div>
                                 </div>
@@ -91,32 +91,35 @@
                                     <form id="bookingForm">
                                         <div class="mb-3">
                                             <label for="pickup-date" class="form-label">Pickup Date</label>
-                                            <input type="date" class="form-control" id="pickup-date" required>
+                                            <input type="date" class="form-control" id="pickup-date" name="pickup_date" required>
                                         </div>
                                         <div class="mb-3">
                                             <label for="return-date" class="form-label">Return Date</label>
-                                            <input type="date" class="form-control" id="return-date" required>
+                                            <input type="date" class="form-control" id="return-date" name="return_date" required>
                                         </div>
                                         <div class="mb-3">
                                             <label for="pickup-location" class="form-label">Pickup Location</label>
-                                            <select class="form-select" id="pickup-location" required>
+                                            <select class="form-select" id="pickup-location" name="pickup_location" required>
                                                 <option selected disabled value="">Choose...</option>
-                                                <option>Airport</option>
-                                                <option>Downtown Station</option>
-                                                <option>Uptown Branch</option>
+                                                <option value="Airport">Airport</option>
+                                                <option value="Downtown Station">Downtown Station</option>
+                                                <option value="Uptown Branch">Uptown Branch</option>
                                             </select>
                                         </div>
                                         <div class="mb-3">
                                             <label for="return-location" class="form-label">Return Location</label>
-                                            <select class="form-select" id="return-location" required>
+                                            <select class="form-select" id="return-location" name="return_location" required>
                                                 <option selected disabled value="">Choose...</option>
-                                                <option>Airport</option>
-                                                <option>Downtown Station</option>
-                                                <option>Uptown Branch</option>
+                                                <option value="Airport">Airport</option>
+                                                <option value="Downtown Station">Downtown Station</option>
+                                                <option value="Uptown Branch">Uptown Branch</option>
                                             </select>
                                         </div>
-                                        <div class="alert alert-info small d-none" id="booking-summary"></div>
-                                        <button type="submit" class="btn btn-primary w-100">Confirm Booking</button>
+                                        <div class="mb-3 p-3 bg-light rounded">
+                                            <p class="mb-1"><strong>Daily Rate:</strong> $<?= htmlspecialchars(number_format($car['price'], 2)) ?></p>
+                                            <h5 class="mb-0"><strong>Total Price:</strong> <span id="totalPriceDisplay">$0.00</span></h5>
+                                        </div>
+                                        <button type="button" class="btn btn-primary w-100" id="reviewBookingBtn">Review & Book</button>
                                     </form>
                                 </div>
                             </div>
@@ -127,8 +130,188 @@
         </div>
     </div>
 
+    <!-- Payment Confirmation Modal -->
+    <div class="modal fade" id="paymentConfirmationModal" tabindex="-1" aria-labelledby="paymentConfirmationModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="paymentConfirmationModalLabel">Confirm Your Booking</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Please review your booking details below. This is a simulated payment process.</p>
+                    <hr>
+                    <h6>Booking Summary:</h6>
+                    <p><strong>Car:</strong> <span id="modalCarName"></span></p>
+                    <p><strong>Pickup Date:</strong> <span id="modalPickupDate"></span></p>
+                    <p><strong>Return Date:</strong> <span id="modalReturnDate"></span></p>
+                    <p><strong>Pickup Location:</strong> <span id="modalPickupLocation"></span></p>
+                    <p><strong>Return Location:</strong> <span id="modalReturnLocation"></span></p>
+                    <hr>
+                    <h5><strong>Total Price:</strong> <span id="modalTotalPrice"></span></h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="modalConfirmAndBookBtn">Confirm & Book (Simulated)</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal fade" id="bookingSuccessModal" tabindex="-1" aria-labelledby="bookingSuccessModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="bookingSuccessModalLabel">Booking Submitted!</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center py-4">
+                    <div class="mb-3">
+                        <i class="fas fa-check-circle fa-3x text-success"></i>
+                    </div>
+                    <h4>Thank You!</h4>
+                    <p>Your booking request has been sent and is awaiting admin approval.</p>
+                    <p>You will be notified once it is confirmed.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Bottom Navigation With The Scripts -->
     <?php include '../includes/bottom-nav.php'; ?>
 
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Hardcoded car details (from PHP, ensure this is available before this script)
+        const carDetails = {
+            name: "<?= htmlspecialchars($car['name'])?>",
+            price: parseFloat(<?= $car['price'] ?>)
+        };
+
+        const pickupDateEl = document.getElementById('pickup-date');
+        const returnDateEl = document.getElementById('return-date');
+        const totalPriceDisplayEl = document.getElementById('totalPriceDisplay');
+        
+        const reviewBookingBtn = document.getElementById('reviewBookingBtn');
+        const paymentModalEl = document.getElementById('paymentConfirmationModal');
+        const paymentModal = new bootstrap.Modal(paymentModalEl);
+        const modalConfirmAndBookBtn = document.getElementById('modalConfirmAndBookBtn');
+        const bookingForm = document.getElementById('bookingForm');
+        
+        // New Success Modal
+        const successModalEl = document.getElementById('bookingSuccessModal');
+        const successModal = new bootstrap.Modal(successModalEl);
+
+        // Function to calculate and display total price
+        function calculateAndUpdatePrice() {
+            if (!pickupDateEl || !returnDateEl || !totalPriceDisplayEl || !carDetails.price) {
+                if (totalPriceDisplayEl) totalPriceDisplayEl.textContent = '$0.00';
+                return 0;
+            }
+
+            const pickupDateStr = pickupDateEl.value;
+            const returnDateStr = returnDateEl.value;
+
+            if (pickupDateStr && returnDateStr) {
+                const pickup = new Date(pickupDateStr);
+                const ret = new Date(returnDateStr);
+
+                if (ret >= pickup) {
+                    let diffTime = ret.getTime() - pickup.getTime();
+                    let diffDays = Math.ceil(diffTime / (1000 * 3600 * 24));
+                    
+                    if (pickup.toDateString() === ret.toDateString()) { // Same day rental
+                        diffDays = 1;
+                    } else if (diffDays === 0 && ret > pickup) { // Handles cases less than 24h but across midnight
+                        diffDays = 1;
+                    }
+                    if (diffDays < 1) diffDays = 1; // Minimum 1 day rental
+
+                    const total = diffDays * carDetails.price;
+                    totalPriceDisplayEl.textContent = '$' + total.toFixed(2);
+                    return total;
+                } else {
+                    totalPriceDisplayEl.textContent = 'Invalid dates';
+                }
+            } else {
+                totalPriceDisplayEl.textContent = '$0.00';
+            }
+            return 0;
+        }
+
+        // Set min dates
+        const today = new Date();
+        const todayString = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+        
+        if(pickupDateEl) {
+            pickupDateEl.setAttribute('min', todayString);
+            pickupDateEl.addEventListener('change', function() {
+                if (pickupDateEl.value) {
+                    returnDateEl.setAttribute('min', pickupDateEl.value);
+                }
+                calculateAndUpdatePrice();
+            });
+        }
+        if(returnDateEl) {
+            returnDateEl.setAttribute('min', todayString); // Initial min for return date
+            returnDateEl.addEventListener('change', calculateAndUpdatePrice);
+        }
+        
+        // Initial calculation in case dates are pre-filled (though unlikely here)
+        calculateAndUpdatePrice();
+
+        // Handle "Review & Book" button click
+        if (reviewBookingBtn) {
+            reviewBookingBtn.addEventListener('click', function() {
+                // Basic client-side validation
+                const pickupLocationEl = document.getElementById('pickup-location');
+                const returnLocationEl = document.getElementById('return-location');
+
+                if (!pickupDateEl.value || !returnDateEl.value || !pickupLocationEl.value || !returnLocationEl.value) {
+                    alert('Please fill in all booking details.');
+                    return;
+                }
+                const pickup = new Date(pickupDateEl.value);
+                const ret = new Date(returnDateEl.value);
+                if (ret < pickup) {
+                    alert('Return date must be after or the same as the pickup date.');
+                    return;
+                }
+
+                // Populate modal
+                document.getElementById('modalCarName').textContent = carDetails.name;
+                document.getElementById('modalPickupDate').textContent = pickupDateEl.value;
+                document.getElementById('modalReturnDate').textContent = returnDateEl.value;
+                document.getElementById('modalPickupLocation').textContent = pickupLocationEl.selectedOptions[0].text;
+                document.getElementById('modalReturnLocation').textContent = returnLocationEl.selectedOptions[0].text;
+                const finalPrice = calculateAndUpdatePrice(); // Recalculate to be sure
+                document.getElementById('modalTotalPrice').textContent = '$' + finalPrice.toFixed(2);
+                
+                paymentModal.show();
+            });
+        }
+
+        // Handle "Confirm & Book (Simulated)" button click in modal
+        if (modalConfirmAndBookBtn) {
+            modalConfirmAndBookBtn.addEventListener('click', function() {
+                // Simulate booking confirmation (no actual form submission)
+                paymentModal.hide();
+
+                // Show the new success modal
+                successModal.show();
+
+                // Could reset the form here
+                bookingForm.reset();
+                // Reset min attribute for return date to today
+                if(returnDateEl) returnDateEl.setAttribute('min', todayString);
+                calculateAndUpdatePrice(); // Reset price display
+            });
+        }
+    });
+    </script>
 </body>
 </html>
