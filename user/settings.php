@@ -93,6 +93,9 @@ $userData = [
 
                     <!-- Settings Form Card -->
                     <div class="card border-0 shadow-sm wow fadeInUp" data-wow-delay="0.2s">
+                        <div class="card-header bg-light py-3">
+                                    <h5 class="mb-0"><i class="fas fa-user-edit me-2"></i>User Profile</h5>
+                                </div>
                         <div class="card-body p-4">
                             <form id="settingsForm">
                                 <!-- Personal Information Section -->
@@ -128,7 +131,6 @@ $userData = [
                                     <label for="licenseNumber" class="form-label">Driver's License Number</label>
                                     <input type="text" class="form-control" id="licenseNumber" value="<?= htmlspecialchars($userData['license_number']) ?>">
                                 </div>
-
                                 <!-- Save Button -->
                                 <div class="mt-4 text-end">
                                     <button type="submit" class="btn btn-primary px-4">Save Changes</button>
