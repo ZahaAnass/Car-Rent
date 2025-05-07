@@ -1,0 +1,67 @@
+[
+    {
+        "code": "MA",
+        "name": "Morocco",
+        "cities": ["Rabat", "Casablanca", "Marrakech", "Fes", "Tangier", "Agadir", "Meknes", "Oujda", "Kenitra", "Tetouan", "Safi", "El Jadida", "Nador", "Beni Mellal", "Mohammedia"]
+    },
+    {
+        "code": "US",
+        "name": "United States",
+        "cities": ["New York", "Los Angeles", "Chicago", "Houston", "Phoenix", "Philadelphia", "San Antonio", "San Diego", "Dallas", "San Jose", "Austin", "Jacksonville", "San Francisco", "Columbus", "Indianapolis"]
+    },
+    {
+        "code": "CA",
+        "name": "Canada",
+        "cities": ["Toronto", "Montreal", "Vancouver", "Calgary", "Ottawa", "Edmonton", "Mississauga", "Winnipeg", "Quebec City", "Hamilton", "Brampton", "Surrey", "Halifax", "London", "Victoria"]
+    },
+    {
+        "code": "FR",
+        "name": "France",
+        "cities": ["Paris", "Marseille", "Lyon", "Toulouse", "Nice", "Nantes", "Strasbourg", "Montpellier", "Bordeaux", "Lille", "Rennes", "Reims", "Saint-Étienne", "Toulon", "Le Havre"]
+    },
+    {
+        "code": "DE",
+        "name": "Germany",
+        "cities": ["Berlin", "Hamburg", "Munich", "Cologne", "Frankfurt", "Stuttgart", "Düsseldorf", "Leipzig", "Dortmund", "Essen", "Bremen", "Dresden", "Hanover", "Nuremberg", "Duisburg"]
+    },
+    {
+        "code": "JP",
+        "name": "Japan",
+        "cities": ["Tokyo", "Yokohama", "Osaka", "Nagoya", "Sapporo", "Fukuoka", "Kobe", "Kyoto", "Kawasaki", "Saitama", "Hiroshima", "Sendai", "Kitakyushu", "Chiba", "Sakai"]
+    },
+    {
+        "code": "AU",
+        "name": "Australia",
+        "cities": ["Sydney", "Melbourne", "Brisbane", "Perth", "Adelaide", "Gold Coast", "Newcastle", "Canberra", "Wollongong", "Hobart", "Geelong", "Townsville", "Cairns", "Darwin", "Toowoomba"]
+    },
+    {
+        "code": "IT",
+        "name": "Italy",
+        "cities": ["Rome", "Milan", "Naples", "Turin", "Palermo", "Genoa", "Bologna", "Florence", "Bari", "Catania", "Venice", "Verona", "Messina", "Padua", "Trieste"]
+    },
+    {
+        "code": "ES",
+        "name": "Spain",
+        "cities": ["Madrid", "Barcelona", "Valencia", "Seville", "Zaragoza", "Málaga", "Murcia", "Palma", "Las Palmas", "Bilbao", "Alicante", "Córdoba", "Valladolid", "Vigo", "Granada"]
+    },
+    {
+        "code": "BR",
+        "name": "Brazil",
+        "cities": ["São Paulo", "Rio de Janeiro", "Brasília", "Salvador", "Fortaleza", "Belo Horizonte", "Manaus", "Curitiba", "Recife", "Porto Alegre", "Belém", "Goiânia", "Guarulhos", "Campinas", "São Luís"]
+    },
+    {
+        "code": "EG",
+        "name": "Egypt",
+        "cities": ["Cairo", "Alexandria", "Giza", "Shubra El-Kheima", "Port Said", "Suez", "Luxor", "Aswan", "Asyut", "Ismailia", "Fayoum", "Zagazig", "Damietta", "Mansoura", "Minya"]
+    },
+    {
+        "code": "SE",
+        "name": "Sweden",
+        "cities": ["Stockholm", "Gothenburg", "Malmö", "Uppsala", "Linköping", "Örebro", "Västerås", "Helsingborg", "Norrköping", "Jönköping", "Umeå", "Lund", "Borås", "Sundsvall", "Gävle"]
+    },
+    {
+        "code": "AR",
+        "name": "Argentina",
+        "cities": ["Buenos Aires", "Córdoba", "Rosario", "Mendoza", "San Miguel de Tucumán", "La Plata", "Mar del Plata", "Salta", "Santa Fe", "San Juan", "Resistencia", "Neuquén", "Corrientes", "Bahía Blanca", "Posadas"]
+    }
+]
