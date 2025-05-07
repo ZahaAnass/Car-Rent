@@ -80,7 +80,7 @@ $is_admin_section = strpos($current_path, '/admin/') !== false;
                 </li>
                 <li class="nav-item mb-2 wow fadeInRight" data-wow-delay="0.6s">
                     <a href="dashboard.php" class="nav-link <?= $current_page == 'dashboard.php' ? 'active' : 'text-white' ?>">
-                        <i class="fas fa-user me-2"></i>Dashboard
+                        <i class="fas fa-tachometer-alt me-2"></i>Dashboard
                     </a>
                 </li>
                 <li class="nav-item mb-2 wow fadeInRight" data-wow-delay="0.9s">
