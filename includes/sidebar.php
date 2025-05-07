@@ -99,6 +99,11 @@ $is_admin_section = strpos($current_path, '/admin/') !== false;
                     </a>
                 </li>
                 <li class="nav-item mb-2 wow fadeInRight" data-wow-delay="1.7s">
+                    <a href="add-testimonial.php" class="nav-link <?= $current_page == 'add-testimonial.php' ? 'active' : 'text-white' ?>">
+                        <i class="fas fa-comment-dots me-2"></i>Add Testimonial
+                    </a>
+                </li>
+                <li class="nav-item mb-2 wow fadeInRight" data-wow-delay="1.7s">
                     <a href="../auth/logout.php" class="nav-link text-danger"> 
                         <i class="fas fa-sign-out-alt me-2"></i>Logout
                     </a>
