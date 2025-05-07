@@ -40,7 +40,32 @@
                                 <input type="tel" class="form-control p-3" placeholder="Phone Number" required>
                             </div>
                         </div>
-                        
+
+                        <div class="form-group mb-3 wow fadeInUp" data-wow-delay="0.5s">
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                                <input type="text" name="license_number" id="license_number" class="form-control p-3" placeholder="License Number" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3 wow fadeInUp" data-wow-delay="0.5s">
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                                <select name="country" id="country" class="form-select p-3" required>
+                                    <option value="" selected disabled>Select Country</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3 wow fadeInUp" data-wow-delay="0.5s">
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-city"></i></span>
+                                <select name="city" id="city" class="form-select p-3" required>
+                                    <option value="" selected disabled>Select City</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="form-group mb-3 wow fadeInUp" data-wow-delay="0.6s">
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fas fa-lock"></i></span>
@@ -101,5 +126,64 @@
     </div>
 </div>
 <!-- Register Page End -->
+
+<script src="../assets/js/main.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const countrySelect = document.getElementById('country');
+        const citySelect = document.getElementById('city');
+        const countriesDataUrl = '../assets/js/countries-cities.json'; 
+
+        // Initially disable city select until a country is chosen
+        citySelect.disabled = true;
+
+        fetch(countriesDataUrl)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                data.forEach(country => {
+                    const option = document.createElement('option');
+                    option.value = country.code;
+                    option.textContent = country.name;
+                    countrySelect.appendChild(option);
+                });
+
+                countrySelect.addEventListener('change', function() {
+                    // Clear previous city options
+                    citySelect.innerHTML = '<option value="" selected disabled>Select City</option>';
+                    citySelect.disabled = true;
+
+                    const selectedCountryCode = this.value;
+                    const selectedCountry = data.find(country => country.code === selectedCountryCode);
+
+                    if (selectedCountry && selectedCountry.cities && selectedCountry.cities.length > 0) {
+                        selectedCountry.cities.forEach(cityName => {
+                            const cityOption = document.createElement('option');
+                            cityOption.value = cityName;
+                            cityOption.textContent = cityName;
+                            citySelect.appendChild(cityOption);
+                        });
+                        citySelect.disabled = false;
+                    } else if (selectedCountryCode) {
+                        // Handle case where a country might be listed but has no cities in the JSON
+                        citySelect.innerHTML = '<option value="" selected disabled>No cities listed</option>';
+                    } else {
+                         // "Select Country" is chosen, keep city disabled with default message
+                        citySelect.disabled = true;
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching or processing countries data:', error);
+                countrySelect.innerHTML = '<option value="" selected disabled>Error loading countries</option>';
+                citySelect.innerHTML = '<option value="" selected disabled>Error loading cities</option>';
+            });
+    });
+</script>
 
 <?php require_once '../includes/auth_footer.php'; ?>
