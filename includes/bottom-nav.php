@@ -65,7 +65,7 @@ $small_style = 'style="font-size: 11px;"';
                     </a>
                 </div>
                 <div class="col-2 p-0">
-                    <a href="dashbord.php" class="text-center <?= $current_page == 'dashbord.php' ? 'text-primary' : 'text-white' ?>">
+                    <a href="dashboard.php" class="text-center <?= $current_page == 'dashboard.php' ? 'text-primary' : 'text-white' ?>">
                         <i class="fas fa-user"></i>
                         <small class="d-block" <?= $small_style ?>>Dashboard</small>
                     </a>
@@ -89,9 +89,9 @@ $small_style = 'style="font-size: 11px;"';
                     </a>
                 </div>
                 <div class="col-2 p-0">
-                    <a href="../auth/logout.php" class="text-center text-danger">
-                        <i class="fas fa-sign-out-alt"></i>
-                        <small class="d-block" <?= $small_style ?>>Logout</small>
+                    <a href="add-testimonial.php" class="text-center <?= $current_page == 'add-testimonial.php' ? 'text-primary' : 'text-white' ?>">
+                        <i class="fas fa-comment-dots"></i>
+                        <small class="d-block" <?= $small_style ?>>Testimonial</small>
                     </a>
                 </div>
 
