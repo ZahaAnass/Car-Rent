@@ -12,7 +12,7 @@ try {
     // Set Default Fetch Mode
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
     // Test Connection
-    echo "DB Connection successful";
+    // echo "DB Connection successful";
 } catch (PDOException $e) {
     die("DB Connection failed: " . $e->getMessage());
 }
