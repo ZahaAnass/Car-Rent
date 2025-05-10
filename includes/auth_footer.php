@@ -129,9 +129,6 @@
 </div>
 <!-- Copyright End -->
 
-<!-- Back to Top -->
-<a href="#" class="btn btn-secondary btn-lg-square rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>   
-
 <!-- Performance Optimization: Defer JavaScript Loading -->
 <script defer src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
