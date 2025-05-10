@@ -1,7 +1,15 @@
 <?php require_once '../includes/auth_header.php'; ?>
 
+<!-- Spinner Start -->
+<div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+<!-- Spinner End -->
+
 <!-- Register Page Start -->
-<div class="container-fluid register-page py-5">
+<div class="container-fluid register-page py-5 bg-light">
     <div class="container py-5">
         <div class="row justify-content-center">
             <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
@@ -127,63 +135,6 @@
 </div>
 <!-- Register Page End -->
 
-<script src="../assets/js/main.js"></script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const countrySelect = document.getElementById('country');
-        const citySelect = document.getElementById('city');
-        const countriesDataUrl = '../assets/js/countries-cities.json'; 
-
-        // Initially disable city select until a country is chosen
-        citySelect.disabled = true;
-
-        fetch(countriesDataUrl)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                data.forEach(country => {
-                    const option = document.createElement('option');
-                    option.value = country.code;
-                    option.textContent = country.name;
-                    countrySelect.appendChild(option);
-                });
-
-                countrySelect.addEventListener('change', function() {
-                    // Clear previous city options
-                    citySelect.innerHTML = '<option value="" selected disabled>Select City</option>';
-                    citySelect.disabled = true;
-
-                    const selectedCountryCode = this.value;
-                    const selectedCountry = data.find(country => country.code === selectedCountryCode);
-
-                    if (selectedCountry && selectedCountry.cities && selectedCountry.cities.length > 0) {
-                        selectedCountry.cities.forEach(cityName => {
-                            const cityOption = document.createElement('option');
-                            cityOption.value = cityName;
-                            cityOption.textContent = cityName;
-                            citySelect.appendChild(cityOption);
-                        });
-                        citySelect.disabled = false;
-                    } else if (selectedCountryCode) {
-                        // Handle case where a country might be listed but has no cities in the JSON
-                        citySelect.innerHTML = '<option value="" selected disabled>No cities listed</option>';
-                    } else {
-                         // "Select Country" is chosen, keep city disabled with default message
-                        citySelect.disabled = true;
-                    }
-                });
-            })
-            .catch(error => {
-                console.error('Error fetching or processing countries data:', error);
-                countrySelect.innerHTML = '<option value="" selected disabled>Error loading countries</option>';
-                citySelect.innerHTML = '<option value="" selected disabled>Error loading cities</option>';
-            });
-    });
-</script>
+<script defer src="../assets/js/countries.js"></script>
 
 <?php require_once '../includes/auth_footer.php'; ?>
