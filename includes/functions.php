@@ -24,7 +24,7 @@ function validate_phone($phone) {
 }
 
 function validate_password($password) {
-    return strlen($password) >= 8;
+    return filter_var($password, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[a-zA-Z0-9]{8,}$/']]) !== false;
 }
 
 function validate_confirm_password($password, $confirm_password) {
@@ -70,10 +70,6 @@ function get_current_page_name() {
 
 function hash_password($password) {
     return password_hash($password, PASSWORD_DEFAULT);
-}
-
-function verify_password($password, $hash) {
-    return password_verify($password, $hash);
 }
 
 function get_post_var($var_name) {
