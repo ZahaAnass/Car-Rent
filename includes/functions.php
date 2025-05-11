@@ -20,7 +20,7 @@ function validate_email($email){
 }
 
 function validate_phone($phone) {
-    return filter_var($phone, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[0-9]{10}$/']]) !== false;
+    return filter_var($phone, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[0-9]{10,15}$/']]) !== false;
 }
 
 function validate_password($password) {
@@ -31,8 +31,12 @@ function validate_confirm_password($password, $confirm_password) {
     return $password === $confirm_password;
 }
 
+function validate_license($license){
+    return filter_var($license, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[a-zA-Z0-9]{5,15}$/']]) !== false;
+}
+
 function validate_name($name) {
-    return preg_match('/^[a-zA-Z ]+$/', $name);
+    return preg_match('/^[a-zA-Z ]{2,}$/', $name);
 }
 
 function validate_car($car) {
