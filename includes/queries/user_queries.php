@@ -37,25 +37,43 @@ class UserQueries {
         }
     }
 
-    public function createUser($first_name, $last_name, $email, $password_hash, $phone_number, $role, $address_country, $address_city) {
+    public function licenseExists($license_number) {
+        try {
+            $stmt = $this->pdo->prepare("SELECT * FROM users WHERE license_number = :license_number");
+            $stmt->execute(['license_number' => $license_number]);
+            return $stmt->rowCount() > 0;
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
+    public function createUser($first_name, $last_name, $email, $password_hash, $phone_number, $license_number, $role, $address_country, $address_city) {
         try {
             if ($this->emailExists($email)) {
-                return false;
+                return false; // Email already exists
             }
-            $stmt = $this->pdo->prepare("INSERT INTO users (first_name, last_name, email, password_hash, phone_number, role, address_country, address_city) VALUES (:first_name, :last_name, :email, :password_hash, :phone_number, :role, :address_country, :address_city)");
+            if ($this->licenseExists($license_number)) {
+                return false; // License already exists
+            }
+            $stmt = $this->pdo->prepare(
+                "INSERT INTO users (first_name, last_name, email, password_hash, phone_number, license_number, role, address_country, address_city) " .
+                "VALUES (:first_name, :last_name, :email, :password_hash, :phone_number, :license_number, :role, :address_country, :address_city)"
+            );
             $stmt->execute([
                 'first_name' => $first_name,
                 'last_name' => $last_name,
                 'email' => $email,
                 'password_hash' => $password_hash,
                 'phone_number' => $phone_number,
+                'license_number' => $license_number,
                 'role' => $role,
                 'address_country' => $address_country,
                 'address_city' => $address_city
             ]);
             return $this->pdo->lastInsertId();
         } catch (PDOException $e) {
-            die("Query failed: " . $e->getMessage());
+            error_log("Create user query failed: " . $e->getMessage());
+            return false;
         }
     }
 
