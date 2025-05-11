@@ -1,3 +1,7 @@
+-- Create The Db
+create database zoomix_rental;
+use zoomix_rental;
+
 -- Database Schema
 
 -- Create users table
@@ -8,7 +12,8 @@ CREATE TABLE users (
     email VARCHAR(255) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
     phone_number VARCHAR(20),
-    role ENUM('User', 'Admin') NOT NULL DEFAULT 'User',
+    license_number VARCHAR(50) NULL UNIQUE,
+    role ENUM('User', 'Admin') DEFAULT 'User',
     address_country VARCHAR(100),
     address_city VARCHAR(100),
     registered_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
