@@ -1,9 +1,9 @@
 <?php
     require_once '../includes/session.php';
-    require_once '../includes/functions.php';
-    require_once '../includes/auth_header.php';
-
     start_session();
+
+    require_once '../includes/functions.php';
+    require_once '../includes/auth_header.php'; 
 
     if (is_logged_in() && is_admin()) {
         redirect('../admin/index.php');
