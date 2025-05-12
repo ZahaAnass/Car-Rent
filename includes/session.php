@@ -5,18 +5,18 @@ function start_session() {
     }
 }
 
-function login_user($user_id, $username, $first_name, $last_name, $role = 'user') {
-    start_session();
+start_session();
+
+function login_user($user_id, $username, $first_name, $last_name, $role = 'User') {
     session_regenerate_id(true);
     $_SESSION['user_id'] = $user_id;
     $_SESSION['username'] = $username;
     $_SESSION['first_name'] = $first_name;
     $_SESSION['last_name'] = $last_name;
-    $_SESSION['role'] = $role;
+    $_SESSION['user_role'] = $role;
 }
 
 function logout_user($redirect_url = "../public/index.php") {
-    start_session();
     session_regenerate_id(true);
     $_SESSION = [];
     session_destroy();
@@ -25,13 +25,11 @@ function logout_user($redirect_url = "../public/index.php") {
 }
 
 function is_logged_in() {
-    start_session();
     return isset($_SESSION['user_id']);
 }
 
 function is_admin() {
-    start_session();
-    return $_SESSION['role'] === 'admin';
+    return $_SESSION['user_role'] === 'Admin';
 }
 
 function require_login($redirect_url = "../public/login.php") {
@@ -55,7 +53,6 @@ function require_admin($redirect_url = "../public/index.php") {
 }
 
 function set_flash_message($key, $message, $type = 'info') {
-    start_session();
     if (!isset($_SESSION['flash_messages'])) {
         $_SESSION['flash_messages'] = [];
     }
@@ -63,7 +60,6 @@ function set_flash_message($key, $message, $type = 'info') {
 }
 
 function display_flash_messages() {
-    start_session();
     if (isset($_SESSION['flash_messages']) && !empty($_SESSION['flash_messages'])) {
         foreach ($_SESSION['flash_messages'] as $key => $flash) {
             $message = htmlspecialchars($flash['message']);
