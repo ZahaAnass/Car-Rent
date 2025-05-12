@@ -1,8 +1,16 @@
 <?php 
-// Include session management and start session
-require_once '../includes/session.php'; 
+require_once '../includes/session.php';
 start_session();
-require_once '../includes/auth_header.php';
+
+require_once '../includes/functions.php';
+
+if (is_logged_in() && is_admin()) {
+    redirect('../public/index.php');
+}elseif (is_logged_in() && !is_admin()) {
+    redirect('../public/index.php');
+}
+
+require_once '../includes/auth_header.php'; 
 
 // Check for registration errors
 $register_error_message = '';
