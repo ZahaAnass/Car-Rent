@@ -26,9 +26,9 @@ if (!is_logged_in() && isset($_COOKIE['remember_me'])) {
                     login_user(
                         $user['user_id'],
                         $user['email'],
-                        $user['first_name'] ?? null,
-                        $user['last_name'] ?? null,
-                        $user['role'] ?? 'User'
+                        $user['first_name'],
+                        $user['last_name'],
+                        $user['role']
                     );
 
                     // Token Rotation using UserQueries class methods
