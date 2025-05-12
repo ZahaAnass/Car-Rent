@@ -141,5 +141,50 @@ class UserQueries {
         }
     }
 
+    public function createRememberMeToken($user_id, $token, $expires_at) {
+        try {
+            $stmt = $this->pdo->prepare("INSERT INTO remember_me_tokens (user_id, token, expires_at) VALUES (:user_id, :token, :expires_at)");
+            $stmt->execute([
+                'user_id' => $user_id,
+                'token' => $token,
+                'expires_at' => $expires_at
+            ]);
+            return $stmt->rowCount() > 0;
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
+    public function getRememberMeToken($user_id) {
+        try {
+            $stmt = $this->pdo->prepare("SELECT * FROM remember_me_tokens WHERE user_id = :user_id");
+            $stmt->execute(['user_id' => $user_id]);
+            return $stmt->fetch();
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
+    public function getUserFromRememberMeToken($token) {
+        try {
+            $stmt = $this->pdo->prepare("SELECT user_id FROM remember_me_tokens WHERE token = :token AND expires_at > NOW()");
+            $stmt->execute(['token' => $token]);
+            $row = $stmt->fetch();
+            return $row['user_id'];
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
+    public function deleteRememberMeToken($token) {
+        try {
+            $stmt = $this->pdo->prepare("DELETE FROM remember_me_tokens WHERE token = :token");
+            $stmt->execute(['token' => $token]);
+            return $stmt->rowCount() > 0;
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
 }
 ?>
