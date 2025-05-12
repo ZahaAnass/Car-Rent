@@ -8,10 +8,10 @@ $keywords = "car rental, travel, transportation";
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title><?php echo $site_name; ?> - Car Rental</title>
+    <title><?= $site_name; ?> - Car Rental</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="<?php echo $keywords; ?>" name="keywords">
-    <meta content="<?php echo $site_description; ?>" name="description">
+    <meta content="<?= $keywords; ?>" name="keywords">
+    <meta content="<?= $site_description; ?>" name="description">
 
     <!-- Favicon -->
     <link href="../assets/img/favicon.ico" rel="icon">
@@ -69,7 +69,7 @@ $keywords = "car rental, travel, transportation";
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-light">
                 <a href="../public/index.php" class="navbar-brand p-0">
-                    <h1 class="display-6 text-primary"><i class="fas fa-car-alt me-3"></i><?php echo $site_name; ?></h1>
+                    <h1 class="display-6 text-primary"><i class="fas fa-car-alt me-3"></i><?= $site_name; ?></h1>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                     <span class="fa fa-bars"></span>
@@ -95,8 +95,17 @@ $keywords = "car rental, travel, transportation";
                         <a href="../public/contact.php" class="nav-item nav-link">Contact</a>
                     </div>
                     <div class="controls d-flex align-items-center justify-content-center">
-                        <a href="../auth/login.php" class="btn btn-primary rounded-pill me-2 py-2 px-4">Login</a>
-                        <a href="../auth/register.php" class="btn btn-primary rounded-pill py-2 px-4">Register</a>
+                        <?php if (!is_logged_in()): ?>
+                            <a href="../auth/login.php" class="btn btn-primary rounded-pill me-2 py-2 px-4">Login</a>
+                            <a href="../auth/register.php" class="btn btn-primary rounded-pill py-2 px-4">Register</a>
+                        <?php else: ?>
+                            <a href="../auth/logout.php" class="btn btn-primary rounded-pill me-2 py-2 px-4">Logout</a>
+                            <?php if (is_admin()): ?>
+                                <a href="../admin/dashboard.php" class="btn btn-primary rounded-pill py-2 px-4">Dashboard</a>
+                            <?php else: ?>
+                                <a href="../user/dashboard.php" class="btn btn-primary rounded-pill py-2 px-4">Dashboard</a>
+                            <?php endif; ?>
+                        <?php endif; ?>
                     </div>
                 </div>
             </nav>
