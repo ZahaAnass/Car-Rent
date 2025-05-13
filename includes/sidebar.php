@@ -22,6 +22,7 @@ $is_admin_section = strpos($current_path, '/admin/') !== false;
 
         <?php if ($is_admin_section): ?>
             <!-- Admin Sidebar Links -->
+            <?php require_once '../includes/auth_admin_check.php'; ?>
             <ul class="nav nav-pills flex-column mb-auto px-3">
                 <li class="nav-item mb-2 wow fadeInRight" data-wow-delay="0.3s">
                     <a href="../public/index.php" class="nav-link text-white">
@@ -72,6 +73,7 @@ $is_admin_section = strpos($current_path, '/admin/') !== false;
 
         <?php else: ?>
             <!-- User Sidebar Links -->
+            <?php require_once '../includes/auth_user_check.php'; ?>
             <ul class="nav nav-pills flex-column mb-auto px-3">
                 <li class="nav-item mb-2 wow fadeInRight" data-wow-delay="0.3s">
                     <a href="../public/index.php" class="nav-link text-white">
