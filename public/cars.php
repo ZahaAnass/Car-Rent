@@ -21,6 +21,15 @@
         </div>
         <!-- Header End -->
 
+        <?php
+        // Handle the "Book Now" POST and session setting
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['selected_car_id'])) {
+            $_SESSION['selected_car_id'] = (int)$_POST['selected_car_id'];
+            header('Location: ../user/book-car.php');
+            exit();
+        }
+        ?>
+
         <!-- Car categories Start -->
         <div class="container-fluid categories py-5">
             <div class="container py-5">
@@ -28,184 +37,117 @@
                     <h1 class="display-5 text-capitalize mb-3">Vehicle <span class="text-primary">Categories</span></h1>
                     <p class="mb-0">Explore our diverse fleet of premium vehicles designed to meet your every need. From compact city cars to luxurious electric models, we have the perfect ride for your journey.</p>
                 </div>
-                <div class="categories-carousel owl-carousel wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="categories-item p-4">
-                        <div class="categories-item-inner">
-                            <div class="categories-img rounded-top">
-                                <img src="../assets/img/car-1.png" class="img-fluid w-100 rounded-top" alt="">
+
+                <?php
+                    require_once '../includes/queries/car_queries.php';
+                    $carQueries = new CarQueries($pdo); 
+                    $all_cars = $carQueries->getAvailableCars(); 
+
+                    if (!isset($all_cars) || empty($all_cars)) {
+                        echo '<p class="text-center">No cars available at the moment.</p>';
+                    } else {
+                        // Get all car types
+                        $carTypesResult = $carQueries->getCarTypes();
+                        $carTypes = [];
+                        
+                        // Extract the type values from the result
+                        foreach ($carTypesResult as $typeRow) {
+                            $carTypes[] = $typeRow['type'];
+                        }
+                        
+                        // Group cars by their type
+                        $carsByCategory = [];
+                        foreach ($all_cars as $car) {
+                            $type = $car['type'];
+                            if (!isset($carsByCategory[$type])) {
+                                $carsByCategory[$type] = [];
+                            }
+                            $carsByCategory[$type][] = $car;
+                        }
+                        
+                        // Display each category
+                        foreach ($carTypes as $category):
+                            if (isset($carsByCategory[$category]) && !empty($carsByCategory[$category])):
+                ?>
+                <div class="category-section mb-5 wow fadeInUp" data-wow-delay="0.1s">
+                    <h2 class="text-primary text-capitalize mb-4 text-center"><?php echo htmlspecialchars($category); ?> Cars</h2>
+                    <div class="categories-carousel owl-carousel">
+                        <?php foreach ($carsByCategory[$category] as $car): ?>
+                            <div class="categories-item p-4 h-100"> 
+                                <div class="categories-item-inner d-flex flex-column h-100"> 
+                                    <div class="categories-img rounded-top">
+                                        <img src="<?php echo !empty($car['image_url']) ? htmlspecialchars($car['image_url']) : '../assets/img/default-car.webp'; ?>" class="img-fluid w-100 rounded-top" alt="<?php echo htmlspecialchars($car['name'] ?? 'Car image'); ?>" style="height: 200px; object-fit: cover;"> 
+                                    </div>
+                                    <div class="categories-content rounded-bottom p-4 d-flex flex-column flex-grow-1"> 
+                                        <h4><?php echo htmlspecialchars($car['name'] ?? 'N/A'); ?></h4>
+                                        
+                                        <?php 
+                                        $rating = $car['average_rating'] ?? 0; 
+                                        $review_count = $car['review_count'] ?? 0; 
+                                        ?>
+                                        <div class="categories-review mb-4">
+                                            <div class="me-3"><?php echo number_format($rating, 1); ?> Review (<?php echo $review_count; ?>)</div>
+                                            <div class="d-flex justify-content-center text-secondary">
+                                                <?php 
+                                                $stars = round($rating); 
+                                                for ($i = 1; $i <= 5; $i++): 
+                                                    echo '<i class="fas fa-star' . ($i > $stars ? ' text-body' : '') . '"></i>';
+                                                endfor; 
+                                                ?>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-4">
+                                            <h4 class="bg-white text-primary rounded-pill py-2 px-4 mb-0">$<?php echo htmlspecialchars(number_format($car['daily_rate'] ?? 0, 2)); ?>/Day</h4>
+                                        </div>
+                                        <div class="row gy-2 gx-0 text-center mb-4">
+                                            <div class="col-sm-4 border-end border-white mb-2 mb-sm-0">
+                                                <i class="fa fa-users text-dark"></i> <span class="text-body ms-1"><?php echo htmlspecialchars($car['seats'] ?? 'N/A'); ?> Seat</span>
+                                            </div>
+                                            <div class="col-sm-4 border-end border-white mb-2 mb-sm-0">
+                                                <i class="fa fa-calendar-alt text-dark"></i> <span class="text-body ms-1"><?php echo htmlspecialchars($car['year'] ?? 'N/A'); ?></span>
+                                            </div>
+                                            <div class="col-sm-4 mb-2 mb-sm-0">
+                                                <i class="fa fa-gas-pump text-dark"></i> <span class="text-body ms-1"><?php echo htmlspecialchars($car['fuel_type'] ?? 'N/A'); ?></span>
+                                            </div>
+                                            <?php 
+                                            $transmission = 'N/A';
+                                            if (!empty($car['features'])) {
+                                                if (stripos($car['features'], 'Automatic') !== false || stripos($car['features'], 'Auto') !== false) {
+                                                    $transmission = 'Automatic';
+                                                } elseif (stripos($car['features'], 'Manual') !== false) {
+                                                    $transmission = 'Manual';
+                                                }
+                                            }
+                                            ?>
+                                            <div class="col-sm-4 border-end border-white mt-2">
+                                                <i class="fa fa-cogs text-dark"></i> <span class="text-body ms-1"><?php echo htmlspecialchars($transmission); ?></span>
+                                            </div>
+                                            <div class="col-sm-4 border-end border-white mt-2">
+                                                <i class="fa fa-palette text-dark"></i> <span class="text-body ms-1"><?php echo htmlspecialchars($car['color'] ?? 'N/A'); ?></span>
+                                            </div>
+                                            <div class="col-sm-4 mt-2">
+                                                <i class="fa fa-car text-dark"></i> <span class="text-body ms-1"><?php echo htmlspecialchars($car['status'] ?? 'N/A'); ?></span>
+                                            </div>
+
+                                        </div>
+                                        <div class="mt-auto"> 
+                                            <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
+                                                <input type="hidden" name="selected_car_id" value="<?php echo htmlspecialchars($car['car_id'] ?? ''); ?>">
+                                                <button type="submit" class="btn btn-primary rounded-pill d-flex justify-content-center py-3 w-100">Book Now</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="categories-content rounded-bottom p-4">
-                                <h4>Mercedes Benz R3</h4>
-                                <div class="categories-review mb-4">
-                                    <div class="me-3">4.5 Review</div>
-                                    <div class="d-flex justify-content-center text-secondary">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star text-body"></i>
-                                    </div>
-                                </div>
-                                <div class="mb-4">
-                                    <h4 class="bg-white text-primary rounded-pill py-2 px-4 mb-0">$199.00/Day</h4>
-                                </div>
-                                <div class="row gy-2 gx-0 text-center mb-4">
-                                    <div class="col-4 border-end border-white">
-                                        <i class="fa fa-users text-dark"></i> <span class="text-body ms-1">4 Seat</span>
-                                    </div>
-                                    <div class="col-4 border-end border-white">
-                                        <i class="fa fa-car text-dark"></i> <span class="text-body ms-1">AT/MT</span>
-                                    </div>
-                                    <div class="col-4">
-                                        <i class="fa fa-gas-pump text-dark"></i> <span class="text-body ms-1">Disel</span>
-                                    </div>
-                                    <div class="col-4 border-end border-white">
-                                        <i class="fa fa-car text-dark"></i> <span class="text-body ms-1">2015</span>
-                                    </div>
-                                    <div class="col-4 border-end border-white">
-                                        <i class="fa fa-cogs text-dark"></i> <span class="text-body ms-1">AUTO</span>
-                                    </div>
-                                    <div class="col-4">
-                                        <i class="fa fa-road text-dark"></i> <span class="text-body ms-1">27K</span>
-                                    </div>
-                                </div>
-                                <a href="#" class="btn btn-primary rounded-pill d-flex justify-content-center py-3">Book Now</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="categories-item p-4">
-                        <div class="categories-item-inner">
-                            <div class="categories-img rounded-top">
-                                <img src="../assets/img/car-2.png" class="img-fluid w-100 rounded-top" alt="">
-                            </div>
-                            <div class="categories-content rounded-bottom p-4">
-                                <h4>Toyota Corolla Cross</h4>
-                                <div class="categories-review mb-4">
-                                    <div class="me-3">3.5 Review</div>
-                                    <div class="d-flex justify-content-center text-secondary">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star text-body"></i>
-                                    </div>
-                                </div>
-                                <div class="mb-4">
-                                    <h4 class="bg-white text-primary rounded-pill py-2 px-4 mb-0">$128.00/Day</h4>
-                                </div>
-                                <div class="row gy-2 gx-0 text-center mb-4">
-                                    <div class="col-4 border-end border-white">
-                                        <i class="fa fa-users text-dark"></i> <span class="text-body ms-1">4 Seat</span>
-                                    </div>
-                                    <div class="col-4 border-end border-white">
-                                        <i class="fa fa-car text-dark"></i> <span class="text-body ms-1">AT/MT</span>
-                                    </div>
-                                    <div class="col-4">
-                                        <i class="fa fa-gas-pump text-dark"></i> <span class="text-body ms-1">Disel</span>
-                                    </div>
-                                    <div class="col-4 border-end border-white">
-                                        <i class="fa fa-car text-dark"></i> <span class="text-body ms-1">2015</span>
-                                    </div>
-                                    <div class="col-4 border-end border-white">
-                                        <i class="fa fa-cogs text-dark"></i> <span class="text-body ms-1">AUTO</span>
-                                    </div>
-                                    <div class="col-4">
-                                        <i class="fa fa-road text-dark"></i> <span class="text-body ms-1">27K</span>
-                                    </div>
-                                </div>
-                                <a href="#" class="btn btn-primary rounded-pill d-flex justify-content-center py-3">Book Now</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="categories-item p-4">
-                        <div class="categories-item-inner">
-                            <div class="categories-img rounded-top">
-                                <img src="../assets/img/car-3.png" class="img-fluid w-100 rounded-top" alt="">
-                            </div>
-                            <div class="categories-content rounded-bottom p-4">
-                                <h4>Tesla Model S Plaid</h4>
-                                <div class="categories-review mb-4">
-                                    <div class="me-3">3.8 Review</div>
-                                    <div class="d-flex justify-content-center text-secondary">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star text-body"></i>
-                                    </div>
-                                </div>
-                                <div class="mb-4">
-                                    <h4 class="bg-white text-primary rounded-pill py-2 px-4 mb-0">$170.00/Day</h4>
-                                </div>
-                                <div class="row gy-2 gx-0 text-center mb-4">
-                                    <div class="col-4 border-end border-white">
-                                        <i class="fa fa-users text-dark"></i> <span class="text-body ms-1">4 Seat</span>
-                                    </div>
-                                    <div class="col-4 border-end border-white">
-                                        <i class="fa fa-car text-dark"></i> <span class="text-body ms-1">AT/MT</span>
-                                    </div>
-                                    <div class="col-4">
-                                        <i class="fa fa-gas-pump text-dark"></i> <span class="text-body ms-1">Disel</span>
-                                    </div>
-                                    <div class="col-4 border-end border-white">
-                                        <i class="fa fa-car text-dark"></i> <span class="text-body ms-1">2015</span>
-                                    </div>
-                                    <div class="col-4 border-end border-white">
-                                        <i class="fa fa-cogs text-dark"></i> <span class="text-body ms-1">AUTO</span>
-                                    </div>
-                                    <div class="col-4">
-                                        <i class="fa fa-road text-dark"></i> <span class="text-body ms-1">27K</span>
-                                    </div>
-                                </div>
-                                <a href="#" class="btn btn-primary rounded-pill d-flex justify-content-center py-3">Book Now</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="categories-item p-4">
-                        <div class="categories-item-inner">
-                            <div class="categories-img rounded-top">
-                                <img src="../assets/img/car-4.png" class="img-fluid w-100 rounded-top" alt="">
-                            </div>
-                            <div class="categories-content rounded-bottom p-4">
-                                <h4>Hyundai Kona Electric</h4>
-                                <div class="categories-review mb-4">
-                                    <div class="me-3">4.8 Review</div>
-                                    <div class="d-flex justify-content-center text-secondary">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                    </div>
-                                </div>
-                                <div class="mb-4">
-                                    <h4 class="bg-white text-primary rounded-pill py-2 px-4 mb-0">$187.00/Day</h4>
-                                </div>
-                                <div class="row gy-2 gx-0 text-center mb-4">
-                                    <div class="col-4 border-end border-white">
-                                        <i class="fa fa-users text-dark"></i> <span class="text-body ms-1">4 Seat</span>
-                                    </div>
-                                    <div class="col-4 border-end border-white">
-                                        <i class="fa fa-car text-dark"></i> <span class="text-body ms-1">AT/MT</span>
-                                    </div>
-                                    <div class="col-4">
-                                        <i class="fa fa-gas-pump text-dark"></i> <span class="text-body ms-1">Disel</span>
-                                    </div>
-                                    <div class="col-4 border-end border-white">
-                                        <i class="fa fa-car text-dark"></i> <span class="text-body ms-1">2015</span>
-                                    </div>
-                                    <div class="col-4 border-end border-white">
-                                        <i class="fa fa-cogs text-dark"></i> <span class="text-body ms-1">AUTO</span>
-                                    </div>
-                                    <div class="col-4">
-                                        <i class="fa fa-road text-dark"></i> <span class="text-body ms-1">27K</span>
-                                    </div>
-                                </div>
-                                <a href="#" class="btn btn-primary rounded-pill d-flex justify-content-center py-3">Book Now</a>
-                            </div>
-                        </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
+                <?php
+                            endif; 
+                        endforeach;
+                    }
+                ?>
             </div>
         </div>
         <!-- Car categories End -->
