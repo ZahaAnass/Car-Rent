@@ -55,6 +55,16 @@
             }
         }
 
+        public function getCarTypes() {
+            try {
+                $stmt = $this->pdo->prepare("SELECT DISTINCT type FROM cars");
+                $stmt->execute();
+                return $stmt->fetchAll();
+            } catch (PDOException $e) {
+                die("Query failed: " . $e->getMessage());
+            }
+        }
+
         public function updateCar($id, $name, $type, $description, $daily_rate, $image_url, $license_plate, $year, $make, $model, $color, $seats, $fuel_type, $features) {
             $sql = "UPDATE cars SET name = :name, type = :type, description = :description, daily_rate = :daily_rate,
                     image_url = :image_url, license_plate = :license_plate, year = :year, make = :make, model = :model,
