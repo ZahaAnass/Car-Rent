@@ -1,5 +1,39 @@
 <?php require_once '../includes/header.php'; ?>
 
+        <style>
+            .categories-carousel .owl-stage {
+                display: flex;
+            }
+                
+            .categories-carousel .owl-item {
+                display: flex;
+                flex: 1 0 auto;
+            }
+                
+            .categories-item {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                height: 100%;
+            }
+                
+            .categories-item-inner {
+                display: flex;
+                flex-direction: column;
+                height: 100%;
+            }
+                
+            .categories-content {
+                display: flex;
+                flex-direction: column;
+                flex-grow: 1;
+            }
+
+            .categories-carousel .owl-stage-outer {
+                padding-bottom: 15px;
+            }
+        </style>
+
         <!-- Spinner Start -->
         <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
             <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
@@ -67,7 +101,7 @@
                     <h2 class="text-primary text-capitalize mb-4 text-center"><?php echo htmlspecialchars($category); ?> Cars</h2>
                     <div class="categories-carousel owl-carousel">
                         <?php foreach ($carsByCategory[$category] as $car): ?>
-                            <div class="categories-item p-4 h-100"> 
+                            <div class="categories-item p-4"> 
                                 <div class="categories-item-inner d-flex flex-column h-100"> 
                                     <div class="categories-img rounded-top">
                                         <img src="<?php echo !empty($car['image_url']) ? htmlspecialchars($car['image_url']) : '../assets/img/default-car.webp'; ?>" 
@@ -134,8 +168,9 @@
                     }
                 ?>
             </div>
+        </div>
         <!-- Car categories End -->
-
+        
         <!-- Car Steps Start -->
         <div class="container-fluid steps py-5">
             <div class="container py-5">
