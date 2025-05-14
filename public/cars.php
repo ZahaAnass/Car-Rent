@@ -41,19 +41,13 @@
                 <?php
                     require_once '../includes/queries/car_queries.php';
                     $carQueries = new CarQueries($pdo); 
-                    $all_cars = $carQueries->getAvailableCars(); 
+                    $all_cars = $carQueries->getAllCars(); 
 
                     if (!isset($all_cars) || empty($all_cars)) {
                         echo '<p class="text-center">No cars available at the moment.</p>';
                     } else {
-                        // Get all car types
-                        $carTypesResult = $carQueries->getCarTypes();
-                        $carTypes = [];
-                        
-                        // Extract the type values from the result
-                        foreach ($carTypesResult as $typeRow) {
-                            $carTypes[] = $typeRow['type'];
-                        }
+                        // Define car types based on ENUM values
+                        $carTypes = ['Electric', 'SUV', 'Luxury', 'Economy'];
                         
                         // Group cars by their type
                         $carsByCategory = [];
@@ -76,67 +70,58 @@
                             <div class="categories-item p-4 h-100"> 
                                 <div class="categories-item-inner d-flex flex-column h-100"> 
                                     <div class="categories-img rounded-top">
-                                        <img src="<?php echo !empty($car['image_url']) ? htmlspecialchars($car['image_url']) : '../assets/img/default-car.webp'; ?>" class="img-fluid w-100 rounded-top" alt="<?php echo htmlspecialchars($car['name'] ?? 'Car image'); ?>" style="height: 200px; object-fit: cover;"> 
+                                        <img src="<?php echo !empty($car['image_url']) ? htmlspecialchars($car['image_url']) : '../assets/img/default-car.webp'; ?>" 
+                                                class="img-fluid w-100 rounded-top" 
+                                                alt="<?php echo htmlspecialchars($car['name']); ?>" 
+                                                style="height: 200px; object-fit: cover;"> 
                                     </div>
                                     <div class="categories-content rounded-bottom p-4 d-flex flex-column flex-grow-1"> 
-                                        <h4><?php echo htmlspecialchars($car['name'] ?? 'N/A'); ?></h4>
+                                        <h4><?php echo htmlspecialchars($car['name']); ?></h4>
+                                        <p class="text-muted mb-3"><?php echo htmlspecialchars($car['make'] . ' ' . $car['model']); ?></p>
                                         
-                                        <?php 
-                                        $rating = $car['average_rating'] ?? 0; 
-                                        $review_count = $car['review_count'] ?? 0; 
-                                        ?>
-                                        <div class="categories-review mb-4">
-                                            <div class="me-3"><?php echo number_format($rating, 1); ?> Review (<?php echo $review_count; ?>)</div>
-                                            <div class="d-flex justify-content-center text-secondary">
-                                                <?php 
-                                                $stars = round($rating); 
-                                                for ($i = 1; $i <= 5; $i++): 
-                                                    echo '<i class="fas fa-star' . ($i > $stars ? ' text-body' : '') . '"></i>';
-                                                endfor; 
-                                                ?>
-                                            </div>
-                                        </div>
-
                                         <div class="mb-4">
-                                            <h4 class="bg-white text-primary rounded-pill py-2 px-4 mb-0">$<?php echo htmlspecialchars(number_format($car['daily_rate'] ?? 0, 2)); ?>/Day</h4>
+                                            <h4 class="bg-white text-primary rounded-pill py-2 px-4 mb-0">$<?php echo htmlspecialchars(number_format($car['daily_rate'], 2)); ?>/Day</h4>
                                         </div>
                                         <div class="row gy-2 gx-0 text-center mb-4">
                                             <div class="col-sm-4 border-end border-white mb-2 mb-sm-0">
-                                                <i class="fa fa-users text-dark"></i> <span class="text-body ms-1"><?php echo htmlspecialchars($car['seats'] ?? 'N/A'); ?> Seat</span>
+                                                <i class="fa fa-users text-dark"></i> 
+                                                <span class="text-body ms-1"><?php echo htmlspecialchars($car['seats']); ?> Seats</span>
                                             </div>
                                             <div class="col-sm-4 border-end border-white mb-2 mb-sm-0">
-                                                <i class="fa fa-calendar-alt text-dark"></i> <span class="text-body ms-1"><?php echo htmlspecialchars($car['year'] ?? 'N/A'); ?></span>
+                                                <i class="fa fa-calendar-alt text-dark"></i> 
+                                                <span class="text-body ms-1"><?php echo htmlspecialchars($car['year']); ?></span>
                                             </div>
                                             <div class="col-sm-4 mb-2 mb-sm-0">
-                                                <i class="fa fa-gas-pump text-dark"></i> <span class="text-body ms-1"><?php echo htmlspecialchars($car['fuel_type'] ?? 'N/A'); ?></span>
-                                            </div>
-                                            <?php 
-                                            $transmission = 'N/A';
-                                            if (!empty($car['features'])) {
-                                                if (stripos($car['features'], 'Automatic') !== false || stripos($car['features'], 'Auto') !== false) {
-                                                    $transmission = 'Automatic';
-                                                } elseif (stripos($car['features'], 'Manual') !== false) {
-                                                    $transmission = 'Manual';
-                                                }
-                                            }
-                                            ?>
-                                            <div class="col-sm-4 border-end border-white mt-2">
-                                                <i class="fa fa-cogs text-dark"></i> <span class="text-body ms-1"><?php echo htmlspecialchars($transmission); ?></span>
+                                                <i class="fa fa-gas-pump text-dark"></i> 
+                                                <span class="text-body ms-1"><?php echo htmlspecialchars($car['fuel_type']); ?></span>
                                             </div>
                                             <div class="col-sm-4 border-end border-white mt-2">
-                                                <i class="fa fa-palette text-dark"></i> <span class="text-body ms-1"><?php echo htmlspecialchars($car['color'] ?? 'N/A'); ?></span>
+                                                <i class="fa fa-car text-dark"></i> 
+                                                <span class="text-body ms-1"><?php echo htmlspecialchars($car['license_plate']); ?></span>
+                                            </div>
+                                            <div class="col-sm-4 border-end border-white mt-2">
+                                                <i class="fa fa-palette text-dark"></i> 
+                                                <span class="text-body ms-1"><?php echo htmlspecialchars($car['color']); ?></span>
                                             </div>
                                             <div class="col-sm-4 mt-2">
-                                                <i class="fa fa-car text-dark"></i> <span class="text-body ms-1"><?php echo htmlspecialchars($car['status'] ?? 'N/A'); ?></span>
+                                                <i class="fa fa-info-circle text-dark"></i> 
+                                                <span class="text-body ms-1"><?php echo htmlspecialchars($car['status']); ?></span>
                                             </div>
-
                                         </div>
+                                        <?php if ($car['status'] === 'Available'): ?>
                                         <div class="mt-auto"> 
                                             <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
-                                                <input type="hidden" name="selected_car_id" value="<?php echo htmlspecialchars($car['car_id'] ?? ''); ?>">
+                                                <input type="hidden" name="selected_car_id" value="<?php echo htmlspecialchars($car['car_id']); ?>">
                                                 <button type="submit" class="btn btn-primary rounded-pill d-flex justify-content-center py-3 w-100">Book Now</button>
                                             </form>
                                         </div>
+                                        <?php else: ?>
+                                        <div class="mt-auto">
+                                            <button class="btn btn-secondary rounded-pill d-flex justify-content-center py-3 w-100" disabled>
+                                                <?php echo htmlspecialchars($car['status']); ?>
+                                            </button>
+                                        </div>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                             </div>
@@ -149,7 +134,6 @@
                     }
                 ?>
             </div>
-        </div>
         <!-- Car categories End -->
 
         <!-- Car Steps Start -->
