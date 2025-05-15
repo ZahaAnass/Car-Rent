@@ -55,6 +55,21 @@
             }
         }
 
+        public function getCarsByType($type) {
+            $sanitizedType = filter_var($type, FILTER_SANITIZE_STRING);
+            $carTypes = $this->getCarTypes();
+            if(!in_array($sanitizedType, $carTypes)) {
+                return $this->getAllCars();
+            }
+            try {
+                $stmt = $this->pdo->prepare("SELECT * FROM cars WHERE type = :type");
+                $stmt->execute(['type' => $sanitizedType]);
+                return $stmt->fetchAll();
+            } catch (PDOException $e) {
+                die("Query failed: " . $e->getMessage());
+            }
+        }
+
         public function getCarTypes() {
             try {
                 $stmt = $this->pdo->prepare("SELECT DISTINCT type FROM cars");
