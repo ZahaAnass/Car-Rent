@@ -30,6 +30,7 @@
     │   ├── car-4.png
     │   ├── carousel-1.jpg
     │   ├── carousel-2.jpg
+    │   ├── default-car.webp
     │   ├── fact-bg.jpg
     │   ├── features-img.png
     │   ├── team-1.jpg
@@ -40,8 +41,13 @@
     │   ├── testimonial-2.jpg
     │   └── testimonial-3.jpg
     ├── js
+    │   ├── countries-cities.json
+    │   ├── countries.js
+    │   ├── filterCars.js
     │   ├── header_footer.js
-    │   └── main.js
+    │   ├── login-validation.js
+    │   ├── main.js
+    │   └── register-validation.js
     └── lib
     │   ├── animate
     │       ├── animate.css
@@ -81,21 +87,33 @@
     │       ├── wow.js
     │       └── wow.min.js
 ├── auth
+    ├── login-handeler.php
     ├── login.php
     ├── logout.php
+    ├── register-handeler.php
     └── register.php
 ├── config
     ├── config.php
     └── database.php
+├── database.sql
 ├── includes
+    ├── auth_admin_check.php
     ├── auth_footer.php
     ├── auth_header.php
+    ├── auth_user_check.php
     ├── bottom-nav.php
     ├── footer.php
     ├── functions.php
     ├── header.php
+    ├── queries
+    │   ├── booking_queries.php
+    │   ├── car_queries.php
+    │   ├── message_queries.php
+    │   ├── testimonial_queries.php
+    │   └── user_queries.php
     ├── session.php
     └── sidebar.php
+├── index.php
 ├── public
     ├── 404.php
     ├── about.php
@@ -111,6 +129,7 @@
     └── testimonial.php
 ├── stucture.txt
 └── user
+    ├── add-testimonial.php
     ├── book-car.php
     ├── dashboard.php
     ├── my-reservations.php
