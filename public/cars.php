@@ -28,7 +28,6 @@
                 flex-direction: column;
                 flex-grow: 1;
             }
-
             .categories-carousel .owl-stage-outer {
                 padding-bottom: 15px;
             }
@@ -70,6 +69,14 @@
                 <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 800px;">
                     <h1 class="display-5 text-capitalize mb-3">Vehicle <span class="text-primary">Categories</span></h1>
                     <p class="mb-0">Explore our diverse fleet of premium vehicles designed to meet your every need. From compact city cars to luxurious electric models, we have the perfect ride for your journey.</p>
+                </div>
+
+                <div class="filter-button text-center mb-4">
+                    <button class="btn btn-primary me-2 mb-2" onclick="filterCars('all')" data-wow-delay="0.1s"><i class="fas fa-car me-2"></i>All Cars</button>
+                    <button class="btn btn-outline-primary me-2 mb-2" onclick="filterCars('Luxury')" data-wow-delay="0.1s"><i class="fas fa-crown me-2"></i>Luxury Cars</button>
+                    <button class="btn btn-outline-primary me-2 mb-2" onclick="filterCars('Economy')" data-wow-delay="0.2s"><i class="fas fa-coins me-2"></i>Economy Cars</button>
+                    <button class="btn btn-outline-primary me-2 mb-2" onclick="filterCars('Electric')" data-wow-delay="0.3s"><i class="fas fa-bolt me-2"></i>Electric Cars</button>
+                    <button class="btn btn-outline-primary mb-2" onclick="filterCars('SUV')" data-wow-delay="0.4s"><i class="fas fa-truck me-2"></i>SUV Cars</button>
                 </div>
 
                 <?php
@@ -142,7 +149,7 @@
                                                 <span class="text-body ms-1"><?php echo htmlspecialchars($car['status']); ?></span>
                                             </div>
                                         </div>
-                                        <?php if ($car['status'] === 'Available'): ?>
+                                        <?php if ($car['status'] === 'Available' || $car['status'] === 'Rented'): ?>
                                         <div class="mt-auto"> 
                                             <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
                                                 <input type="hidden" name="selected_car_id" value="<?php echo htmlspecialchars($car['car_id']); ?>">
@@ -227,5 +234,8 @@
             </div>
         </div>
         <!-- Banner End -->
+
+
+
 
 <?php require_once '../includes/footer.php'; ?>
