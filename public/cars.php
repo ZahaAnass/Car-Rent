@@ -104,8 +104,13 @@
                         foreach ($carTypes as $category):
                             if (isset($carsByCategory[$category]) && !empty($carsByCategory[$category])):
                 ?>
-                <div class="category-section mb-5 wow fadeInUp" data-wow-delay="0.1s" id="<?= htmlspecialchars($category); ?>">
-                    <h2 class="text-primary text-capitalize mb-4 text-center"><?= htmlspecialchars($category); ?> Cars</h2>
+
+                <div class="category-section mb-5 wow fadeInUp" data-wow-delay="0.1s" id="<?= htmlspecialchars($category); ?>" style="background-color: #f8f9fa; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                    <h2 class="text-primary text-capitalize mb-4 text-center" style="font-size: 2rem; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);">
+                        <i class="fas fa-car" style="margin-right: 10px;"></i>
+                        <?= htmlspecialchars($category); ?> Cars
+                    </h2>
+                    <p class="text-center mb-4" style="font-size: 1.1rem; color: #6c757d;">Explore our selection of <?= strtolower(htmlspecialchars($category)); ?> cars, perfect for your next adventure!</p>
                     <div class="categories-carousel owl-carousel">
                         <?php foreach ($carsByCategory[$category] as $car): ?>
                             <div class="categories-item p-4"> 
@@ -136,33 +141,13 @@
                                                 <i class="fa fa-gas-pump text-dark"></i> 
                                                 <span class="text-body ms-1"><?php echo htmlspecialchars($car['fuel_type']); ?></span>
                                             </div>
-                                            <div class="col-sm-4 border-end border-white mt-2">
-                                                <i class="fa fa-car text-dark"></i> 
-                                                <span class="text-body ms-1"><?php echo htmlspecialchars($car['license_plate']); ?></span>
-                                            </div>
-                                            <div class="col-sm-4 border-end border-white mt-2">
-                                                <i class="fa fa-palette text-dark"></i> 
-                                                <span class="text-body ms-1"><?php echo htmlspecialchars($car['color']); ?></span>
-                                            </div>
-                                            <div class="col-sm-4 mt-2">
-                                                <i class="fa fa-info-circle text-dark"></i> 
-                                                <span class="text-body ms-1"><?php echo htmlspecialchars($car['status']); ?></span>
-                                            </div>
                                         </div>
-                                        <?php if ($car['status'] === 'Available' || $car['status'] === 'Rented'): ?>
                                         <div class="mt-auto"> 
-                                            <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
-                                                <input type="hidden" name="selected_car_id" value="<?php echo htmlspecialchars($car['car_id']); ?>">
+                                            <form method="get" action="../user/book-car.php">
+                                                <input type="hidden" name="car_id" value="<?= htmlspecialchars($car['car_id']); ?>">
                                                 <button type="submit" class="btn btn-primary rounded-pill d-flex justify-content-center py-3 w-100">Book Now</button>
                                             </form>
                                         </div>
-                                        <?php else: ?>
-                                        <div class="mt-auto">
-                                            <button class="btn btn-secondary rounded-pill d-flex justify-content-center py-3 w-100" disabled>
-                                                <?php echo htmlspecialchars($car['status']); ?>
-                                            </button>
-                                        </div>
-                                        <?php endif; ?>
                                     </div>
                                 </div>
                             </div>
