@@ -72,7 +72,7 @@
                 </div>
 
                 <div class="filter-button text-center mb-4">
-                    <button class="btn btn-primary me-2 mb-2" onclick="filterCars('all')" data-wow-delay="0.1s"><i class="fas fa-car me-2"></i>All Cars</button>
+                    <button class="btn btn-primary me-2 mb-2" onclick="filterCars('All')" data-wow-delay="0.1s"><i class="fas fa-car me-2"></i>All Cars</button>
                     <button class="btn btn-outline-primary me-2 mb-2" onclick="filterCars('Luxury')" data-wow-delay="0.1s"><i class="fas fa-crown me-2"></i>Luxury Cars</button>
                     <button class="btn btn-outline-primary me-2 mb-2" onclick="filterCars('Economy')" data-wow-delay="0.2s"><i class="fas fa-coins me-2"></i>Economy Cars</button>
                     <button class="btn btn-outline-primary me-2 mb-2" onclick="filterCars('Electric')" data-wow-delay="0.3s"><i class="fas fa-bolt me-2"></i>Electric Cars</button>
@@ -104,8 +104,8 @@
                         foreach ($carTypes as $category):
                             if (isset($carsByCategory[$category]) && !empty($carsByCategory[$category])):
                 ?>
-                <div class="category-section mb-5 wow fadeInUp" data-wow-delay="0.1s">
-                    <h2 class="text-primary text-capitalize mb-4 text-center"><?php echo htmlspecialchars($category); ?> Cars</h2>
+                <div class="category-section mb-5 wow fadeInUp" data-wow-delay="0.1s" id="<?= htmlspecialchars($category); ?>">
+                    <h2 class="text-primary text-capitalize mb-4 text-center"><?= htmlspecialchars($category); ?> Cars</h2>
                     <div class="categories-carousel owl-carousel">
                         <?php foreach ($carsByCategory[$category] as $car): ?>
                             <div class="categories-item p-4"> 
@@ -235,7 +235,6 @@
         </div>
         <!-- Banner End -->
 
-
-
-
 <?php require_once '../includes/footer.php'; ?>
+
+<script defer src="../assets/js/filterCars.js"></script>
