@@ -311,7 +311,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-5 d-flex align-items-center">
-                                    <a href="#" class="btn btn-primary rounded py-3 px-5">More About Us</a>
+                                    <a href="about.php" class="btn btn-primary rounded py-3 px-5">More About Us</a>
                                 </div>
                                 <div class="col-lg-7">
                                     <div class="d-flex align-items-center">
