@@ -54,15 +54,6 @@
         </div>
         <!-- Header End -->
 
-        <?php
-        // Handle the "Book Now" POST and session setting
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['selected_car_id'])) {
-            $_SESSION['selected_car_id'] = (int)$_POST['selected_car_id'];
-            header('Location: ../user/book-car.php');
-            exit();
-        }
-        ?>
-
         <!-- Car categories Start -->
         <div class="container-fluid categories py-5">
             <div class="container py-5">
