@@ -1,3 +1,17 @@
+<?php
+    require_once "../includes/session.php";
+    start_session();
+    require_once "../config/database.php";
+    require_once "../includes/functions.php";
+    require_once "../includes/queries/car_queries.php";
+    $carQueries = new CarQueries($pdo);
+    $selected_car_id = isset($_GET['car_id']) ? filter_var($_GET['car_id'], FILTER_VALIDATE_INT) : null;
+    $car = $carQueries->getCarById($selected_car_id);
+    if(!$car || ( $car['status'] !== 'Available' && $car['status'] !== 'Rented' )) {
+        $_SESSION['error'] = "Car not found.";
+        redirect("../public/cars.php");
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,14 +52,10 @@
     </div>
     <!-- Spinner End -->
 
-    <?php 
-        $car = ['id' => 1, 'name' => 'Toyota Camry', 'type' => 'Sedan', 'price' => 45, 'seats' => 5, 'transmission' => 'Automatic', 'fuel' => 'Hybrid', 'image' => '../assets/img/car-1.png'];
-    ?>
-
     <div class="container-fluid">
         <div class="row">
             <!-- Sidebar -->
-            <?php include '../includes/sidebar.php'; ?>
+            <?php require_once '../includes/sidebar.php'; ?>
             
             <!-- Main Content -->
             <main class="col-12 col-lg-9 col-md-8 ms-sm-auto px-4 wow fadeInDown">
@@ -63,19 +73,86 @@
                             <div class="row g-4">
                                 <div class="col wow fadeInUp" data-wow-delay="0.5s">
                                     <div class="card h-100 border-0 shadow-sm car-card">
-                                        <div class="card-body">
-                                            <div class="position-relative mb-3">
-                                                <img src="<?= htmlspecialchars($car['image']) ?>" class="card-img-top img-fluid rounded" alt="<?= htmlspecialchars($car['name']) ?>" style="object-fit: cover;">
-                                                <div class="position-absolute top-0 end-0 bg-primary text-white px-2 py-1 m-2 rounded-pill">
-                                                    $<?= htmlspecialchars($car['price']) ?>/day
+                                        <div class="card-body p-0">
+                                            <!-- Car Image Section -->
+                                            <div class="position-relative">
+                                                <img src="<?= htmlspecialchars($car['image_url']) ?>" class="card-img-top img-fluid" alt="<?= htmlspecialchars($car['name']) ?>" >
+                                                <div class="position-absolute top-0 end-0 bg-primary text-white px-3 py-2 m-3 rounded-pill fs-5 fw-bold">
+                                                    $<?= htmlspecialchars($car['daily_rate']) ?>/day
+                                                </div>
+                                                <div class="position-absolute bottom-0 start-0 bg-transparent bg-opacity-50 text-white p-3 m-3">
+                                                    <span class="badge bg-<?= $car['status'] == 'Available' ? 'success' : ($car['status'] == 'Rented' ? 'warning' : 'danger') ?>">
+                                                        <?= htmlspecialchars($car['status']) ?>
+                                                    </span>
                                                 </div>
                                             </div>
-                                            <h5 class="card-title"><?= htmlspecialchars($car['name']) ?></h5>
-                                            <p class="card-text text-muted"><?= htmlspecialchars($car['type']) ?></p>
-                                            <div class="d-flex justify-content-between align-items-center mb-3 text-muted small">
-                                                <span><i class="fas fa-users me-1 text-primary"></i><?= htmlspecialchars($car['seats']) ?> seats</span>
-                                                <span><i class="fas fa-car me-1 text-primary"></i><?= htmlspecialchars($car['transmission']) ?></span>
-                                                <span><i class="fas fa-gas-pump me-1 text-primary"></i><?= htmlspecialchars($car['fuel']) ?></span>
+                                            
+                                            <!-- Car Details Section -->
+                                            <div class="p-4">
+                                                <!-- Car Title and Type -->
+                                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                                    <h4 class="card-title mb-0 fw-bold"><?= htmlspecialchars($car['name']) ?></h4>
+                                                    <span class="badge bg-info text-dark"><?= htmlspecialchars($car['type']) ?></span>
+                                                </div>
+                                                
+                                                <!-- Car Make, Model, Year -->
+                                                <p class="text-muted mb-3">
+                                                    <?= isset($car['make']) ? htmlspecialchars($car['make']) . ' ' : '' ?>
+                                                    <?= isset($car['model']) ? htmlspecialchars($car['model']) . ' ' : '' ?>
+                                                    <?= isset($car['year']) ? '(' . htmlspecialchars($car['year']) . ')' : '' ?>
+                                                    <?= isset($car['color']) ? '- ' . htmlspecialchars($car['color']) : '' ?>
+                                                </p>
+                                                
+                                                <!-- Car Features Grid -->
+                                                <div class="row mb-3">
+                                                    <div class="col-6 mb-2">
+                                                        <div class="d-flex align-items-center">
+                                                            <i class="fas fa-users fs-5 me-2 text-primary"></i>
+                                                            <span><?= htmlspecialchars($car['seats']) ?> seats</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6 mb-2">
+                                                        <div class="d-flex align-items-center">
+                                                            <i class="fas fa-gas-pump fs-5 me-2 text-primary"></i>
+                                                            <span><?= htmlspecialchars($car['fuel_type'] ?? $car['fuel']) ?></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6 mb-2">
+                                                        <div class="d-flex align-items-center">
+                                                            <i class="fas fa-car fs-5 me-2 text-primary"></i>
+                                                            <span><?= htmlspecialchars($car['transmission'] ?? 'Automatic') ?></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6 mb-2">
+                                                        <div class="d-flex align-items-center">
+                                                            <i class="fas fa-id-card fs-5 me-2 text-primary"></i>
+                                                            <span><?= htmlspecialchars($car['license_plate'] ?? 'ABC123') ?></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Car Description -->
+                                                <div class="mb-3">
+                                                    <h6 class="fw-bold">Description</h6>
+                                                    <p class="card-text">
+                                                        <?= isset($car['description']) ? htmlspecialchars($car['description']) : 'Experience comfort and reliability with this excellent vehicle. Perfect for both city driving and longer trips.' ?>
+                                                    </p>
+                                                </div>
+                                                
+                                                <!-- Car Features Pills -->
+                                                <?php if(isset($car['features']) && !empty($car['features'])): ?>
+                                                <div class="mb-2">
+                                                    <h6 class="fw-bold">Features</h6>
+                                                    <div class="features-container">
+                                                        <?php 
+                                                            $features = explode(',', $car['features']);
+                                                            foreach($features as $feature):
+                                                        ?>
+                                                            <span class="badge bg-light text-dark me-1 mb-1 p-2"><?= htmlspecialchars(trim($feature)) ?></span>
+                                                        <?php endforeach; ?>
+                                                    </div>
+                                                </div>
+                                                <?php endif; ?>
                                             </div>
                                         </div>
                                     </div>
@@ -116,7 +193,7 @@
                                             </select>
                                         </div>
                                         <div class="mb-3 p-3 bg-light rounded">
-                                            <p class="mb-1"><strong>Daily Rate:</strong> $<?= htmlspecialchars(number_format($car['price'], 2)) ?></p>
+                                            <p class="mb-1"><strong>Daily Rate:</strong> $<?= htmlspecialchars(number_format($car['daily_rate'], 2)) ?></p>
                                             <h5 class="mb-0"><strong>Total Price:</strong> <span id="totalPriceDisplay">$0.00</span></h5>
                                         </div>
                                         <button type="button" class="btn btn-primary w-100" id="reviewBookingBtn">Review & Book</button>
@@ -182,14 +259,14 @@
     </div>
 
     <!-- Bottom Navigation With The Scripts -->
-    <?php include '../includes/bottom-nav.php'; ?>
+    <?php require_once '../includes/bottom-nav.php'; ?>
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Hardcoded car details (from PHP, ensure this is available before this script)
+        // Hardcoded car details
         const carDetails = {
             name: "<?= htmlspecialchars($car['name'])?>",
-            price: parseFloat(<?= $car['price'] ?>)
+            price: parseFloat(<?= $car['daily_rate'] ?>)
         };
 
         const pickupDateEl = document.getElementById('pickup-date');
@@ -261,7 +338,7 @@
             returnDateEl.addEventListener('change', calculateAndUpdatePrice);
         }
         
-        // Initial calculation in case dates are pre-filled (though unlikely here)
+        // Initial calculation in case dates are pre-filled
         calculateAndUpdatePrice();
 
         // Handle "Review & Book" button click
