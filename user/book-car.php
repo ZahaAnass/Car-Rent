@@ -77,11 +77,12 @@
                                             <!-- Car Image Section -->
                                             <div class="position-relative">
                                                 <img src="<?= htmlspecialchars($car['image_url']) ?>" class="card-img-top img-fluid" alt="<?= htmlspecialchars($car['name']) ?>" >
-                                                <div class="position-absolute top-0 end-0 bg-primary text-white px-3 py-2 m-3 rounded-pill fs-5 fw-bold">
+                                                <div class="position-absolute top-0 end-0 bg-primary text-white p-2 m-3 rounded-pill fs-6 fw-bold">
                                                     $<?= htmlspecialchars($car['daily_rate']) ?>/day
                                                 </div>
-                                                <div class="position-absolute bottom-0 start-0 bg-transparent bg-opacity-50 text-white p-3 m-3">
-                                                    <span class="badge bg-<?= $car['status'] == 'Available' ? 'success' : ($car['status'] == 'Rented' ? 'warning' : 'danger') ?>">
+                                                <div class="position-absolute bottom-0 start-0 bg-transparent bg-opacity-50 text-white px-3 py-2 m-3 fw-bold">
+                                                    <span class="badge bg-<?= $car['status'] == 'Available' ? 'success' : ($car['status'] == 'Rented' ? 'warning' : 'danger') ?> text-white p-2">
+                                                        <i class="fas <?= $car['status'] == 'Available' ? 'fa-check-circle' : ($car['status'] == 'Rented' ? 'fa-clock' : 'fa-ban') ?> me-2"></i>
                                                         <?= htmlspecialchars($car['status']) ?>
                                                     </span>
                                                 </div>
