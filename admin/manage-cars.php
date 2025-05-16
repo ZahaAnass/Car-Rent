@@ -1,8 +1,22 @@
 <?php
-// Add session start and authentication check if needed
-// session_start();
-// include '../includes/session.php'; // Assuming you have session handling
-// if (!is_admin()) { header('Location: ../login.php'); exit; } 
+    require_once "../includes/session.php";
+    start_session();
+    require_once "../config/database.php";
+    require_once "../includes/functions.php";
+    require_once "../includes/queries/car_queries.php";
+    $carQueries = new CarQueries($pdo);
+
+    // Pagination Config
+    $limit = 7; // Number of cars per page
+    $totalCars = $carQueries->getCarCount();
+    $totalPages = ceil($totalCars / $limit);
+
+    // Get current page and validate it and redirect to page 1 if invalid
+    $page = isset($_GET['page']) && $_GET['page'] > 0 && $_GET['page'] <= $totalPages ? (int)$_GET["page"] : redirect("manage-cars.php?page=1");
+    $offset = ($page - 1) * $limit;
+
+    // Fetch cars with pagination
+    $cars = $carQueries->getCarsWithLimit($limit, $offset);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -80,7 +94,6 @@
                                                 <option>Van</option>
                                                 <option>Sport</option>
                                                 <option>Luxury</option>
-                                                <!-- Populate with PHP if types are dynamic -->
                                             </select>
                                         </div>
                                         <div class="col-md-4">
@@ -127,18 +140,6 @@
                                             </thead>
                                             <tbody>
                                                 <?php 
-                                                // --- PHP Logic to fetch cars from database would go here ---
-                                                // Example placeholder data:
-                                                $cars = [
-                                                    ['id' => 1, 'name' => 'Toyota Camry', 'image' => '../assets/img/car-1.png', 'type' => 'Sedan', 'price' => 45.00, 'status' => 'Available'],
-                                                    ['id' => 2, 'name' => 'Honda CR-V', 'image' => '../assets/img/car-2.png', 'type' => 'SUV', 'price' => 60.00, 'status' => 'Rented'],
-                                                    ['id' => 3, 'name' => 'Ford Mustang', 'image' => '../assets/img/car-3.png', 'type' => 'Sport', 'price' => 80.00, 'status' => 'Maintenance'],
-                                                    ['id' => 4, 'name' => 'Ford Mustang', 'image' => '../assets/img/car-4.png', 'type' => 'Sport', 'price' => 80.00, 'status' => 'Maintenance'],
-                                                    ['id' => 5, 'name' => 'Ford Mustang', 'image' => '../assets/img/car-1.png', 'type' => 'Sport', 'price' => 80.00, 'status' => 'Maintenance'],
-                                                    ['id' => 6, 'name' => 'Ford Mustang', 'image' => '../assets/img/car-2.png', 'type' => 'Sport', 'price' => 80.00, 'status' => 'Maintenance'],
-                                                    ['id' => 7, 'name' => 'Ford Mustang', 'image' => '../assets/img/car-3.png', 'type' => 'Sport', 'price' => 80.00, 'status' => 'Maintenance'],
-                                                ];
-
                                                 if (empty($cars)) {
                                                     echo '<tr><td colspan="6" class="text-center text-muted py-4">No cars found.</td></tr>';
                                                 } else {
@@ -146,25 +147,19 @@
                                                 ?>
                                                     <tr>
                                                         <td>
-                                                            <img src="<?= htmlspecialchars($car['image']) ?>" alt="<?= htmlspecialchars($car['name']) ?>" style="width: 80px; height: auto; object-fit: cover;">
+                                                            <img src="<?= htmlspecialchars($car['image_url']) ?>" alt="<?= htmlspecialchars($car['name']) ?>" style="width: 80px; height: auto; object-fit: cover;">
                                                         </td>
                                                         <td><?= htmlspecialchars($car['name']) ?></td>
                                                         <td><?= htmlspecialchars($car['type']) ?></td>
-                                                        <td>$<?= number_format($car['price'], 2) ?></td>
+                                                        <td>$<?= number_format($car['daily_rate'], 2) ?></td>
                                                         <td>
-                                                            <?php 
-                                                                $status_badge = 'secondary';
-                                                                if ($car['status'] == 'Available') $status_badge = 'success';
-                                                                if ($car['status'] == 'Rented') $status_badge = 'warning text-dark';
-                                                                if ($car['status'] == 'Maintenance') $status_badge = 'info text-dark';
-                                                            ?>
-                                                            <span class="badge bg-<?= $status_badge ?>"><?= htmlspecialchars($car['status']) ?></span>
+                                                            <span class="badge bg-<?= ($car['status'] == 'Available') ? 'success' : (($car['status'] == 'Rented') ? 'warning' : 'info') ?>"><?= htmlspecialchars($car['status']) ?></span>
                                                         </td>
                                                         <td class="text-end">
-                                                            <button class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="tooltip" title="Edit Car <?= $car['id'] ?>">
+                                                            <button class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="tooltip" title="Edit Car <?= $car['car_id'] ?>">
                                                                 <i class="fas fa-edit"></i>
                                                             </button>
-                                                            <button class="btn btn-sm btn-outline-danger" data-bs-toggle="tooltip" title="Delete Car <?= $car['id'] ?>">
+                                                            <button class="btn btn-sm btn-outline-danger" data-bs-toggle="tooltip" title="Delete Car <?= $car['car_id'] ?>">
                                                                 <i class="fas fa-trash"></i>
                                                             </button>
                                                         </td>
@@ -172,20 +167,26 @@
                                                 <?php 
                                                     endforeach; 
                                                 }
-                                                // --- End PHP Logic ---
                                                 ?>
                                             </tbody>
                                         </table>
                                     </div>
-                                    
-                                    <?php if (!empty($cars)): ?>
-                                    <!-- Optional: Add Pagination if many cars -->
+
+                                    <!-- Pagination -->
+                                    <?php if ($totalPages > 1): ?>
                                     <nav aria-label="Page navigation" class="mt-4">
                                         <ul class="pagination justify-content-center">
-                                            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                                            <li class="page-item <?= $page == 1 ? 'disabled' : '' ?>">
+                                                <a class="page-link" href="?page=<?= $page - 1 ?>">Previous</a>
+                                            </li>
+                                            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                                                <li class="page-item <?= $page == $i ? 'active' : '' ?>">
+                                                    <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
+                                                </li>
+                                            <?php endfor; ?>
+                                            <li class="page-item <?= $page == $totalPages ? 'disabled' : '' ?>">
+                                                <a class="page-link" href="?page=<?= $page + 1 ?>">Next</a>
+                                            </li>
                                         </ul>
                                     </nav>
                                     <?php endif; ?>
@@ -251,7 +252,7 @@
                             <label for="carDescription" class="form-label">Description (Optional)</label>
                             <textarea class="form-control" id="carDescription" rows="3"></textarea>
                         </div>
-                        <!-- Add more fields as needed: features, license plate, etc. -->
+                        <!-- I Will Add more fields as needed: features, license plate, etc. -->
                         </form>
                     </div>
                     <div class="modal-footer">
