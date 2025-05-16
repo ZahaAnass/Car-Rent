@@ -105,7 +105,31 @@
                     <div class="categories-carousel owl-carousel">
                         <?php foreach ($carsByCategory[$category] as $car): ?>
                             <div class="categories-item p-4"> 
-                                <div class="categories-item-inner d-flex flex-column h-100"> 
+                                <div class="categories-item-inner d-flex flex-column h-100 position-relative"> 
+                                    <!-- Status Badge -->
+                                    <?php 
+                                        $status = $car['status'] ?? 'Available';
+                                        $statusColor = 'success';
+                                        $statusIcon = 'fa-check-circle';
+                                                        
+                                        if ($status == 'Rented') {
+                                            $statusColor = 'warning';
+                                            $statusIcon = 'fa-clock';
+                                        } elseif ($status == 'Maintenance') {
+                                            $statusColor = 'info';
+                                            $statusIcon = 'fa-tools';
+                                        } elseif ($status == 'Unavailable') {
+                                            $statusColor = 'danger';
+                                            $statusIcon = 'fa-ban';
+                                        }
+                                    ?>
+                                    <div class="position-absolute top-0 end-0 mt-2 me-2 z-index-1">
+                                        <span class="badge bg-<?= $statusColor ?> px-3 py-2 rounded-pill shadow">
+                                            <i class="fas <?= $statusIcon ?> me-1"></i>
+                                            <?= htmlspecialchars($status) ?>
+                                        </span>
+                                    </div>
+                                    
                                     <div class="categories-img rounded-top">
                                         <img src="<?php echo !empty($car['image_url']) ? htmlspecialchars($car['image_url']) : '../assets/img/default-car.webp'; ?>" 
                                                 class="img-fluid w-100 rounded-top" 
@@ -133,10 +157,30 @@
                                                 <span class="text-body ms-1"><?php echo htmlspecialchars($car['fuel_type']); ?></span>
                                             </div>
                                         </div>
+                                        
+                                        <!-- Description Snippet -->
+                                        <?php if(!empty($car['description'])): ?>
+                                        <div class="mb-3">
+                                            <p class="text-muted small">
+                                                <?php 
+                                                    $desc = htmlspecialchars($car['description']);
+                                                    echo (strlen($desc) > 80) ? substr($desc, 0, 80) . '...' : $desc;
+                                                ?>
+                                            </p>
+                                        </div>
+                                        <?php endif; ?>
+                                        
                                         <div class="mt-auto"> 
+                                            <?php $isBookable = ($status == 'Available' || $status == 'Rented'); ?>
                                             <form method="get" action="../user/book-car.php">
                                                 <input type="hidden" name="car_id" value="<?= htmlspecialchars($car['car_id']); ?>">
-                                                <button type="submit" class="btn btn-primary rounded-pill d-flex justify-content-center py-3 w-100">Book Now</button>
+                                                <button type="submit" class="btn btn-primary rounded-pill d-flex justify-content-center py-3 w-100 <?= !$isBookable ? 'disabled' : '' ?>" <?= !$isBookable ? 'disabled' : '' ?>>
+                                                    <?php if($isBookable): ?>
+                                                        <i class="fas fa-calendar-check me-2"></i>Book Now
+                                                    <?php else: ?>
+                                                        <i class="fas fa-ban me-2"></i>Not Available
+                                                    <?php endif; ?>
+                                                </button>
                                             </form>
                                         </div>
                                     </div>
@@ -145,9 +189,9 @@
                         <?php endforeach; ?>
                     </div>
                 </div>
-                <?php
+                <?php 
                             endif; 
-                        endforeach;
+                        endforeach; 
                     }
                 ?>
             </div>
@@ -195,15 +239,16 @@
                     <img src="../assets/img/banner-1.jpg" class="img-fluid rounded w-100" alt="Car Rental Banner">
                     <div class="banner-content">
                         <h2 class="text-primary">Your Journey Starts Here</h2>
-                        <h1 class="text-white">Ready to Hit the Road?</h1>
-                        <p class="text-white">Discover the perfect vehicle for your next adventure. Quick, easy, and hassle-free rentals.</p>
-                        <div class="banner-btn">
-                            <a href="#" class="btn btn-secondary rounded-pill py-3 px-4 px-md-5 me-2">
-                                <i class="fab fa-whatsapp me-2"></i>WhatsApp
-                            </a>
-                            <a href="contact.php" class="btn btn-primary rounded-pill py-3 px-4 px-md-5 ms-2">
-                                <i class="fas fa-envelope me-2"></i>Contact Us
-                            </a>
+                            <h1 class="text-white">Ready to Hit the Road?</h1>
+                            <p class="text-white">Discover the perfect vehicle for your next adventure. Quick, easy, and hassle-free rentals.</p>
+                            <div class="banner-btn">
+                                <a href="#" class="btn btn-secondary rounded-pill py-3 px-4 px-md-5 me-2">
+                                    <i class="fab fa-whatsapp me-2"></i>WhatsApp
+                                </a>
+                                <a href="contact.php" class="btn btn-primary rounded-pill py-3 px-4 px-md-5 ms-2">
+                                    <i class="fas fa-envelope me-2"></i>Contact Us
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
