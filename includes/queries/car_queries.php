@@ -149,6 +149,21 @@
             }
         }
 
+        public function getCarsWithLimit($limit, $offset) {
+            try {
+                $limit = filter_var($limit, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'default' => 10]]);
+                $offset = filter_var($offset, FILTER_VALIDATE_INT, ['options' => ['min_range' => 0, 'default' => 0]]);
+                $stmt = $this->pdo->prepare("SELECT * FROM cars LIMIT :limit OFFSET :offset");
+                $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+                $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+                $stmt->execute();
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);                
+            } catch (PDOException $e) {
+                error_log("Database error in getCarsWithLimit: " . $e->getMessage());
+                return [];
+            }
+        }
+
     }
 
 ?>
