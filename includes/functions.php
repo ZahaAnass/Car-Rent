@@ -67,6 +67,26 @@ function validate_car_status($car_status) {
     return filter_var($car_status, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[a-zA-Z ]+$']]) !== false;
 }
 
+function validate_daily_rate($daily_rate) {
+    return filter_var($daily_rate, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[0-9]+(\\.[0-9]{1,2})?$/']]) !== false;
+}
+
+function validate_license_plate($license_plate) {
+    return filter_var($license_plate, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[a-zA-Z0-9]{5,20}$/']]) !== false;
+}
+
+function validate_year($year) {
+    return filter_var($year, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[0-9]{4}$/']]) !== false;
+}
+
+function validate_seats($seats) {
+    return filter_var($seats, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[1-9]$/']]) !== false;
+}
+
+function validate_fuel_type($fuel_type) {
+    return filter_var($fuel_type, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[a-zA-Z ]+$/']]) !== false;
+}
+
 function get_current_page_name() {
     $current_page = basename($_SERVER['PHP_SELF']);
     return $current_page;
@@ -89,5 +109,6 @@ function get_get_var($var_name) {
     }
     return null;
 }
+
 
 ?>
