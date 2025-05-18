@@ -176,9 +176,12 @@
                                                                     data-car-id="<?= $car['car_id'] ?>">
                                                                     <i class="fas fa-edit"></i>
                                                             </button>
-                                                            <button class="btn btn-sm btn-outline-danger" data-bs-toggle="tooltip" title="Delete Car <?= $car['car_id'] ?>">
-                                                                <i class="fas fa-trash"></i>
-                                                            </button>
+                                                            <form action="manage-car-handeler.php" method="POST">
+                                                                <input type="hidden" name="car_id" value="<?= $car['car_id'] ?>">
+                                                                <button type="submit" name="delete_car" class="btn btn-sm btn-outline-danger" data-bs-toggle="tooltip" title="Delete Car <?= $car['car_id'] ?>">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </button>
+                                                            </form>
                                                         </td>
                                                     </tr>
                                                 <?php 
