@@ -169,8 +169,12 @@
                                                             <span class="badge bg-<?= ($car['status'] == 'Available') ? 'success' : (($car['status'] == 'Rented') ? 'warning' : 'info') ?>"><?= htmlspecialchars($car['status']) ?></span>
                                                         </td>
                                                         <td class="text-end">
-                                                            <button class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="tooltip" title="Edit Car <?= $car['car_id'] ?>">
-                                                                <i class="fas fa-edit"></i>
+                                                            <button class="btn btn-sm btn-outline-primary me-1 edit-car-btn"
+                                                                    title = "Edit Car <?= $car['car_id'] ?>"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#editCarModal"
+                                                                    data-car-id="<?= $car['car_id'] ?>">
+                                                                    <i class="fas fa-edit"></i>
                                                             </button>
                                                             <button class="btn btn-sm btn-outline-danger" data-bs-toggle="tooltip" title="Delete Car <?= $car['car_id'] ?>">
                                                                 <i class="fas fa-trash"></i>
@@ -328,6 +332,120 @@
         </div>
     </div>
     <!-- End Modal -->
+
+    <!-- Start Edit Car Modal -->
+    <div class="modal fade" id="editCarModal" tabindex="-1" aria-labelledby="editCarModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form id="editCarForm" method="POST" action="manage-car-handeler.php">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editCarModalLabel">Edit Car</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="editCarId" name="car_id">
+                        <div class="mb-3">
+                            <label for="editCarName" class="form-label">Car Name</label>
+                            <input type="text" class="form-control" id="editCarName" name="name" required placeholder="e.g. Tesla Model S">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editCarType" class="form-label">Car Type</label>
+                            <select class="form-select" id="editCarType" name="type" required>
+                                <option selected disabled value="">Choose...</option>
+                                <option value="Electric">Electric</option>
+                                <option value="SUV">SUV</option>
+                                <option value="Luxury">Luxury</option>
+                                <option value="Economy">Economy</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editCarDescription" class="form-label">Description (Optional)</label>
+                            <textarea class="form-control" id="editCarDescription" name="description" rows="3" placeholder="e.g. Premium electric sedan"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editCarRate" class="form-label">Daily Rate ($)</label>
+                            <input type="number" step="0.01" class="form-control" id="editCarRate" name="daily_rate" required placeholder="e.g. 150.00">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editCarStatus" class="form-label">Status</label>
+                            <select class="form-select" id="editCarStatus" name="status" required>
+                                <option value="Available">Available</option>
+                                <option value="Unavailable">Unavailable</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editCarLicense" class="form-label">License Plate</label>
+                            <input type="text" class="form-control" id="editCarLicense" name="license_plate" required placeholder="e.g. TESLA12345">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editCarYear" class="form-label">Year</label>
+                            <input type="number" class="form-control" id="editCarYear" name="year" required min="1900" max="<?= date('Y') + 1 ?>" placeholder="e.g. 2023">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editCarMake" class="form-label">Make</label>
+                            <input type="text" class="form-control" id="editCarMake" name="make" required placeholder="e.g. Tesla">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editCarModel" class="form-label">Model</label>
+                            <input type="text" class="form-control" id="editCarModel" name="model" required placeholder="e.g. Model S">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editCarColor" class="form-label">Color</label>
+                            <input type="text" class="form-control" id="editCarColor" name="color" required placeholder="e.g. Red">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editCarSeats" class="form-label">Seats</label>
+                            <input type="number" class="form-control" id="editCarSeats" name="seats" required min="1" max="9" placeholder="e.g. 5">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editCarFuel" class="form-label">Fuel Type</label>
+                            <input type="text" class="form-control" id="editCarFuel" name="fuel_type" required placeholder="e.g. Electric">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editCarFeatures" class="form-label">Features (Optional, comma-separated)</label>
+                            <input type="text" class="form-control" id="editCarFeatures" name="features" placeholder="e.g. Autopilot, Navigation, Leather Seats">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Update Car</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- End Edit Car Modal -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.edit-car-btn').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    // Fetch car details from API 
+                    const carId = this.getAttribute('data-car-id');
+                    fetch(`../api/get_car_details.php?car_id=${carId}`)
+                        .then(response => response.json())
+                        .then(car => {
+                            document.getElementById('editCarId').value = car.car_id;
+                            document.getElementById('editCarName').value = car.name;
+                            document.getElementById('editCarType').value = car.type;
+                            document.getElementById('editCarDescription').value = car.description;
+                            document.getElementById('editCarRate').value = car.daily_rate;
+                            document.getElementById('editCarStatus').value = car.status;
+                            document.getElementById('editCarLicense').value = car.license_plate;
+                            document.getElementById('editCarYear').value = car.year;
+                            document.getElementById('editCarMake').value = car.make;
+                            document.getElementById('editCarModel').value = car.model;
+                            document.getElementById('editCarColor').value = car.color;
+                            document.getElementById('editCarSeats').value = car.seats;
+                            document.getElementById('editCarFuel').value = car.fuel_type;
+                            document.getElementById('editCarFeatures').value = car.features;
+                        })
+                        .catch(error => console.error('Error fetching car details:', error));
+                });
+            });
+        });
+    </script>
+
 
     <script src="../assets/js/manage-car-verify.js"></script>
 
