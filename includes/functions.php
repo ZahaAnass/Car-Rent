@@ -40,11 +40,11 @@ function validate_name($name) {
 }
 
 function validate_car($car) {
-    return filter_var($car, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[a-zA-Z ]+$']]) !== false;
+    return filter_var($car, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[a-zA-Z ]+$/']]) !== false;
 }
 
 function validate_car_model($car_model) {
-    return filter_var($car_model, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[a-zA-Z ]+$']]) !== false;
+    return filter_var($car_model, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[a-zA-Z ]+$/']]) !== false;
 }
 
 function validate_car_year($car_year) {
@@ -56,15 +56,15 @@ function validate_car_price($car_price) {
 }
 
 function validate_car_image($car_image) {
-    return filter_var($car_image, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[a-zA-Z ]+$']]) !== false;
+    return filter_var($car_image, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[a-zA-Z ]+$/']]) !== false;
 }
 
 function validate_car_description($car_description) {
-    return filter_var($car_description, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[a-zA-Z ]+$']]) !== false;
+    return filter_var($car_description, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[a-zA-Z ]+$/']]) !== false;
 }
 
 function validate_car_status($car_status) {
-    return filter_var($car_status, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[a-zA-Z ]+$']]) !== false;
+    return filter_var($car_status, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[a-zA-Z ]+$/']]) !== false;
 }
 
 function validate_daily_rate($daily_rate) {
@@ -85,6 +85,10 @@ function validate_seats($seats) {
 
 function validate_fuel_type($fuel_type) {
     return filter_var($fuel_type, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[a-zA-Z ]+$/']]) !== false;
+}
+
+function validate_features($features) {
+    return filter_var($features, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[a-zA-Z 0-9]+$/']]) !== false;
 }
 
 function get_current_page_name() {
