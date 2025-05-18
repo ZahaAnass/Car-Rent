@@ -9,5 +9,8 @@
     }elseif (is_logged_in() && !is_admin()) {
         redirect('../public/index.php');
     }
+    else{
+        redirect('../auth/login.php');
+    }
 
 ?>
