@@ -185,24 +185,51 @@
                                         </table>
                                     </div>
 
-                                    <!-- Pagination -->
                                     <?php if ($totalPages > 1): ?>
-                                    <nav aria-label="Page navigation" class="mt-4">
-                                        <ul class="pagination justify-content-center">
-                                            <li class="page-item <?= $page == 1 ? 'disabled' : '' ?>">
-                                                <a class="page-link" href="?page=<?= $page - 1 ?>">Previous</a>
-                                            </li>
-                                            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                                                <li class="page-item <?= $page == $i ? 'active' : '' ?>">
-                                                    <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
+                                        <nav aria-label="Page navigation" class="mt-4">
+                                            <ul class="pagination justify-content-center">
+                                                <!-- Previous -->
+                                                <li class="page-item <?= $page == 1 ? 'disabled' : '' ?>">
+                                                    <a class="page-link" href="?page=<?= $page - 1 ?>">Previous</a>
                                                 </li>
-                                            <?php endfor; ?>
-                                            <li class="page-item <?= $page == $totalPages ? 'disabled' : '' ?>">
-                                                <a class="page-link" href="?page=<?= $page + 1 ?>">Next</a>
-                                            </li>
-                                        </ul>
-                                    </nav>
+
+                                                <?php
+                                                $visiblePages = 2; // Number of pages before/after the current one to show
+                                                $start = max(1, $page - $visiblePages);
+                                                $end = min($totalPages, $page + $visiblePages);
+
+                                                // Always show first page
+                                                if ($start > 1):
+                                                ?>
+                                                    <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+                                                    <?php if ($start > 2): ?>
+                                                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                                                    <?php endif; ?>
+                                                <?php endif; ?>
+
+                                                <!-- Page Numbers Around Current -->
+                                                <?php for ($i = $start; $i <= $end; $i++): ?>
+                                                    <li class="page-item <?= $page == $i ? 'active' : '' ?>">
+                                                        <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
+                                                    </li>
+                                                <?php endfor; ?>
+
+                                                <!-- Always show last page -->
+                                                <?php if ($end < $totalPages): ?>
+                                                    <?php if ($end < $totalPages - 1): ?>
+                                                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                                                    <?php endif; ?>
+                                                    <li class="page-item"><a class="page-link" href="?page=<?= $totalPages ?>"><?= $totalPages ?></a></li>
+                                                <?php endif; ?>
+
+                                                <!-- Next -->
+                                                <li class="page-item <?= $page == $totalPages ? 'disabled' : '' ?>">
+                                                    <a class="page-link" href="?page=<?= $page + 1 ?>">Next</a>
+                                                </li>
+                                            </ul>
+                                        </nav>
                                     <?php endif; ?>
+
                                 </div>
                             </div>
                         </div>
