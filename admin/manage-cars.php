@@ -326,7 +326,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" form="addCarForm" class="btn btn-primary">Save Car</button>
+                    <button type="submit" form="addCarForm" name="add_car" class="btn btn-primary">Save Car</button>
                 </div>
             </div>
         </div>
@@ -408,7 +408,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Update Car</button>
+                        <button type="submit" name="edit_car" class="btn btn-primary">Update Car</button>
                     </div>
                 </form>
             </div>
