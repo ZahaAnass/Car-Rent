@@ -78,6 +78,19 @@
                         </div>
                     </div>
 
+                    <?php
+                        start_session();
+                        if (isset($_SESSION['register_success'])) {
+                            echo "<div class='alert alert-success'>{$_SESSION['register_success']}</div>";
+                            unset($_SESSION['register_success']);
+                        }
+
+                        if (isset($_SESSION['register_error'])) {
+                            echo "<div class='alert alert-danger'>{$_SESSION['register_error']}</div>";
+                            unset($_SESSION['register_error']);
+                        }
+                    ?>
+
                     <!-- Filters -->
                     <div class="row mb-4 wow fadeInUp" data-wow-delay="0.1s">
                         <div class="col-12">
@@ -212,10 +225,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="manage-cars-handeler.php" enctype="multipart/form-data">
+                    <form id="addCarForm" method="POST" action="manage-car-handeler.php" enctype="multipart/form-data">
                         <div class="mb-3">
                             <label for="carName" class="form-label">Car Name</label>
-                            <input type="text" class="form-control" id="carName" name="name" required>
+                            <input type="text" class="form-control" id="carName" name="name" required placeholder="e.g. Tesla Model S">
                         </div>
                         <div class="mb-3">
                             <label for="carType" class="form-label">Car Type</label>
@@ -229,55 +242,54 @@
                         </div>
                         <div class="mb-3">
                             <label for="carDescription" class="form-label">Description (Optional)</label>
-                            <textarea class="form-control" id="carDescription" name="description" rows="3"></textarea>
+                            <textarea class="form-control" id="carDescription" name="description" rows="3" placeholder="e.g. Premium electric sedan"></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="carRate" class="form-label">Daily Rate ($)</label>
-                            <input type="number" step="0.01" class="form-control" id="carRate" name="daily_rate" required>
+                            <input type="number" step="0.01" class="form-control" id="carRate" name="daily_rate" required placeholder="e.g. 150.00">
                         </div>
                         <div class="mb-3">
                             <label for="carImageFile" class="form-label">Car Image</label>
-                            <input type="file" class="form-control mt-1" id="carImageFile" name="car_image_file">
+                            <input type="file" class="form-control mt-1" id="carImageFile" name="car_image_file" accept=".jpg,.jpeg,.png,.webp">
                         </div>
                         <div class="mb-3">
                             <label for="carStatus" class="form-label">Status</label>
                             <select class="form-select" id="carStatus" name="status" required>
                                 <option value="Available" selected>Available</option>
-                                <option value="Maintenance">Maintenance</option>
                                 <option value="Unavailable">Unavailable</option>
                             </select>
                         </div>
                         <div class="mb-3">
                             <label for="carLicense" class="form-label">License Plate</label>
-                            <input type="text" class="form-control" id="carLicense" name="license_plate" required>
+                            <input type="text" class="form-control" id="carLicense" name="license_plate" required placeholder="e.g. TESLA12345">
                         </div>
                         <div class="mb-3">
                             <label for="carYear" class="form-label">Year</label>
-                            <input type="number" class="form-control" id="carYear" name="year" required min="1900" max="<?= date('Y') + 1 ?>">
+                            <input type="number" class="form-control" id="carYear" name="year" required min="1900" max="<?= date('Y') + 1 ?>" placeholder="e.g. 2023">
                         </div>
                         <div class="mb-3">
                             <label for="carMake" class="form-label">Make</label>
-                            <input type="text" class="form-control" id="carMake" name="make" required>
+                            <input type="text" class="form-control" id="carMake" name="make" required placeholder="e.g. Tesla">
                         </div>
                         <div class="mb-3">
                             <label for="carModel" class="form-label">Model</label>
-                            <input type="text" class="form-control" id="carModel" name="model" required>
+                            <input type="text" class="form-control" id="carModel" name="model" required placeholder="e.g. Model S">
                         </div>
                         <div class="mb-3">
                             <label for="carColor" class="form-label">Color</label>
-                            <input type="text" class="form-control" id="carColor" name="color" required>
+                            <input type="text" class="form-control" id="carColor" name="color" required placeholder="e.g. Red">
                         </div>
                         <div class="mb-3">
                             <label for="carSeats" class="form-label">Seats</label>
-                            <input type="number" class="form-control" id="carSeats" name="seats" required min="1" max="9">
+                            <input type="number" class="form-control" id="carSeats" name="seats" required min="1" max="9" placeholder="e.g. 5">
                         </div>
                         <div class="mb-3">
                             <label for="carFuel" class="form-label">Fuel Type</label>
-                            <input type="text" class="form-control" id="carFuel" name="fuel_type" required>
+                            <input type="text" class="form-control" id="carFuel" name="fuel_type" required placeholder="e.g. Electric">
                         </div>
                         <div class="mb-3">
                             <label for="carFeatures" class="form-label">Features (Optional, comma-separated)</label>
-                            <input type="text" class="form-control" id="carFeatures" name="features">
+                            <input type="text" class="form-control" id="carFeatures" name="features" placeholder="e.g. Autopilot, Navigation, Leather Seats">
                         </div>
                     </form>
                 </div>
@@ -289,6 +301,8 @@
         </div>
     </div>
     <!-- End Modal -->
+
+    <script src="../assets/js/manage-car-verify.js"></script>
 
 </body>
 </html>
