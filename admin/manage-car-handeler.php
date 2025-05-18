@@ -235,6 +235,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['register_error'] = $error;
             redirect('../admin/manage-cars.php');
         }
+    }elseif(isset($_POST['delete_car'])){
+        $car_id = trim(filter_input(INPUT_POST, 'car_id', FILTER_SANITIZE_NUMBER_INT));
+        try {
+            $carQueries = new CarQueries($pdo);
+            $result = $carQueries->deleteCar($car_id);
+            if ($result) {
+                $_SESSION['register_success'] = 'Car deleted successfully!';
+                redirect('../admin/manage-cars.php');
+                exit;
+            } else {
+                $error = 'Delete failed. Please try again.';
+            }
+        } catch (Exception $e) {
+            $error = 'An unexpected error occurred: ' . $e->getMessage();
+        }
+        if (!empty($error)) {
+            $_SESSION['register_error'] = $error;
+            redirect('../admin/manage-cars.php');
+        }
     }
 }
 ?>
