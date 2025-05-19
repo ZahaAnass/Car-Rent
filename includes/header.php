@@ -40,6 +40,10 @@ if (!is_logged_in() && isset($_COOKIE['remember_me'])) {
                     $userQueries->createRememberMeToken($user['user_id'], $new_token, date('Y-m-d H:i:s', time() + (86400 * 30)));
                     // 4. Set new cookie 
                     setcookie('remember_me', $new_token, time() + (86400 * 30), '/'); 
+                    // 5. Log auto-login attempt
+                    $file = fopen("../logs/auto-login.txt", "a");
+                    fwrite($file, "Auto-login attempt for user ID: " . $user_id . " from token: " . $token . "\n");
+                    fclose($file);
 
                     redirect(basename($_SERVER['PHP_SELF'])); 
                 } else {
