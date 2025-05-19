@@ -5,10 +5,23 @@
     require_once "../includes/functions.php";
     require_once "../includes/queries/car_queries.php";
     $carQueries = new CarQueries($pdo);
+    
     $selected_car_id = isset($_GET['car_id']) ? filter_var($_GET['car_id'], FILTER_VALIDATE_INT) : null;
+    
+    if (!$selected_car_id) {
+        $_SESSION['booking_error'] = "Invalid car ID.";
+        redirect("../public/cars.php");
+    }
+    
     $car = $carQueries->getCarById($selected_car_id);
-    if(!$car || ( $car['status'] !== 'Available' && $car['status'] !== 'Rented' )) {
-        $_SESSION['error'] = "Car not found.";
+    
+    if (!$car) {
+        $_SESSION['booking_error'] = "Car not found.";
+        redirect("../public/cars.php");
+    }
+    
+    if ($car['status'] !== 'Available' && $car['status'] !== 'Rented') {
+        $_SESSION['booking_error'] = "This car is not available for booking.";
         redirect("../public/cars.php");
     }
 ?>
@@ -51,6 +64,25 @@
         </div>
     </div>
     <!-- Spinner End -->
+
+    <!-- Session Messages -->
+    <?php if (isset($_SESSION['booking_error'])): ?>
+        <div class="alert alert-danger alert-dismissible fade show fixed-top m-3" role="alert" style="z-index: 1030;">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            <?= htmlspecialchars($_SESSION['booking_error']) ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <?php unset($_SESSION['booking_error']); ?>
+    <?php endif; ?>
+
+    <?php if (isset($_SESSION['booking_success'])): ?>
+        <div class="alert alert-success alert-dismissible fade show fixed-top m-3" role="alert" style="z-index: 1030;">
+            <i class="fas fa-check-circle me-2"></i>
+            <?= htmlspecialchars($_SESSION['booking_success']) ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <?php unset($_SESSION['booking_success']); ?>
+    <?php endif; ?>
 
     <div class="container-fluid">
         <div class="row">
@@ -166,7 +198,7 @@
                             <div class="card border-0 shadow-sm sticky-lg-top" style="top: 20px;">
                                 <div class="card-body">
                                     <h4 class="card-title mb-4">Booking Details</h4>
-                                    <form id="bookingForm">
+                                    <form id="bookingForm" action="book-car-handeler.php?car_id=<?= $selected_car_id ?>" method="POST">
                                         <div class="mb-3">
                                             <label for="pickup-date" class="form-label">Pickup Date</label>
                                             <input type="date" class="form-control" id="pickup-date" name="pickup_date" required>
@@ -391,5 +423,6 @@
         }
     });
     </script>
+
 </body>
 </html>
