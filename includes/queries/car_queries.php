@@ -8,33 +8,6 @@
             $this->pdo = $pdo;
         }
 
-        public function createCar($name, $type, $description, $daily_rate, $image_url, $license_plate, $year, $make, $model, $color, $seats, $fuel_type, $features) {
-            $sql = "INSERT INTO cars (name, type, description, daily_rate, image_url, status, license_plate, year, make, model, color, seats, fuel_type, features) 
-                    VALUES (:name, :type, :description, :daily_rate, :image_url, :status, :license_plate, :year, :make, :model, :color, :seats, :fuel_type, :features)";
-            try {
-                $stmt = $this->pdo->prepare($sql);
-                $stmt->execute([
-                    'name' => $name,
-                    'type' => $type,
-                    'description' => $description,
-                    'daily_rate' => $daily_rate,
-                    'image_url' => $image_url,
-                    'status' => "Available",
-                    'license_plate' => $license_plate,
-                    'year' => $year,
-                    'make' => $make,
-                    'model' => $model,
-                    'color' => $color,
-                    'seats' => $seats,
-                    'fuel_type' => $fuel_type,
-                    'features' => $features
-                ]);
-                return $stmt->rowCount() > 0;
-            } catch (PDOException $e) {
-                die("Query failed: " . $e->getMessage());
-            }
-        }
-
         public function getCarById($id) {
             try {
                 $stmt = $this->pdo->prepare("SELECT * FROM cars WHERE car_id = :id");
@@ -80,19 +53,47 @@
             }
         }
 
-        public function updateCar($id, $name, $type, $description, $daily_rate, $image_url, $license_plate, $year, $make, $model, $color, $seats, $fuel_type, $features) {
-            $sql = "UPDATE cars SET name = :name, type = :type, description = :description, daily_rate = :daily_rate,
-                    image_url = :image_url, license_plate = :license_plate, year = :year, make = :make, model = :model,
-                    color = :color, seats = :seats, fuel_type = :fuel_type, features = :features WHERE car_id = :id";
+        public function createCar($name, $type, $description, $daily_rate, $image_url, $status, $license_plate, $year, $make, $model, $color, $seats, $fuel_type, $features) {
+            if($this->licenseExists($license_plate)) {
+                return 'duplicate_license';
+            }
+            $sql = "INSERT INTO cars (name, type, description, daily_rate, image_url, status, license_plate, year, make, model, color, seats, fuel_type, features) 
+                    VALUES (:name, :type, :description, :daily_rate, :image_url, :status, :license_plate, :year, :make, :model, :color, :seats, :fuel_type, :features)";
             try {
                 $stmt = $this->pdo->prepare($sql);
                 $stmt->execute([
-                    'id' => $id,
                     'name' => $name,
                     'type' => $type,
                     'description' => $description,
                     'daily_rate' => $daily_rate,
                     'image_url' => $image_url,
+                    'status' => $status,
+                    'license_plate' => $license_plate,
+                    'year' => $year,
+                    'make' => $make,
+                    'model' => $model,
+                    'color' => $color,
+                    'seats' => $seats,
+                    'fuel_type' => $fuel_type,
+                    'features' => $features
+                ]);
+                return $stmt->rowCount() > 0;
+            } catch (PDOException $e) {
+                die("Query failed: " . $e->getMessage());
+            }
+        }
+
+        public function updateCar($car_id, $name, $type, $description, $daily_rate, $status, $license_plate, $year, $make, $model, $color, $seats, $fuel_type, $features) {
+            $sql = "UPDATE cars SET name = :name, type = :type, description = :description, daily_rate = :daily_rate, status = :status, license_plate = :license_plate, year = :year, make = :make, model = :model, color = :color, seats = :seats, fuel_type = :fuel_type, features = :features WHERE car_id = :car_id";
+            try {
+                $stmt = $this->pdo->prepare($sql);
+                $stmt->execute([
+                    'car_id' => $car_id,
+                    'name' => $name,
+                    'type' => $type,
+                    'description' => $description,
+                    'daily_rate' => $daily_rate,
+                    'status' => $status,
                     'license_plate' => $license_plate,
                     'year' => $year,
                     'make' => $make,
@@ -144,6 +145,16 @@
                 $stmt = $this->pdo->prepare("SELECT COUNT(*) AS count FROM cars");
                 $stmt->execute();
                 return $stmt->fetchColumn();
+            } catch (PDOException $e) {
+                die("Query failed: " . $e->getMessage());
+            }
+        }
+
+        public function licenseExists($license) {
+            try {
+                $stmt = $this->pdo->prepare("SELECT * FROM cars WHERE license_plate = :license");
+                $stmt->execute(['license' => $license]);
+                return $stmt->rowCount() > 0;
             } catch (PDOException $e) {
                 die("Query failed: " . $e->getMessage());
             }
