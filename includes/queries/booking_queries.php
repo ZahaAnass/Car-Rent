@@ -115,6 +115,20 @@ class BookingQueries {
         }
     }
 
+    public function checkCarAvailability($car_id, $pickup_date, $return_date) {
+        try {
+            $stmt = $this->pdo->prepare("SELECT * FROM bookings WHERE car_id = :car_id AND NOT (:return_date < pickup_date OR :pickup_date > return_date)");
+            $stmt->execute([
+                'car_id' => $car_id,
+                'pickup_date' => $pickup_date,
+                'return_date' => $return_date
+            ]);
+            return $stmt->rowCount() == 0;
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
 }
 
 ?>
