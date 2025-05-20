@@ -12,7 +12,7 @@
     $userQueries = new UserQueries($pdo);
 
     // Pagination Config
-    $limit = 2; // Number of bookings per page
+    $limit = 7; // Number of bookings per page
     $totalBookings = $bookingQueries->getBookingCount();
     $totalPages = ceil($totalBookings / $limit);
 
