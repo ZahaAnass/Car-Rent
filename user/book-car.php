@@ -9,19 +9,19 @@
     $selected_car_id = isset($_GET['car_id']) ? filter_var($_GET['car_id'], FILTER_VALIDATE_INT) : null;
     
     if (!$selected_car_id) {
-        $_SESSION['booking_error'] = "Invalid car ID.";
+        $_SESSION['car_error'] = "Invalid car ID.";
         redirect("../public/cars.php");
     }
     
     $car = $carQueries->getCarById($selected_car_id);
     
     if (!$car) {
-        $_SESSION['booking_error'] = "Car not found.";
+        $_SESSION['car_error'] = "Car not found.";
         redirect("../public/cars.php");
     }
     
     if ($car['status'] !== 'Available' && $car['status'] !== 'Rented') {
-        $_SESSION['booking_error'] = "This car is not available for booking.";
+        $_SESSION['car_error'] = "This car is not available for booking.";
         redirect("../public/cars.php");
     }
 ?>
@@ -81,7 +81,6 @@
             <?= htmlspecialchars($_SESSION['booking_success']) ?>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-        <?php unset($_SESSION['booking_success']); ?>
     <?php endif; ?>
 
     <div class="container-fluid">
@@ -226,7 +225,9 @@
                                             </select>
                                         </div>
                                         <div class="mb-3 p-3 bg-light rounded">
-                                            <p class="mb-1"><strong>Daily Rate:</strong> $<?= htmlspecialchars(number_format($car['daily_rate'], 2)) ?></p>
+                                            <input type="hidden" id="dailyRate" name="daily_rate" value="<?= htmlspecialchars($car['daily_rate']) ?>">
+                                            <p class="mb-1"><strong>Daily Rate:</strong> $<span id="dailyRateDisplay"><?= htmlspecialchars(number_format($car['daily_rate'], 2)) ?></span></p>
+                                            <input type="hidden" id="total_price" name="total_price">
                                             <h5 class="mb-0"><strong>Total Price:</strong> <span id="totalPriceDisplay">$0.00</span></h5>
                                         </div>
                                         <button type="button" class="btn btn-primary w-100" id="reviewBookingBtn">Review & Book</button>
@@ -249,7 +250,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Please review your booking details below. This is a simulated payment process.</p>
+                    <p>Please review your booking details below. This is a simulated payment process I will Add It Soon!</p>
                     <hr>
                     <h6>Booking Summary:</h6>
                     <p><strong>Car:</strong> <span id="modalCarName"></span></p>
@@ -268,7 +269,9 @@
         </div>
     </div>
 
+
     <!-- Success Modal -->
+    <?php if(isset($_SESSION['booking_success'])): ?>
     <div class="modal fade" id="bookingSuccessModal" tabindex="-1" aria-labelledby="bookingSuccessModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -291,6 +294,15 @@
         </div>
     </div>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var successModal = new bootstrap.Modal(document.getElementById('bookingSuccessModal'));
+            successModal.show();
+        });
+    </script>
+    <?php unset($_SESSION['booking_success']); ?>
+    <?php endif; ?>
+
     <!-- Bottom Navigation With The Scripts -->
     <?php require_once '../includes/bottom-nav.php'; ?>
 
@@ -305,6 +317,7 @@
         const pickupDateEl = document.getElementById('pickup-date');
         const returnDateEl = document.getElementById('return-date');
         const totalPriceDisplayEl = document.getElementById('totalPriceDisplay');
+        const totalPriceInputEl = document.getElementById('total_price');
         
         const reviewBookingBtn = document.getElementById('reviewBookingBtn');
         const paymentModalEl = document.getElementById('paymentConfirmationModal');
@@ -312,11 +325,11 @@
         const modalConfirmAndBookBtn = document.getElementById('modalConfirmAndBookBtn');
         const bookingForm = document.getElementById('bookingForm');
         
-        // New Success Modal
+        // Success Modal
         const successModalEl = document.getElementById('bookingSuccessModal');
-        const successModal = new bootstrap.Modal(successModalEl);
+        const successModal = successModalEl;
 
-        // Function to calculate and display total price
+        // Function to calculate and update total price
         function calculateAndUpdatePrice() {
             if (!pickupDateEl || !returnDateEl || !totalPriceDisplayEl || !carDetails.price) {
                 if (totalPriceDisplayEl) totalPriceDisplayEl.textContent = '$0.00';
@@ -343,6 +356,7 @@
 
                     const total = diffDays * carDetails.price;
                     totalPriceDisplayEl.textContent = '$' + total.toFixed(2);
+                    if (totalPriceInputEl) totalPriceInputEl.value = total.toFixed(2);
                     return total;
                 } else {
                     totalPriceDisplayEl.textContent = 'Invalid dates';
@@ -405,20 +419,9 @@
             });
         }
 
-        // Handle "Confirm & Book (Simulated)" button click in modal
         if (modalConfirmAndBookBtn) {
             modalConfirmAndBookBtn.addEventListener('click', function() {
-                // Simulate booking confirmation (no actual form submission)
-                paymentModal.hide();
-
-                // Show the new success modal
-                successModal.show();
-
-                // Could reset the form here
-                bookingForm.reset();
-                // Reset min attribute for return date to today
-                if(returnDateEl) returnDateEl.setAttribute('min', todayString);
-                calculateAndUpdatePrice(); // Reset price display
+                bookingForm.submit();
             });
         }
     });
