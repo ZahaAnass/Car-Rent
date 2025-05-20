@@ -1,8 +1,36 @@
 <?php
-// Add session start and authentication check if needed
-// session_start();
-// include '../includes/session.php'; // Assuming you have session handling
-// if (!is_admin()) { header('Location: ../login.php'); exit; } 
+    require_once "../includes/session.php";
+    start_session();
+    require_once "../config/database.php";
+    require_once "../includes/functions.php";
+    require_once "../includes/queries/booking_queries.php";
+    require_once "../includes/queries/car_queries.php";
+    require_once "../includes/queries/user_queries.php";
+    
+    $bookingQueries = new BookingQueries($pdo);
+    $carQueries = new CarQueries($pdo);
+    $userQueries = new UserQueries($pdo);
+
+    // Pagination Config
+    $limit = 2; // Number of bookings per page
+    $totalBookings = $bookingQueries->getBookingCount();
+    $totalPages = ceil($totalBookings / $limit);
+
+    // Check If The GET Is Set
+    if (!isset($_GET['page'])) {
+        redirect("manage-reservations.php?page=1");
+    }
+
+    // Get current page and validate it
+    $page = isset($_GET['page']) && $_GET['page'] > 0 && $_GET['page'] <= $totalPages ? (int)$_GET["page"] : redirect("manage-reservations.php?page=1");
+    $offset = ($page - 1) * $limit;
+
+    // Get filter status if set
+    $status_filter = isset($_GET['status']) ? $_GET['status'] : null;
+    $search = isset($_GET['search']) ? $_GET['search'] : null;
+    
+    // Fetch bookings with pagination 
+    $bookings = $bookingQueries->getBookingsWithLimit($limit, $offset, $status_filter, $search);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -59,35 +87,61 @@
                         </div>
                     </div>
 
+                    <!-- Session Messages -->
+                    <?php
+                        if (isset($_SESSION['booking_success'])) {
+                            echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>";
+                            echo "<i class='fas fa-check-circle me-2'></i>{$_SESSION['booking_success']}";
+                            echo "<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>";
+                            echo "</div>";
+                            unset($_SESSION['booking_success']);
+                        }
+
+                        if (isset($_SESSION['booking_error'])) {
+                            echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>";
+                            echo "<i class='fas fa-exclamation-triangle me-2'></i>{$_SESSION['booking_error']}";
+                            echo "<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>";
+                            echo "</div>";
+                            unset($_SESSION['booking_error']);
+                        }
+                    ?>
+
                     <!-- Filters -->
                     <div class="row mb-4 wow fadeInUp" data-wow-delay="0.1s">
                         <div class="col-12">
                             <div class="card shadow-sm border-0">
                                 <div class="card-body">
-                                    <form class="row g-3 align-items-center">
+                                    <form class="row g-3 align-items-center" method="GET" action="manage-reservations.php">
                                         <div class="col-md-4">
-                                            <label for="filterBookingStatus" class="form-label visually-hidden">Status</label>
-                                            <select class="form-select" id="filterBookingStatus">
-                                                <option selected value="">All Statuses</option>
-                                                <option>Confirmed</option>
-                                                <option>Pending</option>
-                                                <option>Completed</option>
-                                                <option>Cancelled</option>
+                                            <label for="status" class="form-label visually-hidden">Status</label>
+                                            <select class="form-select" id="status" name="status">
+                                                <option value="" <?= !$status_filter ? 'selected' : '' ?>>All Statuses</option>
+                                                <option value="Confirmed" <?= $status_filter == 'Confirmed' ? 'selected' : '' ?>>Confirmed</option>
+                                                <option value="Pending" <?= $status_filter == 'Pending' ? 'selected' : '' ?>>Pending</option>
+                                                <option value="Completed" <?= $status_filter == 'Completed' ? 'selected' : '' ?>>Completed</option>
+                                                <option value="Cancelled" <?= $status_filter == 'Cancelled' ? 'selected' : '' ?>>Cancelled</option>
                                             </select>
                                         </div>
                                         <div class="col-md-4">
-                                            <label for="filterSearch" class="form-label visually-hidden">Search</label>
-                                            <input type="text" class="form-control" id="filterSearch" placeholder="Search by User or Car...">
+                                            <label for="search" class="form-label visually-hidden">Search</label>
+                                            <input type="text" class="form-control" id="search" name="search" placeholder="Search by User or Car..." value="<?= htmlspecialchars($search ?? '') ?>">
                                         </div>
                                         <div class="col-md-2">
-                                            <button type="submit" class="btn btn-outline-primary w-100">
+                                            <a type="submit" class="btn btn-outline-primary w-100" 
+                                                href="manage-reservations.php?page=<?= $page ?>
+                                                <?php if(isset($status_filter)){
+                                                    echo "&status=" . $status_filter;
+                                                }?>
+                                                <?php if(isset($search)){
+                                                    echo "&search=" . $search;
+                                                }?>">
                                                 <i class="fas fa-filter me-1"></i> Filter
-                                            </button>
+                                            </a>
                                         </div>
                                         <div class="col-md-2">
-                                            <button type="reset" class="btn btn-outline-secondary w-100">
+                                            <a href="manage-reservations.php" class="btn btn-outline-secondary w-100">
                                                 <i class="fas fa-times me-1"></i> Reset
-                                            </button>
+                                            </a>
                                         </div>
                                     </form>
                                 </div>
@@ -104,98 +158,181 @@
                                         <table class="table table-hover align-middle mb-0">
                                             <thead class="table-light">
                                                 <tr>
-                                                    <th scope="col">Booking ID</th>
+                                                    <th scope="col">#</th>
                                                     <th scope="col">User</th>
                                                     <th scope="col">Car</th>
                                                     <th scope="col">Pickup Date</th>
                                                     <th scope="col">Return Date</th>
-                                                    <th scope="col">Total Cost</th>
+                                                    <th scope="col">Total Price</th>
                                                     <th scope="col">Status</th>
                                                     <th scope="col" class="text-end">Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php 
-                                                // --- PHP Logic to fetch bookings from database would go here ---
-                                                // Example placeholder data:
-                                                $bookings = [
-                                                    ['id' => 101, 'user_name' => 'Jane Smith', 'user_id' => 5, 'car_name' => 'Toyota Camry', 'car_id' => 1, 'pickup_date' => '2025-05-10', 'return_date' => '2025-05-15', 'total_cost' => 225.00, 'status' => 'Confirmed'],
-                                                    ['id' => 102, 'user_name' => 'Robert Johnson', 'user_id' => 8, 'car_name' => 'Honda CR-V', 'car_id' => 2, 'pickup_date' => '2025-05-12', 'return_date' => '2025-05-14', 'total_cost' => 180.00, 'status' => 'Pending'],
-                                                    ['id' => 103, 'user_name' => 'John Doe', 'user_id' => 2, 'car_name' => 'Ford Mustang', 'car_id' => 3, 'pickup_date' => '2025-04-20', 'return_date' => '2025-04-25', 'total_cost' => 400.00, 'status' => 'Completed'],
-                                                    ['id' => 104, 'user_name' => 'Jane Smith', 'user_id' => 5, 'car_name' => 'Toyota Camry', 'car_id' => 1, 'pickup_date' => '2025-06-01', 'return_date' => '2025-06-05', 'total_cost' => 180.00, 'status' => 'Cancelled'],
-                                                    ['id' => 105, 'user_name' => 'Robert Johnson', 'user_id' => 8, 'car_name' => 'Honda CR-V', 'car_id' => 2, 'pickup_date' => '2025-05-12', 'return_date' => '2025-05-14', 'total_cost' => 180.00, 'status' => 'Pending'],
-                                                    ['id' => 106, 'user_name' => 'John Doe', 'user_id' => 2, 'car_name' => 'Ford Mustang', 'car_id' => 3, 'pickup_date' => '2025-04-20', 'return_date' => '2025-04-25', 'total_cost' => 400.00, 'status' => 'Completed'],
-                                                    ['id' => 107, 'user_name' => 'Jane Smith', 'user_id' => 5, 'car_name' => 'Toyota Camry', 'car_id' => 1, 'pickup_date' => '2025-06-01', 'return_date' => '2025-06-05', 'total_cost' => 180.00, 'status' => 'Cancelled'],
-                                                ];
-
-                                                if (empty($bookings)) {
-                                                    echo '<tr><td colspan="8" class="text-center text-muted py-4">No bookings found.</td></tr>';
-                                                } else {
-                                                    foreach ($bookings as $booking): 
-                                                ?>
+                                                <?php if (empty($bookings)): ?>
                                                     <tr>
-                                                        <td>#<?= htmlspecialchars($booking['id']) ?></td>
-                                                        <td>
-                                                            <a href="manage-users.php?view=<?= $booking['user_id'] ?>" data-bs-toggle="tooltip" title="View User Details">
-                                                                <?= htmlspecialchars($booking['user_name']) ?>
-                                                            </a>
-                                                        </td>
-                                                        <td>
-                                                            <a href="manage-cars.php?view=<?= $booking['car_id'] ?>" data-bs-toggle="tooltip" title="View Car Details">
-                                                                <?= htmlspecialchars($booking['car_name']) ?>
-                                                            </a>
-                                                        </td>
-                                                        <td><?= htmlspecialchars($booking['pickup_date']) ?></td>
-                                                        <td><?= htmlspecialchars($booking['return_date']) ?></td>
-                                                        <td>$<?= number_format($booking['total_cost'], 2) ?></td>
-                                                        <td>
-                                                            <?php 
-                                                                $status_badge = 'secondary';
-                                                                if ($booking['status'] == 'Confirmed') $status_badge = 'success';
-                                                                if ($booking['status'] == 'Pending') $status_badge = 'warning text-dark';
-                                                                if ($booking['status'] == 'Completed') $status_badge = 'info text-dark';
-                                                                if ($booking['status'] == 'Cancelled') $status_badge = 'danger';
-                                                            ?>
-                                                            <span class="badge bg-<?= $status_badge ?>"><?= htmlspecialchars($booking['status']) ?></span>
-                                                        </td>
-                                                        <td class="text-end">
-                                                            <!-- Add actions based on status -->
-                                                            <button class="btn btn-sm btn-outline-info me-1" data-bs-toggle="tooltip" title="View Booking Details <?= $booking['id'] ?>">
-                                                                <i class="fas fa-eye"></i>
-                                                            </button>
-                                                            <?php if ($booking['status'] == 'Pending'): ?>
-                                                            <button class="btn btn-sm btn-outline-success me-1" data-bs-toggle="tooltip" title="Confirm Booking <?= $booking['id'] ?>">
-                                                                <i class="fas fa-check"></i>
-                                                            </button>
-                                                            <button class="btn btn-sm btn-outline-danger" data-bs-toggle="tooltip" title="Cancel Booking <?= $booking['id'] ?>">
-                                                                <i class="fas fa-times"></i>
-                                                            </button>
-                                                            <?php elseif ($booking['status'] == 'Confirmed'): ?>
-                                                            <button class="btn btn-sm btn-outline-danger" data-bs-toggle="tooltip" title="Cancel Booking <?= $booking['id'] ?>">
-                                                                <i class="fas fa-times"></i>
-                                                            </button>
-                                                            <?php endif; ?>
-                                                            <!-- Maybe add 'Mark as Completed' or 'Delete' for old bookings -->
+                                                        <td colspan="8" class="text-center py-4">
+                                                            <div class="d-flex flex-column align-items-center">
+                                                                <i class="fas fa-calendar-times fa-3x text-muted mb-3"></i>
+                                                                <h5>No Bookings Found</h5>
+                                                                <p class="text-muted">There are no bookings matching your criteria.</p>
+                                                            </div>
                                                         </td>
                                                     </tr>
-                                                <?php 
-                                                    endforeach; 
-                                                }
-                                                // --- End PHP Logic ---
-                                                ?>
+                                                <?php else: ?>
+                                                    <?php foreach($bookings as $booking): 
+                                                        // Get car and user details
+                                                        $car = $carQueries->getCarById($booking['car_id']);
+                                                        $user = $userQueries->getUserById($booking['user_id']);
+                                                    ?>
+                                                        <tr>
+                                                            <td><?= htmlspecialchars($booking['booking_id']) ?></td>
+                                                            <td>
+                                                                <?php if ($user): ?>
+                                                                    <?= htmlspecialchars($user['first_name'] . ' ' . $user['last_name']) ?>
+                                                                <?php else: ?>
+                                                                    <span class="text-muted">Unknown User</span>
+                                                                <?php endif; ?>
+                                                            </td>
+                                                            <td>
+                                                                <?php if ($car): ?>
+                                                                    <?= htmlspecialchars($car['name']) ?>
+                                                                <?php else: ?>
+                                                                    <span class="text-muted">Unknown Car</span>
+                                                                <?php endif; ?>
+                                                            </td>
+                                                            <td><?= htmlspecialchars(date('M d, Y', strtotime($booking['pickup_date']))) ?></td>
+                                                            <td><?= htmlspecialchars(date('M d, Y', strtotime($booking['return_date']))) ?></td>
+                                                            <td>$<?= number_format($booking['total_price'], 2) ?></td>
+                                                            <td>
+                                                                <?php 
+                                                                    $status_badge = 'secondary';
+                                                                    if ($booking['status'] == 'Confirmed') $status_badge = 'success';
+                                                                    if ($booking['status'] == 'Pending') $status_badge = 'warning';
+                                                                    if ($booking['status'] == 'Completed') $status_badge = 'info';
+                                                                    if ($booking['status'] == 'Cancelled') $status_badge = 'danger';
+                                                                ?>
+                                                                <span class="badge bg-<?= $status_badge ?>"><?= htmlspecialchars($booking['status']) ?></span>
+                                                            </td>
+                                                            <td class="text-end">
+                                                                <!-- View Booking Details -->
+                                                                <button class="btn btn-sm btn-outline-info me-1" data-bs-toggle="modal" data-bs-target="#viewBookingModal<?= $booking['booking_id'] ?>" title="View Details">
+                                                                    <i class="fas fa-eye"></i>
+                                                                </button>
+                                                                
+                                                                <!-- Update Booking Status Buttons -->
+                                                                <form action="manage-reservation-handeler.php" method="POST" class="d-inline">
+                                                                    <input type="hidden" name="booking_id" value="<?= $booking['booking_id'] ?>">
+                                                                    
+                                                                    <?php if ($booking['status'] == 'Pending'): ?>
+                                                                    <!-- Confirm Button -->
+                                                                    <button type="submit" name="update_status" value="Confirmed" class="btn btn-sm btn-outline-success me-1" title="Confirm Booking">
+                                                                        <i class="fas fa-check"></i>
+                                                                    </button>
+                                                                    
+                                                                    <!-- Cancel Button -->
+                                                                    <button type="submit" name="update_status" value="Cancelled" class="btn btn-sm btn-outline-danger" title="Cancel Booking">
+                                                                        <i class="fas fa-times"></i>
+                                                                    </button>
+                                                                    
+                                                                    <?php elseif ($booking['status'] == 'Confirmed'): ?>
+                                                                    <!-- Mark as Completed -->
+                                                                    <button type="submit" name="update_status" value="Completed" class="btn btn-sm btn-outline-primary me-1" title="Mark as Completed">
+                                                                        <i class="fas fa-check-double"></i>
+                                                                    </button>
+                                                                    
+                                                                    <!-- Cancel Button -->
+                                                                    <button type="submit" name="update_status" value="Cancelled" class="btn btn-sm btn-outline-danger" title="Cancel Booking">
+                                                                        <i class="fas fa-times"></i>
+                                                                    </button>
+                                                                    <?php endif; ?>
+                                                                </form>
+                                                            </td>
+                                                        </tr>
+                                                    <?php endforeach; ?>
+                                                <?php endif; ?>
                                             </tbody>
                                         </table>
                                     </div>
                                     
-                                    <?php if (!empty($bookings)): ?>
-                                    <!-- Optional: Add Pagination -->
-                                    <nav aria-label="Page navigation" class="mt-4">
-                                        <ul class="pagination justify-content-center">
-                                            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                                        </ul>
-                                    </nav>
+                                    <?php if ($totalPages > 1): ?>
+                                        <nav aria-label="Page navigation" class="mt-4">
+                                            <ul class="pagination justify-content-center">
+                                                <!-- Previous -->
+                                                <li class="page-item <?= $page == 1 ? 'disabled' : '' ?>">
+                                                    <a class="page-link" href="?page=<?= $page - 1 ?>
+                                                    <?php if ($status_filter): ?>
+                                                    &status=<?= $status_filter ?>
+                                                    <?php endif; ?>
+                                                    <?php if ($search): ?>
+                                                    &search=<?= urlencode($search) ?>
+                                                    <?php endif; ?>
+                                                    ">Previous</a>
+                                                </li>
+
+                                                <?php
+                                                $visiblePages = 2; // Number of pages before/after the current one to show
+                                                $start = max(1, $page - $visiblePages);
+                                                $end = min($totalPages, $page + $visiblePages);
+
+                                                // Always show first page
+                                                if ($start > 1):
+                                                ?>
+                                                    <li class="page-item"><a class="page-link" href="?page=1
+                                                    <?php if ($status_filter): ?>
+                                                    &status=<?= $status_filter ?>
+                                                    <?php endif; ?>
+                                                    <?php if ($search): ?>
+                                                    &search=<?= urlencode($search) ?>
+                                                    <?php endif; ?>
+                                                    ">1</a></li>
+                                                    <?php if ($start > 2): ?>
+                                                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                                                    <?php endif; ?>
+                                                <?php endif; ?>
+
+                                                <!-- Page Numbers Around Current -->
+                                                <?php for ($i = $start; $i <= $end; $i++): ?>
+                                                    <li class="page-item <?= $page == $i ? 'active' : '' ?>">
+                                                        <a class="page-link" href="?page=<?= $i ?>
+                                                        <?php if ($status_filter): ?>
+                                                        &status=<?= $status_filter ?>
+                                                        <?php endif; ?>
+                                                        <?php if ($search): ?>
+                                                        &search=<?= urlencode($search) ?>
+                                                        <?php endif; ?>
+                                                        "><?= $i ?></a>
+                                                    </li>
+                                                <?php endfor; ?>
+
+                                                <!-- Always show last page -->
+                                                <?php if ($end < $totalPages): ?>
+                                                    <?php if ($end < $totalPages - 1): ?>
+                                                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                                                    <?php endif; ?>
+                                                    <li class="page-item"><a class="page-link" href="?page=<?= $totalPages ?>
+                                                    <?php if ($status_filter): ?>
+                                                    &status=<?= $status_filter ?>
+                                                    <?php endif; ?>
+                                                    <?php if ($search): ?>
+                                                    &search=<?= urlencode($search) ?>
+                                                    <?php endif; ?>
+                                                    "><?= $totalPages ?></a></li>
+                                                <?php endif; ?>
+
+                                                <!-- Next -->
+                                                <li class="page-item <?= $page == $totalPages ? 'disabled' : '' ?>">
+                                                    <a class="page-link" href="?page=<?= $page + 1 ?>
+                                                    <?php if ($status_filter): ?>
+                                                    &status=<?= $status_filter ?>
+                                                    <?php endif; ?>
+                                                    <?php if ($search): ?>
+                                                    &search=<?= urlencode($search) ?>
+                                                    <?php endif; ?>
+                                                    ">Next</a>
+                                                </li>
+                                            </ul>
+                                        </nav>
                                     <?php endif; ?>
                                 </div>
                             </div>
