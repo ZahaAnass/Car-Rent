@@ -16,13 +16,14 @@
     $totalBookings = $bookingQueries->getBookingCount();
     $totalPages = ceil($totalBookings / $limit);
 
-    // Check If The GET Is Set
-    if (!isset($_GET['page'])) {
+    // Get current page and validate it
+    $page = isset($_GET['page']) ? (int)$_GET["page"] : 1;
+    
+    // Validate page number
+    if ($page < 1 || ($totalPages > 0 && $page > $totalPages)) {
         redirect("manage-reservations.php?page=1");
     }
-
-    // Get current page and validate it
-    $page = isset($_GET['page']) && $_GET['page'] > 0 && $_GET['page'] <= $totalPages ? (int)$_GET["page"] : redirect("manage-reservations.php?page=1");
+    
     $offset = ($page - 1) * $limit;
 
     // Get filter status if set
@@ -31,6 +32,19 @@
     
     // Fetch bookings with pagination 
     $bookings = $bookingQueries->getBookingsWithLimit($limit, $offset, $status_filter, $search);
+    
+    // If filters are applied, update the total count and pages
+    if ($status_filter || $search) {
+        $totalBookings = count($bookingQueries->getAllBookings($status_filter, $search));
+        $totalPages = ceil($totalBookings / $limit);
+        
+        // Recheck page validity with new total
+        if ($page > $totalPages && $totalPages > 0) {
+            redirect("manage-reservations.php?page=1" . 
+                        ($status_filter ? "&status=" . urlencode($status_filter) : "") . 
+                        ($search ? "&search=" . urlencode($search) : ""));
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -127,29 +141,22 @@
                                             <input type="text" class="form-control" id="search" name="search" placeholder="Search by User or Car..." value="<?= htmlspecialchars($search ?? '') ?>">
                                         </div>
                                         <div class="col-md-2">
-                                            <a type="submit" class="btn btn-outline-primary w-100" 
-                                                href="manage-reservations.php?page=<?= $page ?>
-                                                <?php if(isset($status_filter)){
-                                                    echo "&status=" . $status_filter;
-                                                }?>
-                                                <?php if(isset($search)){
-                                                    echo "&search=" . $search;
-                                                }?>">
+                                            <button type="submit" class="btn btn-outline-primary w-100">
                                                 <i class="fas fa-filter me-1"></i> Filter
-                                            </a>
+                                            </button>
                                         </div>
                                         <div class="col-md-2">
                                             <a href="manage-reservations.php" class="btn btn-outline-secondary w-100">
                                                 <i class="fas fa-times me-1"></i> Reset
                                             </a>
                                         </div>
+                                        <input type="hidden" name="page" value="1">
                                     </form>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Bookings Table -->
                     <div class="row">
                         <div class="col-12 wow fadeInUp" data-wow-delay="0.1s">
                             <div class="card shadow-sm border-0">
@@ -262,7 +269,7 @@
                                                 <li class="page-item <?= $page == 1 ? 'disabled' : '' ?>">
                                                     <a class="page-link" href="?page=<?= $page - 1 ?>
                                                     <?php if ($status_filter): ?>
-                                                    &status=<?= $status_filter ?>
+                                                    &status=<?= urlencode($status_filter) ?>
                                                     <?php endif; ?>
                                                     <?php if ($search): ?>
                                                     &search=<?= urlencode($search) ?>
@@ -280,7 +287,7 @@
                                                 ?>
                                                     <li class="page-item"><a class="page-link" href="?page=1
                                                     <?php if ($status_filter): ?>
-                                                    &status=<?= $status_filter ?>
+                                                    &status=<?= urlencode($status_filter) ?>
                                                     <?php endif; ?>
                                                     <?php if ($search): ?>
                                                     &search=<?= urlencode($search) ?>
@@ -296,7 +303,7 @@
                                                     <li class="page-item <?= $page == $i ? 'active' : '' ?>">
                                                         <a class="page-link" href="?page=<?= $i ?>
                                                         <?php if ($status_filter): ?>
-                                                        &status=<?= $status_filter ?>
+                                                        &status=<?= urlencode($status_filter) ?>
                                                         <?php endif; ?>
                                                         <?php if ($search): ?>
                                                         &search=<?= urlencode($search) ?>
@@ -312,7 +319,7 @@
                                                     <?php endif; ?>
                                                     <li class="page-item"><a class="page-link" href="?page=<?= $totalPages ?>
                                                     <?php if ($status_filter): ?>
-                                                    &status=<?= $status_filter ?>
+                                                    &status=<?= urlencode($status_filter) ?>
                                                     <?php endif; ?>
                                                     <?php if ($search): ?>
                                                     &search=<?= urlencode($search) ?>
@@ -324,7 +331,7 @@
                                                 <li class="page-item <?= $page == $totalPages ? 'disabled' : '' ?>">
                                                     <a class="page-link" href="?page=<?= $page + 1 ?>
                                                     <?php if ($status_filter): ?>
-                                                    &status=<?= $status_filter ?>
+                                                    &status=<?= urlencode($status_filter) ?>
                                                     <?php endif; ?>
                                                     <?php if ($search): ?>
                                                     &search=<?= urlencode($search) ?>
