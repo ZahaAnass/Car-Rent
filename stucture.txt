@@ -132,5 +132,6 @@
     ├── add-testimonial.php
     ├── book-car.php
     ├── dashboard.php
+    ├── index.php
     ├── my-reservations.php
     └── settings.php
