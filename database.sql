@@ -90,3 +90,5 @@ CREATE TABLE remember_me_tokens (
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
     UNIQUE KEY (token)
 );
+
+-- Inserting Data
