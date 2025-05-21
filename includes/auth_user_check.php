@@ -7,7 +7,7 @@ include_once '../includes/functions.php';
 
 // Check If User Is Logged In
 if (!is_logged_in()) {
-    redirect('../public/auth/login.php');
+    redirect('../auth/login.php');
 }
 
 // Check If User Is Admin
