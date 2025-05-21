@@ -105,19 +105,41 @@ class BookingQueries {
         }
     }
 
-    public function getAllBookings() {
+    public function getAllBookings($status_filter = null, $search = null) {
         try {
-            $stmt = $this->pdo->prepare("SELECT * FROM bookings");
+            $status_filter = $status_filter ?? '';
+            $search = $search ?? '';
+            
+            if (!$status_filter && !$search) {
+                $stmt = $this->pdo->prepare("SELECT b.* FROM bookings b");
+            } elseif($status_filter && !$search) {
+                $stmt = $this->pdo->prepare("SELECT b.* FROM bookings b WHERE b.status = :status_filter");
+            } elseif(!$status_filter && $search) {
+                $search = "%$search%"; // Add wildcards for LIKE query
+                $stmt = $this->pdo->prepare("SELECT b.* FROM bookings b WHERE (b.user_id IN (SELECT id FROM users WHERE first_name LIKE :search OR last_name LIKE :search) OR b.car_id IN (SELECT id FROM cars WHERE name LIKE :search))");
+            } elseif($status_filter && $search) {
+                $search = "%$search%"; // Add wildcards for LIKE query
+                $stmt = $this->pdo->prepare("SELECT b.* FROM bookings b WHERE b.status = :status_filter AND (b.user_id IN (SELECT id FROM users WHERE first_name LIKE :search OR last_name LIKE :search) OR b.car_id IN (SELECT id FROM cars WHERE name LIKE :search))");
+            }
+            
+            if ($status_filter) {
+                $stmt->bindParam(':status_filter', $status_filter, PDO::PARAM_STR);
+            }
+            if ($search) {
+                $stmt->bindParam(':search', $search, PDO::PARAM_STR);
+            }
+            
             $stmt->execute();
-            return $stmt->fetchAll();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            die("Query failed: " . $e->getMessage());
+            error_log("Database error in getAllBookings: " . $e->getMessage());
+            return [];
         }
     }
 
     public function checkCarAvailability($car_id, $pickup_date, $return_date) {
         try {
-            $stmt = $this->pdo->prepare("SELECT * FROM bookings WHERE car_id = :car_id AND NOT (:return_date < pickup_date OR :pickup_date > return_date)");
+            $stmt = $this->pdo->prepare("SELECT * FROM bookings WHERE car_id = :car_id AND NOT (:return_date < pickup_date OR :pickup_date > return_date) AND status != 'Pending'");
             $stmt->execute([
                 'car_id' => $car_id,
                 'pickup_date' => $pickup_date,
@@ -126,6 +148,55 @@ class BookingQueries {
             return $stmt->rowCount() == 0;
         } catch (PDOException $e) {
             die("Query failed: " . $e->getMessage());
+        }
+    }
+
+    public function getBookingCount() {
+        try {
+            $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM bookings");
+            $stmt->execute();
+            return $stmt->fetchColumn();
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
+    public function getBookingsWithLimit($limit, $offset, $status_filter, $search) {
+        try {
+            $status_filter = $status_filter ?? '';
+            $search = $search ?? '';
+            $limit = filter_var($limit, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'default' => 10]]);
+            $offset = filter_var($offset, FILTER_VALIDATE_INT, ['options' => ['min_range' => 0, 'default' => 0]]);
+            if (!$status_filter && !$search) {
+                $stmt = $this->pdo->prepare("SELECT b.* FROM bookings b LIMIT :limit OFFSET :offset");
+            } elseif($status_filter && !$search) {
+                $stmt = $this->pdo->prepare("SELECT b.* FROM bookings b WHERE b.status = :status_filter LIMIT :limit OFFSET :offset");
+            } elseif(!$status_filter && $search) {
+                $search = "%" . $search . "%";
+                $stmt = $this->pdo->prepare("SELECT b.* FROM bookings b 
+                    WHERE (b.user_id IN (SELECT id FROM users WHERE first_name LIKE :search OR last_name LIKE :search) 
+                    OR b.car_id IN (SELECT id FROM cars WHERE name LIKE :search)) 
+                    LIMIT :limit OFFSET :offset");
+            } elseif($status_filter && $search) {
+                $search = "%" . $search . "%";
+                $stmt = $this->pdo->prepare("SELECT b.* FROM bookings b 
+                    WHERE b.status = :status_filter AND (b.user_id IN (SELECT id FROM users WHERE first_name LIKE :search OR last_name LIKE :search) 
+                    OR b.car_id IN (SELECT id FROM cars WHERE name LIKE :search)) 
+                    LIMIT :limit OFFSET :offset");
+            }
+            $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+            $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+            if ($status_filter) {
+                $stmt->bindParam(':status_filter', $status_filter, PDO::PARAM_STR);
+            }
+            if ($search) {
+                $stmt->bindParam(':search', $search, PDO::PARAM_STR);
+            }
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);                
+        } catch (PDOException $e) {
+            error_log("Database error in getBookingsWithLimit: " . $e->getMessage());
+            return [];
         }
     }
 
