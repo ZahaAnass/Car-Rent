@@ -175,6 +175,16 @@
             }
         }
 
+        public function updateCarStatus($car_id, $status) {
+            try {
+                $stmt = $this->pdo->prepare("UPDATE cars SET status = :status WHERE car_id = :car_id");
+                $stmt->execute(['car_id' => $car_id, 'status' => $status]);
+                return $stmt->rowCount() > 0;
+            } catch (PDOException $e) {
+                die("Query failed: " . $e->getMessage());
+            }
+        }
+
     }
 
 ?>
