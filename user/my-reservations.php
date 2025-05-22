@@ -1,3 +1,45 @@
+<?php
+    require_once "../includes/session.php";
+    require_once "../config/database.php";
+    require_once "../config/config.php";
+    require_once "../includes/functions.php";
+    require_once "../includes/queries/booking_queries.php";
+    require_once "../includes/queries/car_queries.php";
+    
+    start_session();
+    
+    if (!isset($_SESSION['user_id'])) {
+        redirect('../login.php');
+    }
+    
+    $bookingQueries = new BookingQueries($pdo);
+    $carQueries = new CarQueries($pdo);
+    
+    // Get all bookings for the current user
+    $bookings = $bookingQueries->getBookingByUserId($_SESSION['user_id']);
+    
+    // Convert booking status to user-friendly format
+    $status_map = [
+        'Pending' => ['label' => 'Upcoming', 'badge' => 'bg-primary'],
+        'Confirmed' => ['label' => 'Upcoming', 'badge' => 'bg-primary'],
+        'Rented' => ['label' => 'Active', 'badge' => 'bg-success'],
+        'Completed' => ['label' => 'Completed', 'badge' => 'bg-secondary'],
+        'Cancelled' => ['label' => 'Cancelled', 'badge' => 'bg-danger']
+    ];
+    
+    // Filter bookings by status
+    $upcoming = array_filter($bookings, function($b) {
+        return in_array($b['status'], ['Pending', 'Confirmed']);
+    });
+    
+    $active = array_filter($bookings, function($b) {
+        return $b['status'] === 'Rented';
+    });
+    
+    $past = array_filter($bookings, function($b) {
+        return in_array($b['status'], ['Completed', 'Cancelled']);
+    });
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -57,30 +99,6 @@
                     <!-- Tabs -->
                     <div class="row wow fadeInUp" data-wow-delay="0.5s">
                         <div class="col-12">
-                            <?php 
-                            // Sample Reservation Data (Replace with actual data fetching)
-                            $reservations = [
-                                ['id' => 101, 'car_name' => 'Toyota Camry', 'car_image' => '../assets/img/car-1.png', 'pickup_date' => '2025-06-15', 'return_date' => '2025-06-20', 'pickup_loc' => 'Airport', 'return_loc' => 'Downtown Station', 'total_cost' => 225, 'status' => 'Upcoming'],
-                                ['id' => 102, 'car_name' => 'Honda CR-V', 'car_image' => '../assets/img/car-2.png', 'pickup_date' => '2025-05-10', 'return_date' => '2025-05-14', 'pickup_loc' => 'Uptown Branch', 'return_loc' => 'Uptown Branch', 'total_cost' => 240, 'status' => 'Active'],
-                                ['id' => 103, 'car_name' => 'Ford Mustang', 'car_image' => '../assets/img/car-3.png', 'pickup_date' => '2025-04-01', 'return_date' => '2025-04-05', 'pickup_loc' => 'Airport', 'return_loc' => 'Airport', 'total_cost' => 340, 'status' => 'Completed'],
-                                ['id' => 104, 'car_name' => 'Toyota Camry', 'car_image' => '../assets/img/car-1.png', 'pickup_date' => '2025-07-01', 'return_date' => '2025-07-03', 'pickup_loc' => 'Downtown Station', 'return_loc' => 'Downtown Station', 'total_cost' => 90, 'status' => 'Upcoming'],
-                                ['id' => 105, 'car_name' => 'Honda CR-V', 'car_image' => '../assets/img/car-2.png', 'pickup_date' => '2025-03-10', 'return_date' => '2025-03-15', 'pickup_loc' => 'Airport', 'return_loc' => 'Uptown Branch', 'total_cost' => 300, 'status' => 'Cancelled'],
-                            ];
-
-                            // Filter reservations by status
-                            $upcoming = array_filter($reservations, fn($r) => $r['status'] === 'Upcoming');
-                            $active = array_filter($reservations, fn($r) => $r['status'] === 'Active');
-                            $past = array_filter($reservations, fn($r) => in_array($r['status'], ['Completed', 'Cancelled']));
-
-                            // Status badge mapping
-                            $status_badges = [
-                                'Upcoming' => 'bg-primary',
-                                'Active' => 'bg-success',
-                                'Completed' => 'bg-secondary',
-                                'Cancelled' => 'bg-danger'
-                            ];
-                            ?>
-
                             <ul class="nav nav-tabs nav-fill mb-4" id="reservationsTab" role="tablist">
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link active" id="upcoming-tab" data-bs-toggle="tab" data-bs-target="#upcoming" type="button" role="tab" aria-controls="upcoming" aria-selected="true">
@@ -103,48 +121,56 @@
                                 <!-- Upcoming Tab -->
                                 <div class="tab-pane fade show active" id="upcoming" role="tabpanel" aria-labelledby="upcoming-tab">
                                     <?php if (empty($upcoming)): ?>
-                                        <div class="alert alert-info text-center wow fadeInUp">You have no upcoming reservations. <a href="book-car.php">Book a car now!</a></div>
+                                        <div class="alert alert-info text-center wow fadeInUp">You have no upcoming reservations. <a href="../book-car.php">Book a car now!</a></div>
                                     <?php else: ?>
                                         <div class="row g-4">
                                             <?php 
                                             $delay = 0.1; 
-                                            foreach ($upcoming as $res): 
+                                            foreach ($upcoming as $booking): 
+                                                $car = $carQueries->getCarById($booking['car_id']);
                                             ?>
                                             <div class="col-12 wow fadeInUp" data-wow-delay="<?= $delay ?>s">
                                                 <div class="card shadow-sm border-0 h-100 reservation-card">
                                                     <div class="row g-0">
                                                         <div class="col-md-3 d-flex align-items-center justify-content-center p-3">
-                                                            <img src="<?= $res['car_image'] ?>" class="img-fluid rounded" alt="<?= $res['car_name'] ?>" style="max-height: 120px; object-fit: cover;">
+                                                            <img src="<?= $car['image_url'] ?? '../assets/img/car-placeholder.png' ?>" class="img-fluid rounded" alt="<?= htmlspecialchars($car['name'] ?? 'Car') ?>" style="max-height: 120px; object-fit: cover;">
                                                         </div>
                                                         <div class="col-md-9">
                                                             <div class="card-body d-flex flex-column h-100">
                                                                 <div class="d-flex justify-content-between align-items-start mb-2">
-                                                                    <h5 class="card-title mb-0"><?= $res['car_name'] ?></h5>
-                                                                    <span class="badge <?= $status_badges[$res['status']] ?> ms-2"><?= $res['status'] ?></span>
+                                                                    <h5 class="card-title mb-0"><?= htmlspecialchars($car['name'] ?? 'Unknown Car') ?></h5>
+                                                                    <span class="badge <?= $status_map[$booking['status']]['badge'] ?> ms-2"><?= $status_map[$booking['status']]['label'] ?></span>
                                                                 </div>
                                                                 <div class="row gx-3 gy-2 small text-muted mb-3">
                                                                     <div class="col-sm-6">
                                                                         <i class="fas fa-calendar-alt fa-fw text-primary me-1"></i> 
-                                                                        <strong>Pickup:</strong> <?= date("M d, Y", strtotime($res['pickup_date'])) ?>
+                                                                        <strong>Pickup:</strong> <?= date("M d, Y", strtotime($booking['pickup_date'])) ?>
                                                                     </div>
                                                                     <div class="col-sm-6">
                                                                         <i class="fas fa-calendar-check fa-fw text-primary me-1"></i> 
-                                                                        <strong>Return:</strong> <?= date("M d, Y", strtotime($res['return_date'])) ?>
+                                                                        <strong>Return:</strong> <?= date("M d, Y", strtotime($booking['return_date'])) ?>
                                                                     </div>
                                                                     <div class="col-sm-6">
                                                                         <i class="fas fa-map-marker-alt fa-fw text-primary me-1"></i> 
-                                                                        <strong>From:</strong> <?= $res['pickup_loc'] ?>
+                                                                        <strong>From:</strong> <?= htmlspecialchars($booking['pickup_location']) ?>
                                                                     </div>
                                                                     <div class="col-sm-6">
                                                                         <i class="fas fa-map-pin fa-fw text-primary me-1"></i> 
-                                                                        <strong>To:</strong> <?= $res['return_loc'] ?>
+                                                                        <strong>To:</strong> <?= htmlspecialchars($booking['return_location']) ?>
                                                                     </div>
                                                                 </div>
                                                                 <div class="mt-auto d-flex justify-content-between align-items-center">
-                                                                    <p class="card-text mb-0"><strong>Total Cost:</strong> <span class="text-primary h5 mb-0">$<?= number_format($res['total_cost'], 2) ?></span></p>
+                                                                    <p class="card-text mb-0"><strong>Total Cost:</strong> <span class="text-primary h5 mb-0"><?= number_format($booking['total_price'], 2) ?></span></p>
                                                                     <div class="text-center text-sm-end">
-                                                                        <button class="btn btn-sm btn-outline-danger w-100 w-sm-auto mb-2 mb-sm-0 me-sm-2">Cancel</button>
-                                                                        <button class="btn btn-sm btn-primary w-100 mt-md-2 w-sm-auto">View Details</button>
+                                                                        <form action="../includes/handlers/cancel-booking.php" method="POST" class="d-inline">
+                                                                            <input type="hidden" name="booking_id" value="<?= $booking['booking_id'] ?>">
+                                                                            <button type="submit" class="btn btn-sm btn-outline-danger w-100 w-sm-auto mb-2 mb-sm-0 me-sm-2" onclick="return confirm('Are you sure you want to cancel this booking?')">
+                                                                                Cancel
+                                                                            </button>
+                                                                        </form>
+                                                                        <button class="btn btn-sm btn-primary w-100 mt-md-2 w-sm-auto" data-bs-toggle="modal" data-bs-target="#viewBookingModal<?= $booking['booking_id'] ?>">
+                                                                            View Details
+                                                                        </button>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -165,30 +191,33 @@
                                         <div class="row g-4">
                                             <?php 
                                             $delay = 0.1;
-                                            foreach ($active as $res): 
+                                            foreach ($active as $booking): 
+                                                $car = $carQueries->getCarById($booking['car_id']);
                                             ?>
                                             <div class="col-12 wow fadeInUp" data-wow-delay="<?= $delay ?>s">
                                                 <div class="card shadow-sm border-0 h-100 reservation-card">
                                                     <div class="row g-0">
                                                         <div class="col-md-3 d-flex align-items-center justify-content-center p-3">
-                                                            <img src="<?= $res['car_image'] ?>" class="img-fluid rounded" alt="<?= $res['car_name'] ?>" style="max-height: 120px; object-fit: cover;">
+                                                            <img src="<?= $car['image_url'] ?? '../assets/img/car-placeholder.png' ?>" class="img-fluid rounded" alt="<?= htmlspecialchars($car['name'] ?? 'Car') ?>" style="max-height: 120px; object-fit: cover;">
                                                         </div>
                                                         <div class="col-md-9">
                                                             <div class="card-body d-flex flex-column h-100">
                                                                 <div class="d-flex justify-content-between align-items-start mb-2">
-                                                                    <h5 class="card-title mb-0"><?= $res['car_name'] ?></h5>
-                                                                    <span class="badge <?= $status_badges[$res['status']] ?> ms-2"><?= $res['status'] ?></span>
+                                                                    <h5 class="card-title mb-0"><?= htmlspecialchars($car['name'] ?? 'Unknown Car') ?></h5>
+                                                                    <span class="badge <?= $status_map[$booking['status']]['badge'] ?> ms-2"><?= $status_map[$booking['status']]['label'] ?></span>
                                                                 </div>
                                                                 <div class="row gx-3 gy-2 small text-muted mb-3">
-                                                                    <div class="col-sm-6"><i class="fas fa-calendar-alt fa-fw text-primary me-1"></i> <strong>Pickup:</strong> <?= date("M d, Y", strtotime($res['pickup_date'])) ?></div>
-                                                                    <div class="col-sm-6"><i class="fas fa-calendar-check fa-fw text-primary me-1"></i> <strong>Return:</strong> <?= date("M d, Y", strtotime($res['return_date'])) ?></div>
-                                                                    <div class="col-sm-6"><i class="fas fa-map-marker-alt fa-fw text-primary me-1"></i> <strong>From:</strong> <?= $res['pickup_loc'] ?></div>
-                                                                    <div class="col-sm-6"><i class="fas fa-map-pin fa-fw text-primary me-1"></i> <strong>To:</strong> <?= $res['return_loc'] ?></div>
+                                                                    <div class="col-sm-6"><i class="fas fa-calendar-alt fa-fw text-primary me-1"></i> <strong>Pickup:</strong> <?= date("M d, Y", strtotime($booking['pickup_date'])) ?></div>
+                                                                    <div class="col-sm-6"><i class="fas fa-calendar-check fa-fw text-primary me-1"></i> <strong>Return:</strong> <?= date("M d, Y", strtotime($booking['return_date'])) ?></div>
+                                                                    <div class="col-sm-6"><i class="fas fa-map-marker-alt fa-fw text-primary me-1"></i> <strong>From:</strong> <?= htmlspecialchars($booking['pickup_location']) ?></div>
+                                                                    <div class="col-sm-6"><i class="fas fa-map-pin fa-fw text-primary me-1"></i> <strong>To:</strong> <?= htmlspecialchars($booking['return_location']) ?></div>
                                                                 </div>
                                                                 <div class="mt-auto d-flex justify-content-between align-items-center">
-                                                                    <p class="card-text mb-0"><strong>Total Cost:</strong> <span class="text-primary h5 mb-0">$<?= number_format($res['total_cost'], 2) ?></span></p>
+                                                                    <p class="card-text mb-0"><strong>Total Cost:</strong> <span class="text-primary h5 mb-0"><?= number_format($booking['total_price'], 2) ?></span></p>
                                                                     <div class="text-center text-sm-end">
-                                                                        <button class="btn btn-sm btn-outline-primary w-100 w-sm-auto">View Details</button>
+                                                                        <button class="btn btn-sm btn-outline-primary w-100 w-sm-auto" data-bs-toggle="modal" data-bs-target="#viewBookingModal<?= $booking['booking_id'] ?>">
+                                                                            View Details
+                                                                        </button>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -209,30 +238,33 @@
                                         <div class="row g-4">
                                             <?php 
                                             $delay = 0.1;
-                                            foreach ($past as $res): 
+                                            foreach ($past as $booking): 
+                                                $car = $carQueries->getCarById($booking['car_id']);
                                             ?>
                                             <div class="col-12 wow fadeInUp" data-wow-delay="<?= $delay ?>s">
                                                 <div class="card shadow-sm border-0 h-100 reservation-card">
                                                     <div class="row g-0">
                                                         <div class="col-md-3 d-flex align-items-center justify-content-center p-3">
-                                                            <img src="<?= $res['car_image'] ?>" class="img-fluid rounded <?= $res['status'] === 'Cancelled' ? 'opacity-50' : '' ?>" alt="<?= $res['car_name'] ?>" style="max-height: 120px; object-fit: cover;">
+                                                            <img src="<?= $car['image_url'] ?? '../assets/img/car-placeholder.png' ?>" class="img-fluid rounded <?= $booking['status'] === 'Cancelled' ? 'opacity-50' : '' ?>" alt="<?= htmlspecialchars($car['name'] ?? 'Car') ?>" style="max-height: 120px; object-fit: cover;">
                                                         </div>
                                                         <div class="col-md-9">
                                                             <div class="card-body d-flex flex-column h-100">
                                                                 <div class="d-flex justify-content-between align-items-start mb-2">
-                                                                    <h5 class="card-title mb-0"><?= $res['car_name'] ?></h5>
-                                                                    <span class="badge <?= $status_badges[$res['status']] ?> ms-2"><?= $res['status'] ?></span>
+                                                                    <h5 class="card-title mb-0"><?= htmlspecialchars($car['name'] ?? 'Unknown Car') ?></h5>
+                                                                    <span class="badge <?= $status_map[$booking['status']]['badge'] ?> ms-2"><?= $status_map[$booking['status']]['label'] ?></span>
                                                                 </div>
                                                                 <div class="row gx-3 gy-2 small text-muted mb-3">
-                                                                    <div class="col-sm-6"><i class="fas fa-calendar-alt fa-fw text-primary me-1"></i> <strong>Pickup:</strong> <?= date("M d, Y", strtotime($res['pickup_date'])) ?></div>
-                                                                    <div class="col-sm-6"><i class="fas fa-calendar-check fa-fw text-primary me-1"></i> <strong>Return:</strong> <?= date("M d, Y", strtotime($res['return_date'])) ?></div>
-                                                                    <div class="col-sm-6"><i class="fas fa-map-marker-alt fa-fw text-primary me-1"></i> <strong>From:</strong> <?= $res['pickup_loc'] ?></div>
-                                                                    <div class="col-sm-6"><i class="fas fa-map-pin fa-fw text-primary me-1"></i> <strong>To:</strong> <?= $res['return_loc'] ?></div>
+                                                                    <div class="col-sm-6"><i class="fas fa-calendar-alt fa-fw text-primary me-1"></i> <strong>Pickup:</strong> <?= date("M d, Y", strtotime($booking['pickup_date'])) ?></div>
+                                                                    <div class="col-sm-6"><i class="fas fa-calendar-check fa-fw text-primary me-1"></i> <strong>Return:</strong> <?= date("M d, Y", strtotime($booking['return_date'])) ?></div>
+                                                                    <div class="col-sm-6"><i class="fas fa-map-marker-alt fa-fw text-primary me-1"></i> <strong>From:</strong> <?= htmlspecialchars($booking['pickup_location']) ?></div>
+                                                                    <div class="col-sm-6"><i class="fas fa-map-pin fa-fw text-primary me-1"></i> <strong>To:</strong> <?= htmlspecialchars($booking['return_location']) ?></div>
                                                                 </div>
                                                                 <div class="mt-auto d-flex justify-content-between align-items-center">
-                                                                    <p class="card-text mb-0"><strong>Total Cost:</strong> <span class="text-primary h5 mb-0">$<?= number_format($res['total_cost'], 2) ?></span></p>
+                                                                    <p class="card-text mb-0"><strong>Total Cost:</strong> <span class="text-primary h5 mb-0"><?= number_format($booking['total_price'], 2) ?></span></p>
                                                                     <div class="text-center text-sm-end">
-                                                                        <button class="btn btn-sm btn-outline-primary w-100 w-sm-auto">View Details</button>
+                                                                        <button class="btn btn-sm btn-outline-primary w-100 w-sm-auto" data-bs-toggle="modal" data-bs-target="#viewBookingModal<?= $booking['booking_id'] ?>">
+                                                                            View Details
+                                                                        </button>
                                                                     </div>
                                                                 </div>
                                                             </div>
