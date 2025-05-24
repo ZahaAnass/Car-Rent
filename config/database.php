@@ -2,7 +2,7 @@
 $host = 'localhost';
 $dbname = 'zoomix_rental';
 $username = 'root';
-$password = ''; 
+$password = '';
 $charset = 'utf8mb4';
 
 try {
