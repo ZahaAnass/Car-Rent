@@ -200,6 +200,16 @@ class BookingQueries {
         }
     }
 
+    public function cancelBooking($booking_id) {
+        try {
+            $stmt = $this->pdo->prepare("UPDATE bookings SET status = 'Cancelled' WHERE booking_id = :booking_id");
+            $stmt->execute(['booking_id' => $booking_id]);
+            return $stmt->rowCount() > 0;
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
 }
 
 ?>
