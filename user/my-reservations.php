@@ -96,6 +96,22 @@
                         </div>
                     </div>
 
+                    <?php if(isset($_SESSION['success'])): ?>
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="fas fa-check-circle me-2"></i>
+                            <?= $_SESSION['success'] ?>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if(isset($_SESSION['error'])): ?>
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-circle me-2"></i>
+                            <?= $_SESSION['error'] ?>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    <?php endif; ?>
+
                     <!-- Tabs -->
                     <div class="row wow fadeInUp" data-wow-delay="0.5s">
                         <div class="col-12">
@@ -162,7 +178,7 @@
                                                                 <div class="mt-auto d-flex justify-content-between align-items-center">
                                                                     <p class="card-text mb-0"><strong>Total Cost:</strong> <span class="text-primary h5 mb-0"><?= number_format($booking['total_price'], 2) ?></span></p>
                                                                     <div class="text-center text-sm-end">
-                                                                        <form action="../includes/handlers/cancel-booking.php" method="POST" class="d-inline">
+                                                                        <form action="cancel-booking.php" method="POST" class="d-inline">
                                                                             <input type="hidden" name="booking_id" value="<?= $booking['booking_id'] ?>">
                                                                             <button type="submit" class="btn btn-sm btn-outline-danger w-100 w-sm-auto mb-2 mb-sm-0 me-sm-2" onclick="return confirm('Are you sure you want to cancel this booking?')">
                                                                                 Cancel
