@@ -36,12 +36,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     switch($new_status){
                         case 'Confirmed':
                             $carQueries->updateCarStatus($car_id, 'Rented');
+                            $bookingQueries->updateBookingStatus($booking_id, 'Confirmed');
                             break;
                         case 'Cancelled':
                             $carQueries->updateCarStatus($car_id, 'Available');
+                            $bookingQueries->updateBookingStatus($booking_id, 'Cancelled');
                             break;
                         case 'Completed':
                             $carQueries->updateCarStatus($car_id, 'Available');
+                            $bookingQueries->updateBookingStatus($booking_id, 'Completed');
                             break;
                     }
                 } else {
