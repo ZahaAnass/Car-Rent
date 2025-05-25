@@ -210,6 +210,25 @@ class BookingQueries {
         }
     }
 
+    public function updateBookingStatusBasedOnDate() {
+        $current_date = date('Y-m-d H:i:s');
+        
+        $this->pdo->prepare("
+            UPDATE bookings 
+            SET status = 'Active' 
+            WHERE status = 'Confirmed' 
+            AND pickup_date <= :current_date 
+            AND return_date >= :current_date
+        ")->execute(['current_date' => $current_date]);
+        
+        $this->pdo->prepare("
+            UPDATE bookings 
+            SET status = 'Completed' 
+            WHERE status = 'Active' 
+            AND return_date < :current_date
+        ")->execute(['current_date' => $current_date]);
+    }
+
 }
 
 ?>
