@@ -11,6 +11,9 @@
     $carQueries = new CarQueries($pdo);
     $userQueries = new UserQueries($pdo);
 
+    // Update booking status based on date
+    $bookingQueries->updateBookingStatusBasedOnDate();
+
     // Pagination Config
     $limit = 7; // Number of bookings per page
     $totalBookings = $bookingQueries->getBookingCount();
@@ -132,6 +135,7 @@
                                                 <option value="" <?= !$status_filter ? 'selected' : '' ?>>All Statuses</option>
                                                 <option value="Confirmed" <?= $status_filter == 'Confirmed' ? 'selected' : '' ?>>Confirmed</option>
                                                 <option value="Pending" <?= $status_filter == 'Pending' ? 'selected' : '' ?>>Pending</option>
+                                                <option value="Active" <?= $status_filter == 'Active' ? 'selected' : '' ?>>Active</option>
                                                 <option value="Completed" <?= $status_filter == 'Completed' ? 'selected' : '' ?>>Completed</option>
                                                 <option value="Cancelled" <?= $status_filter == 'Cancelled' ? 'selected' : '' ?>>Cancelled</option>
                                             </select>
