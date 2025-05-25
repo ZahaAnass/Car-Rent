@@ -10,9 +10,6 @@
         redirect('../public/index.php');
     }
     
-    $error = $_SESSION['login_error'] ?? '';
-    unset($_SESSION['login_error']);
-    
     require_once '../includes/auth_header.php'; 
 
 ?>
@@ -30,6 +27,24 @@
     <div class="container py-5">
         <div class="row justify-content-center">
             <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+                <?php if(isset($_SESSION['error'])): ?>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="fas fa-exclamation-circle me-2"></i>
+                        <?= $_SESSION['error'] ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    <?php unset($_SESSION['error']); ?>
+                <?php endif; ?>
+                
+                <?php if(isset($_SESSION['success'])): ?>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="fas fa-check-circle me-2"></i>
+                        <?= $_SESSION['success'] ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    <?php unset($_SESSION['success']); ?>
+                <?php endif; ?>
+                
                 <div class="login-container">
                     <div class="login-header">
                         <h2>Login to <span class="text-primary">Zoomix</span></h2>
