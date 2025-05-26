@@ -354,6 +354,76 @@
         </div>
     </div>
 
+    <!-- View Booking Modal -->
+    <?php foreach ($bookings as $booking): 
+        $car = $carQueries->getCarById($booking['car_id']);
+        $user = $userQueries->getUserById($booking['user_id']);
+    ?>
+        <div class="modal fade" id="viewBookingModal<?= $booking['booking_id'] ?>" tabindex="-1" aria-labelledby="viewBookingModalLabel<?= $booking['booking_id'] ?>" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title" id="viewBookingModalLabel<?= $booking['booking_id'] ?>">
+                            Booking <?= $booking['booking_id'] ?> - <?= htmlspecialchars($car['name'] ?? 'Car Details') ?>
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <img src="<?= htmlspecialchars($car['image_url'] ?? '../assets/img/default-car.webp') ?>" 
+                                        class="img-fluid rounded" 
+                                        alt="<?= htmlspecialchars($car['name'] ?? 'Car Image') ?>">
+                                </div>
+                                <h5>Car Details</h5>
+                                <ul class="list-unstyled">
+                                    <li><strong>Make:</strong> <?= htmlspecialchars($car['make'] ?? 'N/A') ?></li>
+                                    <li><strong>Model:</strong> <?= htmlspecialchars($car['model'] ?? 'N/A') ?></li>
+                                    <li><strong>Year:</strong> <?= htmlspecialchars($car['year'] ?? 'N/A') ?></li>
+                                    <li><strong>Type:</strong> <?= htmlspecialchars($car['type'] ?? 'N/A') ?></li>
+                                    <li><strong>Color:</strong> <?= htmlspecialchars($car['color'] ?? 'N/A') ?></li>
+                                    <li><strong>License Plate:</strong> <?= htmlspecialchars($car['license_plate'] ?? 'N/A') ?></li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h5>Booking Information</h5>
+                                <ul class="list-unstyled">
+                                    <li><strong>Status:</strong> 
+                                        <span class="badge bg-<?= 
+                                            $booking['status'] === 'Confirmed' ? 'primary' : 
+                                            ($booking['status'] === 'Active' ? 'success' : 
+                                            ($booking['status'] === 'Completed' ? 'secondary' : 
+                                            ($booking['status'] === 'Cancelled' ? 'danger' : 'warning')))
+                                        ?>">
+                                            <?= htmlspecialchars($booking['status']) ?>
+                                        </span>
+                                    </li>
+                                    <li><strong>Pickup Date:</strong> <?= date("M d, Y H:i", strtotime($booking['pickup_date'])) ?></li>
+                                    <li><strong>Return Date:</strong> <?= date("M d, Y H:i", strtotime($booking['return_date'])) ?></li>
+                                    <li><strong>Pickup Location:</strong> <?= htmlspecialchars($booking['pickup_location']) ?></li>
+                                    <li><strong>Return Location:</strong> <?= htmlspecialchars($booking['return_location']) ?></li>
+                                    <li><strong>Daily Rate:</strong> $<?= number_format($car['daily_rate'] ?? 0, 2) ?></li>
+                                    <li class="mt-2"><strong>Total Price:</strong> <span class="h5 text-primary">$<?= number_format($booking['total_price'], 2) ?></span></li>
+                                </ul>
+
+                                <h5 class="mt-4">Customer Information</h5>
+                                <ul class="list-unstyled">
+                                    <li><strong>Name:</strong> <?= htmlspecialchars($user['first_name'] . ' ' . $user['last_name']) ?></li>
+                                    <li><strong>Email:</strong> <?= htmlspecialchars($user['email']) ?></li>
+                                    <li><strong>Phone:</strong> <?= htmlspecialchars($user['phone_number'] ?? 'N/A') ?></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php endforeach; ?>
+
     <!-- Mobile Bottom Navigation -->
     <?php require_once '../includes/bottom-nav.php'; ?>
 
