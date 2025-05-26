@@ -15,7 +15,7 @@
     $bookingQueries->updateBookingStatusBasedOnDate();
 
     // Pagination Config
-    $limit = 7; // Number of bookings per page
+    $limit = 7; // Number of bookings per page 
     $totalBookings = $bookingQueries->getBookingCount();
     $totalPages = ceil($totalBookings / $limit);
 
