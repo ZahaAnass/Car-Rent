@@ -249,34 +249,93 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="addUserForm">
+                    <form id="addUserForm" class="register-form" action="manage-user-handeler.php?action=add" method="post">
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="userName" class="form-label">Full Name</label>
-                                <input type="text" class="form-control" id="userName" name="name" required>
+                                <label for="first_name" class="form-label">First Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="first_name" name="first_name" required>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="userEmail" class="form-label">Email Address</label>
-                                <input type="email" class="form-control" id="userEmail" name="email" required>
+                                <label for="last_name" class="form-label">Last Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="last_name" name="last_name" required>
                             </div>
                         </div>
+                        
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email Address <span class="text-danger">*</span></label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="userPassword" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="userPassword" name="password" required>
+                                <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <input type="password" class="form-control" id="password" name="password" required>
+                                    <button class="btn btn-outline-secondary toggle-password" type="button">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <div class="form-text">Password must be at least 8 characters long</div>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="userRole" class="form-label">Role</label>
-                                <select class="form-select" id="userRole" name="role" required>
+                                <label for="confirm_password" class="form-label">Confirm Password <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                                    <button class="btn btn-outline-secondary toggle-password" type="button">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="phone_number" class="form-label">Phone Number</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">+212</span>
+                                    <input type="tel" class="form-control" id="phone_number" name="phone_number" 
+                                        pattern="[0-9]{9}" title="Please enter a valid 9-digit phone number">
+                                </div>
+                                <div class="form-text"></div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="role" class="form-label">Role <span class="text-danger">*</span></label>
+                                <select class="form-select" id="role" name="role" required>
                                     <option value="User" selected>User</option>
                                     <option value="Admin">Admin</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="userPhone" class="form-label">Phone Number (Optional)</label>
-                            <input type="tel" class="form-control" id="userPhone" name="phone">
+
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label for="license_number" class="form-label">License Number</label>
+                                <input type="text" class="form-control" id="license_number" name="license_number" required>
+                            </div>
                         </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="country" class="form-label">Country <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                                    <select name="country" id="country" class="form-select" required>
+                                        <option value="" selected disabled>Select Country</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="city" class="form-label">City <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-city"></i></span>
+                                    <select name="city" id="city" class="form-select" required>
+                                        <option value="" selected disabled>Select City</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -288,6 +347,8 @@
     </div>
     <!-- End Add User Modal -->
 
+    <script src="../assets/js/add-user-validation.js"></script>
+    <script src="../assets/js/countries.js"></script>
 
 </body>
 </html>
