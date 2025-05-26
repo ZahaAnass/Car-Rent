@@ -1,8 +1,50 @@
 <?php
-// Add session start and authentication check if needed
-// session_start();
-// include '../includes/session.php'; // Assuming you have session handling
-// if (!is_admin()) { header('Location: ../login.php'); exit; } 
+    require_once "../includes/session.php";
+    start_session();
+    require_once "../config/database.php";
+    require_once "../includes/functions.php";
+    require_once "../includes/queries/user_queries.php";
+    
+    $userQueries = new UserQueries($pdo);
+    
+    // Get all users
+    $users = $userQueries->getAllUsers();
+
+    // Pagination Config
+    $limit = 7; // Number of users per page 
+    $totalUsers = $userQueries->getUserCount();
+    $totalPages = ceil($totalUsers / $limit);
+
+    // Get current page and validate it
+    $page = isset($_GET['page']) ? (int)$_GET["page"] : 1;
+    
+    // Validate page number
+    if ($page < 1 || ($totalPages > 0 && $page > $totalPages)) {
+        redirect("manage-users.php?page=1");
+    }
+    
+    $offset = ($page - 1) * $limit;
+
+    // Get filter status if set
+    $status_filter = isset($_GET['status']) ? $_GET['status'] : null;
+    $search = isset($_GET['search']) ? $_GET['search'] : null;
+    
+    // Fetch users with pagination 
+    $users = $userQueries->getUsersWithLimit($limit, $offset, $status_filter, $search);
+    
+    // If filters are applied, update the total count and pages
+    if ($status_filter || $search) {
+        $totalUsers = count($userQueries->getAllUsers($status_filter, $search));
+        $totalPages = ceil($totalUsers / $limit);
+        
+        // Recheck page validity with new total
+        if ($page > $totalPages && $totalPages > 0) {
+            redirect("manage-users.php?page=1" . 
+                        ($status_filter ? "&status=" . urlencode($status_filter) : "") . 
+                        ($search ? "&search=" . urlencode($search) : ""));
+        }
+    }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -117,65 +159,60 @@
                                             </thead>
                                             <tbody>
                                                 <?php 
-                                                // --- PHP Logic to fetch users from database ---
-                                                // Make sure not to fetch sensitive data like passwords here
-                                                $users = [
-                                                    ['id' => 1, 'name' => 'Admin User', 'email' => 'admin@zoomix.com', 'registered_date' => '2025-04-01', 'role' => 'Admin'],
-                                                    ['id' => 2, 'name' => 'John Doe', 'email' => 'john.doe@example.com', 'registered_date' => '2025-04-15', 'role' => 'User'],
-                                                    ['id' => 3, 'name' => 'Admin User', 'email' => 'admin@zoomix.com', 'registered_date' => '2025-04-01', 'role' => 'Admin'],
-                                                    ['id' => 4, 'name' => 'John Doe', 'email' => 'john.doe@example.com', 'registered_date' => '2025-04-15', 'role' => 'User'],
-                                                    ['id' => 5, 'name' => 'Jane Smith', 'email' => 'jane.s@sample.net', 'registered_date' => '2025-04-20', 'role' => 'User'],
-                                                    ['id' => 6, 'name' => 'John Doe', 'email' => 'john.doe@example.com', 'registered_date' => '2025-04-15', 'role' => 'User'],
-                                                    ['id' => 7, 'name' => 'Jane Smith', 'email' => 'jane.s@sample.net', 'registered_date' => '2025-04-20', 'role' => 'User'],
-                                                ];
-                                                
-                                                // Get current admin ID if needed to prevent self-modification
-                                                $current_admin_id = 1; // Example: Get this from session
-
                                                 if (empty($users)) {
-                                                    echo '<tr><td colspan="7" class="text-center text-muted py-4">No users found.</td></tr>';
+                                                    echo '<tr><td colspan="6" class="text-center text-muted py-4">No users found.</td></tr>';
                                                 } else {
                                                     foreach ($users as $user): 
+                                                        $isCurrentUser = ($user['user_id'] == $_SESSION['user_id']);
                                                 ?>
                                                     <tr>
-                                                        <td>#<?= htmlspecialchars($user['id']) ?></td>
-                                                        <td><?= htmlspecialchars($user['name']) ?></td>
+                                                        <td>#<?= htmlspecialchars($user['user_id']) ?></td>
+                                                        <td><?= htmlspecialchars($user['first_name'] . ' ' . $user['last_name']) ?></td>
                                                         <td><?= htmlspecialchars($user['email']) ?></td>
-                                                        <td><?= htmlspecialchars($user['registered_date']) ?></td>
+                                                        <td><?= date('M d, Y', strtotime($user['registered_at'])) ?></td>
                                                         <td>
                                                             <span class="badge bg-<?= $user['role'] == 'Admin' ? 'primary' : 'secondary' ?>">
                                                                 <?= htmlspecialchars($user['role']) ?>
                                                             </span>
                                                         </td>
                                                         <td class="text-end">
-                                                            <!-- Prevent modifying the current admin user -->
-                                                            <?php if ($user['id'] != $current_admin_id): ?> 
-                                                                
-                                                                <!-- Edit Role Button (Example using dropdown) -->
+                                                            <?php if (!$isCurrentUser): ?> 
+                                                                <!-- Edit Role Button -->
                                                                 <div class="btn-group me-1">
-                                                                    <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" title="Change Role">
+                                                                    <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" 
+                                                                            data-bs-toggle="dropdown" aria-expanded="false" title="Change Role">
                                                                         <i class="fas fa-user-shield"></i> Role
                                                                     </button>
                                                                     <ul class="dropdown-menu">
-                                                                        <li><a class="dropdown-item" href="?action=setRole&id=<?= $user['id'] ?>&role=Admin">Make Admin</a></li>
-                                                                        <li><a class="dropdown-item" href="?action=setRole&id=<?= $user['id'] ?>&role=User">Make User</a></li>
+                                                                        <li>
+                                                                            <a class="dropdown-item" 
+                                                                            href="manage-user-handler.php?action=update_role&user_id=<?= $user['user_id'] ?>&role=Admin">
+                                                                                Make Admin
+                                                                            </a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="dropdown-item" 
+                                                                            href="manage-user-handler.php?action=update_role&user_id=<?= $user['user_id'] ?>&role=User">
+                                                                                Make User
+                                                                            </a>
+                                                                        </li>
                                                                     </ul>
                                                                 </div>
-
                                                                 
                                                                 <!-- Delete Button -->
-                                                                <button class="btn btn-sm btn-outline-danger" data-bs-toggle="tooltip" title="Delete User <?= $user['id'] ?>">
+                                                                <a href="manage-user-handler.php?action=delete&user_id=<?= $user['user_id'] ?>" 
+                                                                class="btn btn-sm btn-outline-danger" 
+                                                                onclick="return confirm('Are you sure you want to delete this user? This action cannot be undone.')">
                                                                     <i class="fas fa-trash"></i> Delete
-                                                                </button>
+                                                                </a>
                                                             <?php else: ?>
-                                                                <span class="text-muted fst-italic">(Current Admin)</span>
+                                                                <span class="text-muted fst-italic">(Current User)</span>
                                                             <?php endif; ?>
                                                         </td>
                                                     </tr>
                                                 <?php 
                                                     endforeach; 
                                                 }
-                                                // --- End PHP Logic ---
                                                 ?>
                                             </tbody>
                                         </table>
