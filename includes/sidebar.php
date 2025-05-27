@@ -7,6 +7,8 @@ $current_page = basename($current_path);
 
 // Check if we are in the admin or user section
 $is_admin_section = strpos($current_path, '/admin/') !== false; 
+
+require_once '../includes/auto-login.php';
 ?>
 
 <div class="col-md-4 col-lg-3 d-none d-md-block bg-dark sidebar wow fadeInLeft" style="min-height: 100vh;"> 
