@@ -1,1 +1,7 @@
 *.php linguist-language=PHP
+*.js linguist-language=JavaScript
+*.css linguist-language=CSS
+*.json linguist-language=JSON
+*.sql linguist-language=SQL
+*.txt linguist-language=Text
+*.md linguist-language=Markdown
