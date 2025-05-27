@@ -11,7 +11,7 @@
     $users = $userQueries->getAllUsers();
 
     // Pagination Config
-    $limit = 7; // Number of users per page 
+    $limit = 100; // Number of users per page 
     $totalUsers = $userQueries->getUserCount();
     $totalPages = ceil($totalUsers / $limit);
 
@@ -106,6 +106,24 @@
                         </div>
                     </div>
 
+                    <?php if(isset($_SESSION['action_success'])): ?>
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="fas fa-check-circle me-2"></i>
+                            <?php echo $_SESSION['action_success']; ?>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    <?php endif;
+                    unset($_SESSION['action_success']); ?>
+
+                    <?php if(isset($_SESSION['action_error'])): ?>
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-circle me-2"></i>
+                            <?php echo $_SESSION['action_error']; ?>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    <?php endif;
+                    unset($_SESSION['action_error']); ?>
+
                     <!-- Filters -->
                     <div class="row mb-4 wow fadeInUp" data-wow-delay="0.1s">
                         <div class="col-12">
@@ -186,13 +204,13 @@
                                                                     <ul class="dropdown-menu">
                                                                         <li>
                                                                             <a class="dropdown-item" 
-                                                                            href="manage-user-handler.php?action=update_role&user_id=<?= $user['user_id'] ?>&role=Admin">
+                                                                            href="manage-user-handeler.php?action=update_role&user_id=<?= $user['user_id'] ?>&role=Admin">
                                                                                 Make Admin
                                                                             </a>
                                                                         </li>
                                                                         <li>
                                                                             <a class="dropdown-item" 
-                                                                            href="manage-user-handler.php?action=update_role&user_id=<?= $user['user_id'] ?>&role=User">
+                                                                            href="manage-user-handeler.php?action=update_role&user_id=<?= $user['user_id'] ?>&role=User">
                                                                                 Make User
                                                                             </a>
                                                                         </li>
@@ -200,7 +218,7 @@
                                                                 </div>
                                                                 
                                                                 <!-- Delete Button -->
-                                                                <a href="manage-user-handler.php?action=delete&user_id=<?= $user['user_id'] ?>" 
+                                                                <a href="manage-user-handeler.php?action=delete&user_id=<?= $user['user_id'] ?>" 
                                                                 class="btn btn-sm btn-outline-danger" 
                                                                 onclick="return confirm('Are you sure you want to delete this user? This action cannot be undone.')">
                                                                     <i class="fas fa-trash"></i> Delete
