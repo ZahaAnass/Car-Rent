@@ -99,6 +99,18 @@ function validate_booking_id($booking_id){
     return filter_var($booking_id, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[0-9]{1,10}$/']]) !== false;
 }
 
+function validate_user_id($user_id){
+    return filter_var($user_id, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[0-9]{1,10}$/']]) !== false;
+}
+
+function validate_action($action){
+    return filter_var($action, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^(add|delete|update)$/']]) !== false;
+}
+
+function validate_role($role){
+    return filter_var($role, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^(Admin|User)$/']]) !== false;
+}
+
 function get_current_page_name() {
     $current_page = basename($_SERVER['PHP_SELF']);
     return $current_page;
