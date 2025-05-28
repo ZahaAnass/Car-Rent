@@ -195,20 +195,29 @@
                                                         </td>
                                                         <td class="text-end">
                                                             <?php if (!$isCurrentUser): ?> 
-                                                                <!-- Edit Role Button -->
-                                                                <div class="btn-group me-1">
-                                                                    <form action="manage-user-handeler.php" method="post">
+                                                                <div class="d-flex justify-content-end gap-2">
+                                                                    <!-- Role Selector -->
+                                                                    <form action="manage-user-handeler.php" method="post" style="min-width: 120px;">
                                                                         <input type="hidden" name="action" value="update_role">
                                                                         <input type="hidden" name="user_id" value="<?= $user['user_id'] ?>">
-                                                                        <select name="new_role" onchange="this.form.submit()" class="form-select">
-                                                                            <option value="User" <?= $user['role'] === 'User' ? 'selected' : '' ?> class="form-select">User</option>
-                                                                            <option value="Admin" <?= $user['role'] === 'Admin' ? 'selected' : '' ?> class="form-select">Admin</option>
+                                                                        <select name="role" onchange="this.form.submit()" class="form-select form-select-sm">
+                                                                            <option value="User" <?= $user['role'] === 'User' ? 'selected' : '' ?>>User</option>
+                                                                            <option value="Admin" <?= $user['role'] === 'Admin' ? 'selected' : '' ?>>Admin</option>
                                                                         </select>
                                                                     </form>
+                                                                    
+                                                                    <!-- Delete Button -->
+                                                                    <form action="manage-user-handeler.php" method="post" class="d-inline">
+                                                                        <input type="hidden" name="action" value="delete">
+                                                                        <input type="hidden" name="user_id" value="<?= $user['user_id'] ?>">
+                                                                        <button type="submit" 
+                                                                                class="btn btn-sm btn-outline-danger" 
+                                                                                onclick="return confirm('Are you sure you want to delete this user? This action cannot be undone.')"
+                                                                                title="Delete User">
+                                                                            <i class="fas fa-trash"></i>
+                                                                        </button>
+                                                                    </form>
                                                                 </div>
-                                                                
-                                                                <!-- Delete Button -->
-                                                                
                                                             <?php else: ?>
                                                                 <span class="text-muted fst-italic">(Current User)</span>
                                                             <?php endif; ?>
