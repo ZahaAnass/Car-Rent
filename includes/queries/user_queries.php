@@ -170,7 +170,7 @@ class UserQueries {
             $stmt = $this->pdo->prepare("SELECT user_id FROM remember_me_tokens WHERE token = :token AND expires_at > NOW()");
             $stmt->execute(['token' => $token]);
             $row = $stmt->fetch();
-            return $row['user_id'];
+            return $row ? $row['user_id'] : null;
         } catch (PDOException $e) {
             die("Query failed: " . $e->getMessage());
         }
