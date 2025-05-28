@@ -197,32 +197,18 @@
                                                             <?php if (!$isCurrentUser): ?> 
                                                                 <!-- Edit Role Button -->
                                                                 <div class="btn-group me-1">
-                                                                    <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" 
-                                                                            data-bs-toggle="dropdown" aria-expanded="false" title="Change Role">
-                                                                        <i class="fas fa-user-shield"></i> Role
-                                                                    </button>
-                                                                    <ul class="dropdown-menu">
-                                                                        <li>
-                                                                            <a class="dropdown-item" 
-                                                                            href="manage-user-handeler.php?action=update_role&user_id=<?= $user['user_id'] ?>&role=Admin">
-                                                                                Make Admin
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a class="dropdown-item" 
-                                                                            href="manage-user-handeler.php?action=update_role&user_id=<?= $user['user_id'] ?>&role=User">
-                                                                                Make User
-                                                                            </a>
-                                                                        </li>
-                                                                    </ul>
+                                                                    <form action="manage-user-handeler.php" method="post">
+                                                                        <input type="hidden" name="action" value="update_role">
+                                                                        <input type="hidden" name="user_id" value="<?= $user['user_id'] ?>">
+                                                                        <select name="new_role" onchange="this.form.submit()" class="form-select">
+                                                                            <option value="User" <?= $user['role'] === 'User' ? 'selected' : '' ?> class="form-select">User</option>
+                                                                            <option value="Admin" <?= $user['role'] === 'Admin' ? 'selected' : '' ?> class="form-select">Admin</option>
+                                                                        </select>
+                                                                    </form>
                                                                 </div>
                                                                 
                                                                 <!-- Delete Button -->
-                                                                <a href="manage-user-handeler.php?action=delete&user_id=<?= $user['user_id'] ?>" 
-                                                                class="btn btn-sm btn-outline-danger" 
-                                                                onclick="return confirm('Are you sure you want to delete this user? This action cannot be undone.')">
-                                                                    <i class="fas fa-trash"></i> Delete
-                                                                </a>
+                                                                
                                                             <?php else: ?>
                                                                 <span class="text-muted fst-italic">(Current User)</span>
                                                             <?php endif; ?>
