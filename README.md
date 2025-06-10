@@ -2,7 +2,7 @@
 
 A modern, responsive car rental website template.
 
-## Project Overview
+## Project Overview 
 
 Car-Rent is a front-end web template for a car rental business. It features a stylish, mobile-friendly design, interactive carousels, animated elements, and multiple pages such as Home, About, Services, Cars, Blog, Team, Testimonials, and Contact. The template is easy to customize and extend for your own business needs.
 
