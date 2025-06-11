@@ -64,4 +64,4 @@ Car-Rent is a front-end web template for a car rental business. It features a st
 - [CounterUp](https://github.com/bfintal/Counter-Up)
 - [Waypoints](http://imakewebthings.com/waypoints/)
 - [Easing](https://gsgd.co.uk/sandbox/jquery/easing/)
-- [Lightbox](https://lokeshdhakar.com/projects/lightbox2/)
+- [Lightbox](https://lokeshdhakar.com/projects/lightbox2/) 
