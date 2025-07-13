@@ -9,10 +9,14 @@
     // Pagination Config
     $limit = 7; // Number of cars per page
     $totalCars = $carQueries->getCarCount();
-    $totalPages = ceil($totalCars / $limit);
+    $totalPages = max(1, ceil($totalCars / $limit)); // Ensure at least 1 page
 
-    // Get current page and validate it and redirect to page 1 if invalid
-    $page = isset($_GET['page']) && $_GET['page'] > 0 && $_GET['page'] <= $totalPages ? (int)$_GET["page"] : redirect("manage-cars.php?page=1");
+    // Get current page and validate it
+    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+    if ($page < 1 || ($totalCars > 0 && $page > $totalPages)) {
+        header("Location: manage-cars.php?page=1");
+        exit();
+    }
     $offset = ($page - 1) * $limit;
 
     // Fetch cars with pagination
