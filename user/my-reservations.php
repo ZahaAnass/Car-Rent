@@ -160,7 +160,7 @@
                                                 <div class="card shadow-sm border-0 h-100 reservation-card">
                                                     <div class="row g-0">
                                                         <div class="col-md-3 d-flex align-items-center justify-content-center p-3">
-                                                            <img src="<?= $car['image_url'] ?? '../assets/img/car-placeholder.png' ?>" class="img-fluid rounded" alt="<?= htmlspecialchars($car['name'] ?? 'Car') ?>" style="max-height: 120px; object-fit: cover;">
+                                                            <img src="../<?= $car['image_url'] ?? '../assets/img/car-placeholder.png' ?>" class="img-fluid rounded" alt="<?= htmlspecialchars($car['name'] ?? 'Car') ?>" style="max-height: 120px; object-fit: cover;">
                                                         </div>
                                                         <div class="col-md-9">
                                                             <div class="card-body d-flex flex-column h-100">
@@ -225,7 +225,7 @@
                                                 <div class="card shadow-sm border-0 h-100 reservation-card">
                                                     <div class="row g-0">
                                                         <div class="col-md-3 d-flex align-items-center justify-content-center p-3">
-                                                            <img src="<?= $car['image_url'] ?? '../assets/img/car-placeholder.png' ?>" class="img-fluid rounded" alt="<?= htmlspecialchars($car['name'] ?? 'Car') ?>" style="max-height: 120px; object-fit: cover;">
+                                                            <img src="../<?= $car['image_url'] ?? '../assets/img/car-placeholder.png' ?>" class="img-fluid rounded" alt="<?= htmlspecialchars($car['name'] ?? 'Car') ?>" style="max-height: 120px; object-fit: cover;">
                                                         </div>
                                                         <div class="col-md-9">
                                                             <div class="card-body d-flex flex-column h-100">
@@ -290,7 +290,7 @@
                                                 <div class="card shadow-sm border-0 h-100 reservation-card">
                                                     <div class="row g-0">
                                                         <div class="col-md-3 d-flex align-items-center justify-content-center p-3">
-                                                            <img src="<?= $car['image_url'] ?? '../assets/img/car-placeholder.png' ?>" class="img-fluid rounded" alt="<?= htmlspecialchars($car['name'] ?? 'Car') ?>" style="max-height: 120px; object-fit: cover;">
+                                                            <img src="../<?= $car['image_url'] ?? '../assets/img/car-placeholder.png' ?>" class="img-fluid rounded" alt="<?= htmlspecialchars($car['name'] ?? 'Car') ?>" style="max-height: 120px; object-fit: cover;">
                                                         </div>
                                                         <div class="col-md-9">
                                                             <div class="card-body d-flex flex-column h-100">
@@ -337,7 +337,7 @@
                                                 <div class="card shadow-sm border-0 h-100 reservation-card">
                                                     <div class="row g-0">
                                                         <div class="col-md-3 d-flex align-items-center justify-content-center p-3">
-                                                            <img src="<?= $car['image_url'] ?? '../assets/img/car-placeholder.png' ?>" class="img-fluid rounded <?= $booking['status'] === 'Cancelled' ? 'opacity-50' : '' ?>" alt="<?= htmlspecialchars($car['name'] ?? 'Car') ?>" style="max-height: 120px; object-fit: cover;">
+                                                            <img src="../<?= $car['image_url'] ?? '../assets/img/car-placeholder.png' ?>" class="img-fluid rounded <?= $booking['status'] === 'Cancelled' ? 'opacity-50' : '' ?>" alt="<?= htmlspecialchars($car['name'] ?? 'Car') ?>" style="max-height: 120px; object-fit: cover;">
                                                         </div>
                                                         <div class="col-md-9">
                                                             <div class="card-body d-flex flex-column h-100">
@@ -390,7 +390,7 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-6">
-                                <img src="<?= htmlspecialchars($car['image_url'] ?? '../default-car.webp') ?>" class="img-fluid rounded mb-3" alt="Car Image">
+                                <img src="../<?= htmlspecialchars($car['image_url'] ?? '../default-car.webp') ?>" class="img-fluid rounded mb-3" alt="Car Image">
                             </div>
                             <div class="col-md-6">
                                 <h3><?= htmlspecialchars($car['name'] ?? 'Unknown Car') ?></h3>
