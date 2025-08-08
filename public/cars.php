@@ -131,7 +131,7 @@
                                     </div>
                                     
                                     <div class="categories-img rounded-top">
-                                        <img src="<?php echo !empty($car['image_url']) ? htmlspecialchars($car['image_url']) : '../assets/img/default-car.webp'; ?>" 
+                                        <img src="<?php echo !empty($car['image_url']) ? "../" . htmlspecialchars($car['image_url']) : '../assets/img/default-car.webp'; ?>" 
                                                 class="img-fluid w-100 rounded-top" 
                                                 alt="<?php echo htmlspecialchars($car['name']); ?>" 
                                                 style="height: 200px; object-fit: cover;"> 
