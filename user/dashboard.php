@@ -1,3 +1,30 @@
+<?php
+    require_once '../includes/session.php';
+    start_session();
+    require_once '../config/database.php';
+    require_once '../includes/queries/testimonial_queries.php';
+    require_once '../includes/queries/user_queries.php';
+    require_once '../includes/queries/booking_queries.php';
+    require_once '../includes/functions.php';
+
+    if (!isset($_SESSION['user_id'])) {
+        redirect('login.php');
+    }
+
+    $testimonialQueries = new TestimonialQueries($pdo);
+    $user = new UserQueries($pdo);
+    $booking = new BookingQueries($pdo);
+
+    $userData = $user->getUserById($_SESSION['user_id']);
+
+    $spendedMoney = $user->getAllSpendedMoney($_SESSION['user_id']) ?? 0;
+    $totalBookings = $booking->getTotalBookingsByUserId($_SESSION['user_id']) ?? 0;
+    $totalTestimonials = $testimonialQueries->getAllTestimonialsCount($_SESSION['user_id']) ?? 0;
+
+    $displayName = $userData['first_name'] . ' ' . $userData['last_name'];
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -62,8 +89,8 @@
                                     <div class="dashboard-icons rounded-circle p-3 d-inline-block mb-3 wow fadeInUp" data-wow-delay="0.3s">
                                         <i class="fas fa-car fa-2x text-white"></i>
                                     </div>
-                                    <h5 class="card-title">Total Rentals</h5>
-                                    <p class="h3 text-primary">12</p>
+                                    <h5 class="card-title">Total Bookings</h5>
+                                    <p class="h3 text-primary"><?php echo $totalBookings; ?></p>
                                 </div>
                             </div>
                         </div>
@@ -74,7 +101,7 @@
                                         <i class="fas fa-credit-card fa-2x text-white"></i>
                                     </div>
                                     <h5 class="card-title">Total Spent</h5>
-                                    <p class="h3 text-success">$1,245</p>
+                                    <p class="h3 text-success"><?php echo $spendedMoney; ?> $</p>
                                 </div>
                             </div>
                         </div>
@@ -84,8 +111,8 @@
                                     <div class="dashboard-icons rounded-circle p-3 d-inline-block mb-3 wow fadeInUp" data-wow-delay="0.3s">
                                         <i class="fas fa-trophy fa-2x text-white"></i>
                                     </div>
-                                    <h5 class="card-title">Loyalty Points</h5>
-                                    <p class="h3 text-warning">350</p>
+                                    <h5 class="card-title">Total Testimonials</h5>
+                                    <p class="h3 text-warning"><?php echo $totalTestimonials; ?></p>
                                 </div>
                             </div>
                         </div>
@@ -142,6 +169,9 @@
                                         </a>
                                         <a href="settings.php" class="btn btn-secondary wow fadeInDown" data-wow-delay="3s">
                                             <i class="fas fa-user-cog me-2"></i>Update Profile
+                                        </a>
+                                        <a href="add-testimonial.php" class="btn btn-warning text-white wow fadeInDown" data-wow-delay="4s">
+                                            <i class="fas fa-star me-2"></i>Add Testimonial
                                         </a>
                                     </div>
                                 </div>

@@ -229,6 +229,16 @@ class BookingQueries {
         ")->execute(['current_date' => $current_date]);
     }
 
+    public function getTotalBookingsByUserId($user_id) {
+        try {
+            $stmt = $this->pdo->prepare("SELECT COUNT(*) AS count FROM bookings WHERE user_id = :user_id");
+            $stmt->execute(['user_id' => $user_id]);
+            return $stmt->fetchColumn();
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
 }
 
 ?>

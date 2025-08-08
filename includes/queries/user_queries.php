@@ -194,6 +194,16 @@ class UserQueries {
         }
     }
 
+    public function getAllSpendedMoney($user_id){
+        try{
+            $stmt = $this->pdo->prepare("SELECT SUM(total_price) FROM bookings WHERE user_id = :user_id");
+            $stmt->execute(['user_id' => $user_id]);
+            return $stmt->fetchColumn();
+        }catch(PDOException $e){
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
     public function getUsersWithLimit($limit, $offset, $status_filter, $search) {
         try {
             $status_filter = $status_filter ?? '';

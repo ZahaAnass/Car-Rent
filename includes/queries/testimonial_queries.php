@@ -106,6 +106,16 @@ class TestimonialQueries {
         }
     }
 
+    public function getAllTestimonialsCount($user_id) {
+        try {
+            $stmt = $this->pdo->prepare("SELECT COUNT(*) AS count FROM testimonials WHERE user_id = :user_id");
+            $stmt->execute(['user_id' => $user_id]);
+            return $stmt->fetchColumn();
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
 }
 
 ?>
