@@ -107,7 +107,7 @@
                                         <div class="card-body p-0">
                                             <!-- Car Image Section -->
                                             <div class="position-relative">
-                                                <img src="<?= htmlspecialchars($car['image_url']) ?>" class="card-img-top img-fluid" alt="<?= htmlspecialchars($car['name']) ?>" >
+                                                <img src="../<?= htmlspecialchars($car['image_url']) ?>" class="card-img-top img-fluid" alt="<?= htmlspecialchars($car['name']) ?>" >
                                                 <div class="position-absolute top-0 end-0 bg-primary text-white p-2 m-3 rounded-pill fs-6 fw-bold">
                                                     $<?= htmlspecialchars($car['daily_rate']) ?>/day
                                                 </div>
