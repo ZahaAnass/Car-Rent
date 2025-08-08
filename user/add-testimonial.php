@@ -40,46 +40,19 @@
 
     <?php 
         session_start();
-        // require_once '../config/database.php'; // No database needed for design
-        // require_once '../controllers/UserController.php'; // No controller needed for design
+        require_once '../config/database.php';
+        require_once '../includes/queries/user_queries.php';
 
-        // Check if user is logged in (simulated)
+        // Check if user is logged in
         if (!isset($_SESSION['user_id'])) {
-            // For design purposes, let's simulate a logged-in user if no session exists
-            $_SESSION['user_id'] = 1; // Simulate user ID 1
-            $_SESSION['user_first_name'] = 'John'; // Simulate first name
-            $_SESSION['user_last_name'] = 'Doe';    // Simulate last name
+            redirect("login.php");
         }
 
-        // Hardcoded user data for design
-        $userData = [
-            'first_name' => $_SESSION['user_first_name'],
-            'last_name' => $_SESSION['user_last_name']
-        ];
+        $user = new UserQueries($pdo);
+        $userData = $user->getUserById($_SESSION['user_id']);
 
         $pageTitle = "Add Testimonial";
-        $displayName = htmlspecialchars($userData['first_name'] . ' ' . $userData['last_name']);
-        $testimonialText = '';
-        $rating = ''; // Initialize as empty string
-        $successMessage = '';
-        $errorMessage = '';
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $displayName = htmlspecialchars(trim($_POST['displayName']));
-            $testimonialText = htmlspecialchars(trim($_POST['testimonialText']));
-            $ratingInput = isset($_POST['rating']) && $_POST['rating'] !== '' ? intval($_POST['rating']) : null;
-
-            if (empty($displayName) || empty($testimonialText)) {
-                $errorMessage = "Please fill in your name and testimonial text.";
-            } elseif ($ratingInput !== null && ($ratingInput < 1 || $ratingInput > 5)) {
-                $errorMessage = "Invalid rating selected. Please choose between 1 and 5, or leave it blank.";
-            } else {
-                $successMessage = "Thank you! Your testimonial has been submitted for review.";
-                $displayName = htmlspecialchars($userData['first_name'] . ' ' . $userData['last_name']);
-                $testimonialText = '';
-                $rating = '';
-            }
-        }
+        $displayName = $userData['first_name'] . ' ' . $userData['last_name'];
     ?>
 
     <div class="container-fluid">
@@ -97,17 +70,19 @@
                         </div>
                     </div>
 
-                    <?php if (!empty($successMessage)): ?>
+                    <?php if (!empty($_SESSION['successMessage'])): ?>
                         <div class="alert alert-success alert-dismissible fade show wow fadeInUp" data-wow-delay="0.2s" role="alert">
-                            <i class="fas fa-check-circle me-2"></i><?php echo $successMessage; ?>
+                            <i class="fas fa-check-circle me-2"></i><?php echo $_SESSION['successMessage']; ?>
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
+                        <?php unset($_SESSION['successMessage']); ?>
                     <?php endif; ?>
-                    <?php if (!empty($errorMessage)): ?>
+                    <?php if (!empty($_SESSION['errorMessage'])): ?>
                         <div class="alert alert-danger alert-dismissible fade show wow fadeInUp" data-wow-delay="0.2s" role="alert">
-                            <i class="fas fa-exclamation-triangle me-2"></i><?php echo $errorMessage; ?>
+                            <i class="fas fa-exclamation-triangle me-2"></i><?php echo $_SESSION['errorMessage']; ?>
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
+                        <?php unset($_SESSION['errorMessage']); ?>
                     <?php endif; ?>
 
                     <div class="card border-0 shadow-sm wow fadeInUp" data-wow-delay="0.3s">
@@ -115,7 +90,7 @@
                             <h5 class="mb-0"><i class="fas fa-pencil-alt me-2"></i>Write Your Testimonial</h5>
                         </div>
                         <div class="card-body p-4">
-                            <form id="testimonialForm" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                            <form id="testimonialForm" method="POST" action="testimonial-handler.php">
                                 <div class="mb-3">
                                     <label for="displayName" class="form-label">Your Name</label>
                                     <input type="text" class="form-control" id="displayName" name="displayName" value="<?php echo $displayName; ?>" required>
