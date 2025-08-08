@@ -77,17 +77,15 @@ class UserQueries {
         }
     }
 
-    public function updateUserProfile($user_id, $first_name, $last_name, $email, $phone_number, $address_country, $address_city) {
+    public function updateUserProfile($user_id, $first_name, $last_name, $email, $phone_number) {
         try {
-            $stmt = $this->pdo->prepare("UPDATE users SET first_name = :first_name, last_name = :last_name, email = :email, phone_number = :phone_number, address_country = :address_country, address_city = :address_city WHERE user_id = :user_id");
+            $stmt = $this->pdo->prepare("UPDATE users SET first_name = :first_name, last_name = :last_name, email = :email, phone_number = :phone_number WHERE user_id = :user_id");
             $stmt->execute([
                 'user_id' => $user_id,
                 'first_name' => $first_name,
                 'last_name' => $last_name,
                 'email' => $email,
                 'phone_number' => $phone_number,
-                'address_country' => $address_country,
-                'address_city' => $address_city
             ]);
             return $stmt->rowCount() > 0;
         } catch (PDOException $e) {

@@ -1,96 +1,17 @@
 <?php
-// Start session and include necessary files
-require_once '../config/config.php';
-require_once '../config/database.php';
-require_once '../includes/functions.php';
-require_once '../includes/session.php';
-require_once '../includes/queries/user_queries.php';
 
-// Start session and check if user is logged in
-start_session();
-
-// Initialize database and queries
-$database = new Database();
-$db = $database->getConnection();
-$userQueries = new UserQueries($db);
-
-// Initialize variables
-$success_message = '';
-$error_message = '';
-
-// Get current user data
-$userData = [];
-if (isset($_SESSION['user_id'])) {
-    $userData = $userQueries->getUserById($_SESSION['user_id']);
-    if (!$userData) {
-        // Handle case where user is not found
-        header('Location: login.php');
-        exit();
-    }
-} else {
-    // Redirect to login if not logged in
-    header('Location: login.php');
-    exit();
-}
-
-// Handle form submission
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Sanitize input data
-    $first_name = trim(filter_input(INPUT_POST, 'first_name', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
-    $last_name = trim(filter_input(INPUT_POST, 'last_name', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
-    $email = trim(filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL));
-    $phone_number = trim(filter_input(INPUT_POST, 'phone_number', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
-    $license_number = trim(filter_input(INPUT_POST, 'license_number', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
-    $address_country = trim(filter_input(INPUT_POST, 'address_country', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
-    $address_city = trim(filter_input(INPUT_POST, 'address_city', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
-
-    // Basic validation
-    $is_valid = true;
+    require_once "../includes/session.php";
+    start_session();
+    require_once "../config/database.php";
+    require_once "../includes/queries/user_queries.php";
     
-    if (empty($first_name) || empty($last_name) || empty($email)) {
-        $error_message = 'Please fill in all required fields';
-        $is_valid = false;
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $error_message = 'Please enter a valid email address';
-        $is_valid = false;
-    } elseif ($email !== $userData['email'] && $userQueries->emailExists($email)) {
-        $error_message = 'This email is already registered';
-        $is_valid = false;
-    } elseif (!empty($license_number) && $license_number !== $userData['license_number'] && $userQueries->licenseExists($license_number)) {
-        $error_message = 'This license number is already registered';
-        $is_valid = false;
-    }
+    // Initialize database connection
+    $userQueries = new UserQueries($pdo);
+    $userData = $userQueries->getUserById($_SESSION['user_id']);
 
-    if ($is_valid) {
-        // Update user data
-        if ($userQueries->updateUserProfile(
-            $_SESSION['user_id'],
-            $first_name,
-            $last_name,
-            $email,
-            $phone_number,
-            $address_country,
-            $address_city
-        )) {
-            // Update license number separately if changed
-            if (!empty($license_number) && $license_number !== $userData['license_number']) {
-                $stmt = $db->prepare("UPDATE users SET license_number = :license_number WHERE user_id = :user_id");
-                $stmt->execute([
-                    'license_number' => $license_number,
-                    'user_id' => $_SESSION['user_id']
-                ]);
-            }
-            
-            // Refresh user data
-            $userData = $userQueries->getUserById($_SESSION['user_id']);
-            $success_message = 'Profile updated successfully!';
-        } else {
-            $error_message = 'Failed to update profile. Please try again.';
-        }
-    }
-}
+    // Add current email to session for validation
+    $_SESSION['current_email'] = $userData['email'];
 
-// Include the header after any potential redirects
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -145,17 +66,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
     <!-- Spinner End -->
 
-    <!-- Toast Container -->
-    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1100">
-        <div id="successToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="d-flex">
-                <div class="toast-body">
-                    <i class="fas fa-check-circle me-2"></i>Changes saved successfully!
-                </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
+    <?php if (isset($_SESSION['error'])): ?>
+        <div class="alert alert-danger alert-dismissible fade show fixed-top m-3" role="alert" style="z-index: 1030;">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            <?= htmlspecialchars($_SESSION['error']) ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-    </div>
+        <?php unset($_SESSION['error']); ?>
+    <?php endif; ?>
+
+    <?php if (isset($_SESSION['success'])): ?>
+        <div class="alert alert-success alert-dismissible fade show fixed-top m-3" role="alert" style="z-index: 1030;">
+            <i class="fas fa-check-circle me-2"></i>
+            <?= htmlspecialchars($_SESSION['success']) ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <?php unset($_SESSION['success']); ?>
+    <?php endif; ?>
 
     <div class="container-fluid">
         <div class="row">
@@ -179,13 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <h5 class="mb-0"><i class="fas fa-user-edit me-2"></i>User Profile</h5>
                                 </div>
                         <div class="card-body p-4">
-                            <?php if ($error_message): ?>
-                                <div class="alert alert-danger"><?= htmlspecialchars($error_message) ?></div>
-                            <?php endif; ?>
-                            <?php if ($success_message): ?>
-                                <div class="alert alert-success"><?= htmlspecialchars($success_message) ?></div>
-                            <?php endif; ?>
-                            <form id="settingsForm" method="POST" action="">
+                            <form id="settingsForm" method="POST" action="settings-handler.php">
                                 <!-- Personal Information Section -->
                                 <h5 class="form-section-title">Personal Information</h5>
                                 <p class="form-section-description">Update your personal details.</p>
@@ -193,38 +114,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                                 <div class="row g-3 mb-3">
                                     <div class="col-md-6">
-                                        <label for="first_name" class="form-label">First Name <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="first_name" name="first_name" value="<?= htmlspecialchars($userData['first_name'] ?? '') ?>" required>
+                                        <label for="firstName" class="form-label">First Name</label>
+                                        <input type="text" class="form-control" id="firstName" value="<?= htmlspecialchars($userData['first_name']) ?>" name="first_name" required>
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="last_name" class="form-label">Last Name <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="last_name" name="last_name" value="<?= htmlspecialchars($userData['last_name'] ?? '') ?>" required>
+                                        <label for="lastName" class="form-label">Last Name</label>
+                                        <input type="text" class="form-control" id="lastName" value="<?= htmlspecialchars($userData['last_name']) ?>" name="last_name" required>
                                     </div>
                                 </div>
                                 <div class="row g-3 mb-3">
                                     <div class="col-md-6">
-                                        <label for="email" class="form-label">Email Address <span class="text-danger">*</span></label>
-                                        <input type="email" class="form-control" id="email" name="email" value="<?= htmlspecialchars($userData['email'] ?? '') ?>" required>
+                                        <input type="hidden" name="current_email" value="<?= htmlspecialchars($userData['email']) ?>" disable>
+                                        <label for="email" class="form-label">Email Address</label>
+                                        <input type="email" class="form-control" id="email" value="<?= htmlspecialchars($userData['email']) ?>" name="email" required>
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="phone_number" class="form-label">Phone Number</label>
-                                        <input type="tel" class="form-control" id="phone_number" name="phone_number" value="<?= htmlspecialchars($userData['phone_number'] ?? '') ?>">
+                                        <label for="phone" class="form-label">Phone Number</label>
+                                        <input type="tel" class="form-control" id="phone" value="<?= htmlspecialchars($userData['phone_number']) ?>" name="phone_number">
                                     </div>
-                                </div>
-                                <div class="row g-3 mb-3">
-                                    <div class="col-md-6">
-                                        <label for="address_country" class="form-label">Country</label>
-                                        <input type="text" class="form-control" id="address_country" name="address_country" value="<?= htmlspecialchars($userData['address_country'] ?? '') ?>">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="address_city" class="form-label">City</label>
-                                        <input type="text" class="form-control" id="address_city" name="address_city" value="<?= htmlspecialchars($userData['address_city'] ?? '') ?>">
-                                    </div>
-                                </div>
-                                <div class="mb-4">
-                                    <label for="license_number" class="form-label">Driver's License Number</label>
-                                    <input type="text" class="form-control" id="license_number" name="license_number" value="<?= htmlspecialchars($userData['license_number'] ?? '') ?>">
-                                    <small class="text-muted">Leave blank if you don't have a license number</small>
                                 </div>
                                 <!-- Save Button -->
                                 <div class="mt-4 text-end">
