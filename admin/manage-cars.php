@@ -103,14 +103,14 @@
                                     <form class="row g-3 align-items-center">
                                         <div class="col-md-4">
                                             <label for="filterCarType" class="form-label visually-hidden">Car Type</label>
+                                            <?php 
+                                                $carTypes = $carQueries->getCarTypes();
+                                            ?>
                                             <select class="form-select" id="filterCarType">
                                                 <option selected value="">All Types</option>
-                                                <option>Sedan</option>
-                                                <option>SUV</option>
-                                                <option>Truck</option>
-                                                <option>Van</option>
-                                                <option>Sport</option>
-                                                <option>Luxury</option>
+                                                <?php foreach ($carTypes as $carType): ?>
+                                                    <option value="<?= htmlspecialchars($carType['type']) ?>"><?= htmlspecialchars($carType['type']) ?></option>
+                                                <?php endforeach; ?>
                                             </select>
                                         </div>
                                         <div class="col-md-4">
@@ -164,7 +164,7 @@
                                                 ?>
                                                     <tr>
                                                         <td>
-                                                            <img src="<?= htmlspecialchars($car['image_url']) ?>" alt="<?= htmlspecialchars($car['name']) ?>" style="width: 80px; height: auto; object-fit: cover;">
+                                                            <img src="<?= "../" . htmlspecialchars($car['image_url']) ?>" alt="<?= htmlspecialchars($car['name']) ?>" style="width: 80px; height: auto; object-fit: cover;">
                                                         </td>
                                                         <td><?= htmlspecialchars($car['name']) ?></td>
                                                         <td><?= htmlspecialchars($car['type']) ?></td>
