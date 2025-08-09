@@ -116,6 +116,30 @@ class TestimonialQueries {
         }
     }
 
+    public function getRecentTestimonialsByUserId($user_id) {
+        try {
+            $stmt = $this->pdo->prepare("
+                SELECT 
+                    t.testimonial_id,
+                    CONCAT(u.first_name, ' ', u.last_name) as display_name,
+                    t.testimonial_text,
+                    t.rating,
+                    t.submitted_at as created_at
+                FROM testimonials t
+                JOIN users u ON t.user_id = u.user_id
+                WHERE t.user_id = :user_id
+                ORDER BY t.testimonial_id DESC
+                LIMIT 5
+            ");
+            $stmt->execute(['user_id' => $user_id]);
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
+
+
 }
 
 ?>

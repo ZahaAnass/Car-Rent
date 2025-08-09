@@ -204,6 +204,29 @@ class UserQueries {
         }
     }
 
+    public function getRecentSpendedMoney($user_id) {
+        try {
+            $stmt = $this->pdo->prepare("
+                SELECT 
+                    b.booking_id,
+                    b.total_price,
+                    b.pickup_date,
+                    c.name as car_name,
+                    c.make as car_brand,
+                    c.daily_rate
+                FROM bookings b
+                JOIN cars c ON b.car_id = c.car_id
+                WHERE b.user_id = :user_id
+                ORDER BY b.booking_id DESC
+                LIMIT 5
+            ");
+            $stmt->execute(['user_id' => $user_id]);
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
     public function getUsersWithLimit($limit, $offset, $status_filter, $search) {
         try {
             $status_filter = $status_filter ?? '';
