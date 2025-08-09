@@ -1,4 +1,44 @@
-<?php require_once '../includes/header.php'; ?>
+<?php 
+    require_once '../includes/header.php';
+    require_once '../config/database.php';
+    require_once '../includes/queries/user_queries.php';
+    require_once '../includes/functions.php';
+    require_once '../includes/session.php';
+    start_session();
+
+    // Check if user is logged in
+    if (!isset($_SESSION['user_id'])) {
+        redirect("../auth/login.php");
+    }
+
+    try {
+        $user = new UserQueries($pdo);
+        $userData = $user->getUserById($_SESSION['user_id']);
+        
+        $pageTitle = "Contact Us";
+        $displayName = $userData['first_name'] . ' ' . $userData['last_name'] ?? 'Guest';
+    } catch (Exception $e) {
+        $_SESSION["error"] = "Failed to retrieve user data";
+        redirect("../auth/login.php");
+    }
+
+    try {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING) ?? '';
+            $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL) ?? '';
+            $phone = filter_input(INPUT_POST, 'phone', FILTER_SANITIZE_STRING) ?? '';
+            $inquiry_type = filter_input(INPUT_POST, 'inquiry_type', FILTER_SANITIZE_STRING) ?? '';
+            $subject = filter_input(INPUT_POST, 'subject', FILTER_SANITIZE_STRING) ?? '';
+            $message = filter_input(INPUT_POST, 'message', FILTER_SANITIZE_STRING) ?? '';
+            $_SESSION["success"] = "Message sent successfully";
+            // Removed the messageQuery object creation and the createMessage method call
+            redirect("contact.php");
+        }
+    } catch (Exception $e) {
+        $_SESSION["error"] = "Failed to retrieve user data";
+        redirect("../auth/login.php");
+    }
+?>
 
         <!-- Spinner Start -->
         <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
@@ -7,6 +47,25 @@
             </div>
         </div>
         <!-- Spinner End -->
+
+        <!-- Session Messages -->
+        <?php if (isset($_SESSION['error'])): ?>
+            <div class="alert alert-danger alert-dismissible fade show fixed-top m-3" role="alert" style="z-index: 1030;">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                <?= htmlspecialchars($_SESSION['error']) ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <?php unset($_SESSION['error']); ?>
+        <?php endif; ?>
+
+        <?php if (isset($_SESSION['success'])): ?>
+            <div class="alert alert-success alert-dismissible fade show fixed-top m-3" role="alert" style="z-index: 1030;">
+                <i class="fas fa-check-circle me-2"></i>
+                <?= htmlspecialchars($_SESSION['success']) ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php endif; ?>
+
 
         <!-- Header Start -->
         <div class="container-fluid bg-breadcrumb">
@@ -80,47 +139,47 @@
                     <div class="col-xl-6 wow fadeInUp" data-wow-delay="0.1s">
                         <div class="bg-secondary p-5 rounded">
                             <h4 class="text-primary mb-4">Send Your Message</h4>
-                            <form>
+                            <form action="contact-handler.php" method="post">
                                 <div class="row g-4">
                                     <div class="col-lg-12 col-xl-6">
                                         <div class="form-floating">
-                                            <input type="text" class="form-control" id="name" placeholder="Your Name" required>
+                                            <input type="text" class="form-control" id="name" placeholder="Your Name" required name="name">
                                             <label for="name">Full Name</label>
                                         </div>
                                     </div>
                                     <div class="col-lg-12 col-xl-6">
                                         <div class="form-floating">
-                                            <input type="email" class="form-control" id="email" placeholder="Your Email" required>
+                                            <input type="email" class="form-control" id="email" placeholder="Your Email" required name="email">
                                             <label for="email">Email Address</label>
                                         </div>
                                     </div>
                                     <div class="col-lg-12 col-xl-6">
                                         <div class="form-floating">
-                                            <input type="tel" class="form-control" id="phone" placeholder="Phone Number" required>
+                                            <input type="tel" class="form-control" id="phone" placeholder="Phone Number" required name="phone">
                                             <label for="phone">Phone Number</label>
                                         </div>
                                     </div>
                                     <div class="col-lg-12 col-xl-6">
                                         <div class="form-floating">
-                                            <select class="form-select" id="inquiry-type" required>
+                                            <select class="form-select" id="inquiry-type" required name="inquiry_type">
                                                 <option value="">Select Inquiry Type</option>
-                                                <option value="rental">Car Rental Inquiry</option>
-                                                <option value="support">Customer Support</option>
-                                                <option value="feedback">Feedback</option>
-                                                <option value="other">Other</option>
+                                                <option value="Car Rental Inquiry">Car Rental Inquiry</option>
+                                                <option value="Customer Support">Customer Support</option>
+                                                <option value="Feedback">Feedback</option>
+                                                <option value="Other">Other</option>
                                             </select>
                                             <label for="inquiry-type">Inquiry Type</label>
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-floating">
-                                            <input type="text" class="form-control" id="subject" placeholder="Subject" required>
+                                            <input type="text" class="form-control" id="subject" placeholder="Subject" required name="subject">
                                             <label for="subject">Subject Line</label>
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-floating">
-                                            <textarea class="form-control" placeholder="Describe your inquiry" id="message" style="height: 160px" required></textarea>
+                                            <textarea class="form-control" placeholder="Describe your inquiry" id="message" style="height: 160px" required name="message"></textarea>
                                             <label for="message">Your Message</label>
                                         </div>
                                     </div>

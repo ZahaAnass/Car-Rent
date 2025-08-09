@@ -25,7 +25,7 @@
                                     <div class="col-lg-6 fadeInLeft animated" data-animation="fadeInLeft" data-delay="1s" style="animation-delay: 1s;">
                                         <div class="bg-secondary rounded p-5">
                                             <h4 class="text-white mb-4">START YOUR JOURNEY</h4>
-                                            <form>
+                                            <form action="../user/book-car.php" method="post">
                                                 <div class="row g-3">
                                                     <div class="col-12">
                                                         <select class="form-select" aria-label="Select vehicle type">
@@ -82,7 +82,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-12">
-                                                        <button class="btn btn-primary btn-contact w-100 py-2">Find Your Perfect Ride</button>
+                                                        <button class="btn btn-primary btn-contact w-100 py-2" type="submit">Find Your Perfect Ride</button>
                                                     </div>
                                                 </div>
                                             </form>
@@ -112,7 +112,7 @@
                                     <div class="col-lg-6 fadeInLeft animated" data-animation="fadeInLeft" data-delay="1s" style="animation-delay: 1s;">
                                         <div class="bg-secondary rounded p-5">
                                             <h4 class="text-white mb-4">CUSTOMIZE YOUR RENTAL</h4>
-                                            <form>
+                                            <form action="../user/book-car.php" method="post">
                                                 <div class="row g-3">
                                                     <div class="col-12">
                                                         <select class="form-select" aria-label="Select vehicle type">
