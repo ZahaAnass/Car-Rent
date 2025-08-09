@@ -23,6 +23,11 @@
 
     $displayName = $userData['first_name'] . ' ' . $userData['last_name'];
 
+
+    $recentBookings = $booking->getRecentBookingsByUserId($_SESSION['user_id']);
+    $recentSpendedMoney = $user->getRecentSpendedMoney($_SESSION['user_id']);
+    $recentTestimonials = $testimonialQueries->getRecentTestimonialsByUserId($_SESSION['user_id']);
+
 ?>
 
 <!DOCTYPE html>
@@ -128,26 +133,96 @@
                                 </div>
                                 <div class="card-body p-0">
                                     <ul class="list-group list-group-flush">
-                                        <li class="list-group-item d-flex justify-content-between align-items-center wow fadeIn">
-                                            <div class="d-flex align-items-center">
-                                                <i class="fas fa-car-alt me-3 text-primary"></i>
-                                                <div>
-                                                    <strong>Booked Toyota Camry</strong>
-                                                    <small class="d-block text-muted">Pickup on May 15, 2025</small>
+                                        <?php
+                                        // Helper functions
+                                        function formatDate($date) {
+                                            return date('F j, Y', strtotime($date));
+                                        }
+
+                                        function timeAgo($date) {
+                                            $now = time();
+                                            $diff = $now - strtotime($date);
+                                            
+                                            $periods = array(
+                                                'year' => 31556926,
+                                                'month' => 2629744,
+                                                'week' => 604800,
+                                                'day' => 86400,
+                                                'hour' => 3600,
+                                                'minute' => 60,
+                                                'second' => 1
+                                            );
+                                            
+                                            foreach($periods as $key => $value) {
+                                                if($diff >= $value) {
+                                                    $time = floor($diff/$value);
+                                                    return $time . ' ' . $key . ($time > 1 ? 's' : '') . ' ago';
+                                                }
+                                            }
+                                            return 'just now';
+                                        }
+
+                                        $recentBookings = $booking->getRecentBookingsByUserId($_SESSION['user_id']);
+                                        $recentSpendedMoney = $user->getRecentSpendedMoney($_SESSION['user_id']);
+                                        $recentTestimonials = $testimonialQueries->getRecentTestimonialsByUserId($_SESSION['user_id']);
+
+                                        $activities = array_merge(
+                                            array_map(function($booking) {
+                                                return [
+                                                    'type' => 'booking',
+                                                    'icon' => $booking['status'] === 'completed' ? 'fa-check-circle' : 'fa-car-alt',
+                                                    'icon_color' => $booking['status'] === 'completed' ? 'text-success' : 'text-primary',
+                                                    'title' => ($booking['status'] === 'completed' ? 'Returned' : 'Booked') . ' ' . $booking['car_brand'] . ' ' . $booking['car_name'],
+                                                    'subtitle' => $booking['status'] === 'completed' ? 'Completed rental' : 'Pickup on ' . formatDate($booking['pickup_date']),
+                                                    'timestamp' => $booking['status'] === 'completed' ? $booking['return_date'] : $booking['pickup_date'],
+                                                    'badge_color' => $booking['status']
+                                                ];
+                                            }, $recentBookings),
+                                            array_map(function($spend) {
+                                                return [
+                                                    'type' => 'spend',
+                                                    'icon' => 'fa-money-bill',
+                                                    'icon_color' => 'text-warning',
+                                                    'title' => 'Spent ' . $spend['total_price'] . ' $',
+                                                    'subtitle' => 'Rented ' . $spend['car_brand'] . ' ' . $spend['car_name'],
+                                                    'timestamp' => $spend['pickup_date'],
+                                                    'badge_color' => 'warning'
+                                                ];
+                                            }, $recentSpendedMoney),
+                                            array_map(function($testimonial) {
+                                                return [
+                                                    'type' => 'testimonial',
+                                                    'icon' => 'fa-star',
+                                                    'icon_color' => 'text-info',
+                                                    'title' => 'You left a testimonial',
+                                                    'subtitle' => $testimonial['rating'] . ' stars',
+                                                    'timestamp' => $testimonial['created_at'],
+                                                    'badge_color' => 'info'
+                                                ];
+                                            }, $recentTestimonials)
+                                        );
+
+                                        usort($activities, function($a, $b) {
+                                            return strtotime($b['timestamp']) - strtotime($a['timestamp']);
+                                        });
+
+                                        $activities = array_slice($activities, 0, 5);
+
+                                        foreach ($activities as $activity) {
+                                            $timeAgo = timeAgo($activity['timestamp']);
+                                            
+                                            echo "<li class='list-group-item d-flex justify-content-between align-items-center wow fadeIn' data-wow-delay='1s'>
+                                                <div class='d-flex align-items-center'>
+                                                    <i class='fas {$activity['icon']} {$activity['icon_color']} me-3'></i>
+                                                    <div>
+                                                        <strong>{$activity['title']}</strong>
+                                                        <small class='d-block text-muted'>{$activity['subtitle']}</small>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <span class="badge bg-primary rounded-pill">2 days ago</span>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center wow fadeIn" data-wow-delay="1s">
-                                            <div class="d-flex align-items-center">
-                                                <i class="fas fa-check-circle me-3 text-success"></i>
-                                                <div>
-                                                    <strong>Returned Honda Civic</strong>
-                                                    <small class="d-block text-muted">Completed rental</small>
-                                                </div>
-                                            </div>
-                                            <span class="badge bg-success rounded-pill">1 week ago</span>
-                                        </li>
+                                                <span class='badge bg-{$activity['badge_color']} rounded-pill'>{$timeAgo}</span>
+                                            </li>";
+                                        }
+                                        ?>
                                     </ul>
                                 </div>
                             </div>
