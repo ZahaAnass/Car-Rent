@@ -6,10 +6,7 @@
     require_once '../includes/queries/user_queries.php';
     require_once '../includes/queries/booking_queries.php';
     require_once '../includes/functions.php';
-
-    if (!isset($_SESSION['user_id'])) {
-        redirect('login.php');
-    }
+    require_once '../includes/auth_user_check.php';
 
     $testimonialQueries = new TestimonialQueries($pdo);
     $user = new UserQueries($pdo);

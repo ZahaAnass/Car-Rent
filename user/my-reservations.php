@@ -5,6 +5,7 @@
     require_once "../includes/functions.php";
     require_once "../includes/queries/booking_queries.php";
     require_once "../includes/queries/car_queries.php";
+    require_once "../includes/auth_user_check.php";
     
     start_session();
     

@@ -4,6 +4,8 @@
     require_once "../config/database.php";
     require_once "../includes/functions.php";
     require_once "../includes/queries/car_queries.php";
+    require_once "../includes/auth_user_check.php";
+
     $carQueries = new CarQueries($pdo);
     
     $selected_car_id = isset($_GET['car_id']) ? filter_var($_GET['car_id'], FILTER_VALIDATE_INT) : null;

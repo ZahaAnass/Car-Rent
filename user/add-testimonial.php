@@ -39,14 +39,12 @@
     <!-- Spinner End -->
 
     <?php 
-        session_start();
         require_once '../config/database.php';
         require_once '../includes/queries/user_queries.php';
-
-        // Check if user is logged in
-        if (!isset($_SESSION['user_id'])) {
-            redirect("login.php");
-        }
+        require_once '../includes/functions.php';
+        require_once '../includes/session.php';
+        require_once '../includes/auth_user_check.php';
+        start_session();
 
         $user = new UserQueries($pdo);
         $userData = $user->getUserById($_SESSION['user_id']);

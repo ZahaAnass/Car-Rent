@@ -4,6 +4,7 @@
     start_session();
     require_once "../config/database.php";
     require_once "../includes/queries/user_queries.php";
+    require_once "../includes/auth_user_check.php";
     
     // Initialize database connection
     $userQueries = new UserQueries($pdo);
