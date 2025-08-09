@@ -8,12 +8,14 @@ class MessageQueries {
         $this->pdo = $pdo;
     }
 
-    public function createMessage($name, $email, $subject, $message_body) {
+    public function createMessage($name, $email, $phone, $inquiry_type, $subject, $message_body) {
         try {
-            $stmt = $this->pdo->prepare("INSERT INTO messages (name, email, subject, message_body) VALUES (:name, :email, :subject, :message_body)");
+            $stmt = $this->pdo->prepare("INSERT INTO messages (name, email, phone, inquiry_type, subject, message_body) VALUES (:name, :email, :phone, :inquiry_type, :subject, :message_body)");
             $stmt->execute([
                 'name' => $name,
                 'email' => $email,
+                'phone' => $phone,
+                'inquiry_type' => $inquiry_type,
                 'subject' => $subject,
                 'message_body' => $message_body
             ]);

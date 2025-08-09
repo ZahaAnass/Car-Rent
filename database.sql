@@ -61,7 +61,9 @@ CREATE TABLE bookings (
 CREATE TABLE messages (
     message_id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
+    phone VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
+    inquiry_type ENUM('Car Rental Inquiry', 'Customer Support', 'Feedback', 'Other') NOT NULL,
     subject VARCHAR(255) NOT NULL,
     message_body TEXT NOT NULL,
     status ENUM('Unread', 'Read') NOT NULL DEFAULT 'Unread',
