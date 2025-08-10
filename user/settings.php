@@ -10,7 +10,7 @@
     $userQueries = new UserQueries($pdo);
     $userData = $userQueries->getUserById($_SESSION['user_id']);
 
-    // Add current email to session for validation
+    // Add current email to session for validation 
     $_SESSION['current_email'] = $userData['email'];
 
 ?>
