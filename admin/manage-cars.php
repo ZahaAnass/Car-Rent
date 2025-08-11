@@ -8,7 +8,16 @@
 
     // Pagination Config
     $limit = 7; // Number of cars per page
-    $totalCars = $carQueries->getCarCount();
+    $type = isset($_GET['type']) ? $_GET['type'] : '';
+    $status = isset($_GET['status']) ? $_GET['status'] : '';
+    
+    // Validate status
+    if(!in_array($status, array('All', 'Available', 'Rented', 'Maintenance'))) {
+        $status = '';
+    }
+    
+    // Get total cars based on filters
+    $totalCars = $carQueries->getCarCount($type, $status);
     $totalPages = max(1, ceil($totalCars / $limit)); // Ensure at least 1 page
 
     // Get current page and validate it
@@ -20,7 +29,7 @@
     $offset = ($page - 1) * $limit;
 
     // Fetch cars with pagination
-    $cars = $carQueries->getCarsWithLimit($limit, $offset);
+    $cars = $carQueries->getCarsWithLimit($limit, $offset, $status, $type);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -100,26 +109,27 @@
                         <div class="col-12">
                             <div class="card shadow-sm border-0">
                                 <div class="card-body">
-                                    <form class="row g-3 align-items-center">
+                                    <form class="row g-3 align-items-center" id="filterForm" method="GET">
+                                        <input type="hidden" name="page" value="1">
                                         <div class="col-md-4">
                                             <label for="filterCarType" class="form-label visually-hidden">Car Type</label>
                                             <?php 
                                                 $carTypes = $carQueries->getCarTypes();
                                             ?>
-                                            <select class="form-select" id="filterCarType">
-                                                <option selected value="">All Types</option>
+                                            <select class="form-select" id="filterCarType" name="type">
+                                                <option id="filterCarTypeAll" <?= $type === '' ? 'selected' : '' ?> value="">All Types</option>
                                                 <?php foreach ($carTypes as $carType): ?>
-                                                    <option value="<?= htmlspecialchars($carType['type']) ?>"><?= htmlspecialchars($carType['type']) ?></option>
+                                                    <option id="filterCarType<?= htmlspecialchars($carType['type']) ?>" value="<?= htmlspecialchars($carType['type']) ?>" <?= $carType['type'] === $type ? 'selected' : '' ?>><?= htmlspecialchars($carType['type']) ?></option>
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>
                                         <div class="col-md-4">
                                             <label for="filterCarStatus" class="form-label visually-hidden">Status</label>
-                                            <select class="form-select" id="filterCarStatus">
-                                                <option selected value="">All Statuses</option>
-                                                <option>Available</option>
-                                                <option>Rented</option>
-                                                <option>Maintenance</option>
+                                            <select class="form-select" id="filterCarStatus" name="status">
+                                                <option id="filterCarStatusAll" <?= $status === '' ? 'selected' : '' ?> value="">All Statuses</option>
+                                                <option id="filterCarStatusAvailable" <?= $status === 'Available' ? 'selected' : '' ?> value="Available">Available</option>
+                                                <option id="filterCarStatusRented" <?= $status === 'Rented' ? 'selected' : '' ?> value="Rented">Rented</option>
+                                                <option id="filterCarStatusMaintenance" <?= $status === 'Maintenance' ? 'selected' : '' ?> value="Maintenance">Maintenance</option>
                                             </select>
                                         </div>
                                         <div class="col-md-2">
@@ -128,7 +138,7 @@
                                             </button>
                                         </div>
                                         <div class="col-md-2">
-                                            <button type="reset" class="btn btn-outline-secondary w-100">
+                                            <button type="reset" class="btn btn-outline-secondary w-100" onclick="resetFilters()">
                                                 <i class="fas fa-times me-1"></i> Reset
                                             </button>
                                         </div>
@@ -451,6 +461,11 @@
                 });
             });
         });
+        function resetFilters() {
+            document.getElementById('filterCarTypeAll').selected = true;
+            document.getElementById('filterCarStatusAll').selected = true;
+            document.getElementById('filterForm').submit();
+        }
     </script>
 
 
