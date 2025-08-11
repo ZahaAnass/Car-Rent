@@ -33,7 +33,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rent-A-Wheels - Dashboard</title>
+    <title>Zoomix Admin - Dashboard</title>
     
     <!-- Favicon -->
     <link href="../assets/img/favicon.ico" rel="icon">
