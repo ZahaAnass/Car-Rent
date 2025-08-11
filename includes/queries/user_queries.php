@@ -186,7 +186,7 @@ class UserQueries {
 
     public function getUserCount(){
         try{
-            $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM users");
+            $stmt = $this->pdo->prepare("SELECT COUNT(*) as user_count FROM users");
             $stmt->execute();
             return $stmt->fetchColumn();
         }catch(PDOException $e){
@@ -200,6 +200,16 @@ class UserQueries {
             $stmt->execute(['user_id' => $user_id]);
             return $stmt->fetchColumn();
         }catch(PDOException $e){
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
+    public function getRecentUsers() {
+        try {
+            $stmt = $this->pdo->prepare("SELECT * FROM users ORDER BY user_id DESC LIMIT 5");
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
             die("Query failed: " . $e->getMessage());
         }
     }
