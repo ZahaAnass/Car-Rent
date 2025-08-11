@@ -138,7 +138,15 @@ class TestimonialQueries {
         }
     }
 
-
+    public function getRecentTestimonials(){
+        try {
+            $stmt = $this->pdo->prepare("SELECT * FROM testimonials ORDER BY testimonial_id DESC LIMIT 5");
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
 
 }
 
