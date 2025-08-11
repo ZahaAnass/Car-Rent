@@ -72,7 +72,7 @@ function validate_daily_rate($daily_rate) {
 }
 
 function validate_license_plate($license_plate) {
-    return filter_var($license_plate, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[a-zA-Z0-9 -]{5,20}$/']]) !== false;
+    return filter_var($license_plate, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z0-9\- ]{5,20}$/']]) !== false;
 }
 
 function validate_year($year) {

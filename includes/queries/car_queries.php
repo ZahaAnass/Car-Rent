@@ -140,11 +140,24 @@
             }
         }
 
-        public function getCarCount() {
+        public function getCarCount($type = '', $status = '') {
             try {
-                $stmt = $this->pdo->prepare("SELECT COUNT(*) AS count FROM cars");
-                $stmt->execute();
-                return $stmt->fetchColumn();
+                $query = "SELECT COUNT(*) as count FROM cars WHERE 1=1";
+                $params = [];
+                
+                if($type !== '') {
+                    $query .= " AND type = :type";
+                    $params[':type'] = $type;
+                }
+                if($status !== '') {
+                    $query .= " AND status = :status";
+                    $params[':status'] = $status;
+                }
+                
+                $stmt = $this->pdo->prepare($query);
+                $stmt->execute($params);
+                $result = $stmt->fetch();
+                return $result['count'];
             } catch (PDOException $e) {
                 die("Query failed: " . $e->getMessage());
             }
@@ -160,18 +173,32 @@
             }
         }
 
-        public function getCarsWithLimit($limit, $offset) {
+        public function getCarsWithLimit($limit, $offset, $status, $type = '') {
             try {
                 $limit = filter_var($limit, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'default' => 10]]);
                 $offset = filter_var($offset, FILTER_VALIDATE_INT, ['options' => ['min_range' => 0, 'default' => 0]]);
-                $stmt = $this->pdo->prepare("SELECT * FROM cars LIMIT :limit OFFSET :offset");
-                $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
-                $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
-                $stmt->execute();
+                $status = filter_var($status, FILTER_SANITIZE_STRING);
+                $type = filter_var($type, FILTER_SANITIZE_STRING);
+                
+                $query = "SELECT * FROM cars WHERE 1=1";
+                $params = [];
+                
+                if($type !== '') {
+                    $query .= " AND type = :type";
+                    $params[':type'] = $type;
+                }
+                if($status !== '') {
+                    $query .= " AND status = :status";
+                    $params[':status'] = $status;
+                }
+                
+                $query .= " ORDER BY car_id DESC LIMIT " . $limit . " OFFSET " . $offset;
+                
+                $stmt = $this->pdo->prepare($query);
+                $stmt->execute($params);
                 return $stmt->fetchAll(PDO::FETCH_ASSOC);                
             } catch (PDOException $e) {
-                error_log("Database error in getCarsWithLimit: " . $e->getMessage());
-                return [];
+                die("Database error in getCarsWithLimit: " . $e->getMessage());
             }
         }
 
