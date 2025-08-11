@@ -1,3 +1,33 @@
+<?php
+    require_once "../includes/session.php";
+    start_session();
+    require_once "../config/database.php";
+    require_once "../includes/queries/user_queries.php";
+    require_once "../includes/queries/booking_queries.php";
+    require_once "../includes/queries/car_queries.php";
+    require_once "../includes/queries/testimonial_queries.php";
+    require_once "../includes/queries/message_queries.php";
+    require_once "../includes/auth_admin_check.php";
+
+    $userQueries = new UserQueries($pdo);
+    $bookingQueries = new BookingQueries($pdo);
+    $carQueries = new CarQueries($pdo);
+    $testimonialQueries = new TestimonialQueries($pdo);
+    $messageQueries = new MessageQueries($pdo);
+
+    $totalCars = $carQueries->getCarCount() ?? 0;
+    $totalUsers = $userQueries->getUserCount() ?? 0;
+    $totalRevenue = $bookingQueries->getTotalRevenue() ?? 0;
+    $activeRentals = $bookingQueries->getActiveRentals() ?? 0;
+
+    $recentBookings = $bookingQueries->getRecentBookings() ?? [];
+    $recentSpendedMoney = $bookingQueries->getRecentSpendedMoney() ?? [];
+    $recentTestimonials = $testimonialQueries->getRecentTestimonials() ?? [];
+    $recentMessages = $messageQueries->getRecentMessages() ?? [];
+    $recentCars = $carQueries->getRecentCars() ?? [];
+    $recentUsers = $userQueries->getRecentUsers() ?? [];
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -62,7 +92,7 @@
                                         <i class="fas fa-car fa-2x text-white"></i>
                                     </div>
                                     <h5 class="card-title">Total Cars</h5>
-                                    <p class="h3 text-primary">24</p>
+                                    <p class="h3 text-primary"><?php echo $totalCars; ?></p>
                                 </div>
                             </div>
                         </div>
@@ -73,7 +103,7 @@
                                         <i class="fas fa-credit-card fa-2x text-white"></i>
                                     </div>
                                     <h5 class="card-title">Total Revenue</h5>
-                                    <p class="h3 text-success">$45,890</p>
+                                    <p class="h3 text-success">$<?php echo $totalRevenue; ?></p>
                                 </div>
                             </div>
                         </div>
@@ -84,7 +114,7 @@
                                         <i class="fas fa-users fa-2x text-white"></i>
                                     </div>
                                     <h5 class="card-title">Total Users</h5>
-                                    <p class="h3 text-info">186</p>
+                                    <p class="h3 text-info"><?php echo $totalUsers; ?></p>
                                 </div>
                             </div>
                         </div>
@@ -95,7 +125,7 @@
                                         <i class="fas fa-trophy fa-2x text-white"></i>
                                     </div>
                                     <h5 class="card-title">Active Rentals</h5>
-                                    <p class="h3 text-warning">12</p>
+                                    <p class="h3 text-warning"><?php echo $activeRentals; ?></p>
                                 </div>
                             </div>
                         </div>
@@ -110,46 +140,116 @@
                                 </div>
                                 <div class="card-body p-0">
                                     <ul class="list-group list-group-flush">
-                                        <li class="list-group-item d-flex justify-content-between align-items-center wow fadeIn" data-wow-delay="1s">
-                                            <div class="d-flex align-items-center">
-                                                <i class="fas fa-user-plus fa-fw me-3 text-info"></i>
-                                                <div>
-                                                    <strong>New User Registered:</strong> John Doe
-                                                    <small class="d-block text-muted">john.doe@example.com</small>
+                                        <?php
+                                        // Helper function to format date
+                                        function formatDateTime($datetime) {
+                                            $date = new DateTime($datetime);
+                                            return $date->format('M j, Y H:i');
+                                        }
+
+                                        function dateDiffrent($datetime) {
+                                            $date = new DateTime($datetime);
+                                            $diff = $date->diff(new DateTime());
+                                            if($diff->y > 0) {
+                                                return $diff->y . ' years ago';
+                                            } else if($diff->m > 0) {
+                                                return $diff->m . ' months ago';
+                                            } else if($diff->d > 0) {
+                                                return $diff->d . ' days ago';
+                                            } else if($diff->h > 0) {
+                                                return $diff->h . ' hours ago';
+                                            } else if($diff->i > 0) {
+                                                return $diff->i . ' minutes ago';
+                                            } else {
+                                                return 'just now';
+                                            }
+                                        }
+
+                                        // Combine all activities
+                                        $activities = array_merge(
+                                            array_map(function($booking) {
+                                                return [
+                                                    'type' => 'booking',
+                                                    'icon' => 'fas fa-calendar-check',
+                                                    'color' => 'text-success',
+                                                    'title' => 'New Booking: ' . $booking['car_name'],
+                                                    'subtitle' => 'By User ID: ' . $booking['user_id'] . ' | ' . formatDateTime($booking['pickup_date']),
+                                                    'time' => dateDiffrent($booking['pickup_date'])
+                                                ];
+                                            }, $recentBookings),
+                                            array_map(function($spend) {
+                                                return [
+                                                    'type' => 'spend',
+                                                    'icon' => 'fas fa-money-bill',
+                                                    'color' => 'text-primary',
+                                                    'title' => 'Money Spent: $' . number_format($spend['total_price'], 2),
+                                                    'subtitle' => 'For ' . $spend['car_brand'] . ' ' . $spend['car_name'],
+                                                    'time' => dateDiffrent($spend['pickup_date'])
+                                                ];
+                                            }, $recentSpendedMoney),
+                                            array_map(function($testimonial) {
+                                                return [
+                                                    'type' => 'testimonial',
+                                                    'icon' => 'fas fa-star',
+                                                    'color' => 'text-warning',
+                                                    'title' => 'New Testimonial',
+                                                    'subtitle' => $testimonial['user_name_display'] . ' rated ' . $testimonial['rating'] . '/5',
+                                                    'time' => dateDiffrent($testimonial['submitted_at'])
+                                                ];
+                                            }, $recentTestimonials),
+                                            array_map(function($message) {
+                                                return [
+                                                    'type' => 'message',
+                                                    'icon' => 'fas fa-comment-dots',
+                                                    'color' => 'text-info',
+                                                    'title' => 'New Message',
+                                                    'subtitle' => 'From: ' . $message['name'] . ' | Subject: ' . $message['subject'],
+                                                    'time' => dateDiffrent($message['received_at'])
+                                                ];
+                                            }, $recentMessages),
+                                            array_map(function($car) {
+                                                return [
+                                                    'type' => 'car',
+                                                    'icon' => 'fas fa-car',
+                                                    'color' => 'text-primary',
+                                                    'title' => 'New Car Added',
+                                                    'subtitle' => $car['make'] . ' ' . $car['name'],
+                                                    'time' => dateDiffrent($car['added_at']) ?? date('Y-m-d H:i:s')
+                                                ];
+                                            }, $recentCars),
+                                            array_map(function($user) {
+                                                return [
+                                                    'type' => 'user',
+                                                    'icon' => 'fas fa-user-plus',
+                                                    'color' => 'text-success',
+                                                    'title' => 'New User Registered',
+                                                    'subtitle' => $user['email'],
+                                                    'time' => dateDiffrent($user['registered_at']) ?? date('Y-m-d H:i:s')
+                                                ];
+                                            }, $recentUsers)
+                                        );
+
+                                        // Sort activities by time
+                                        usort($activities, function($a, $b) {
+                                            return strtotime($b['time']) - strtotime($a['time']);
+                                        });
+
+                                        // Display up to 5 activities
+                                        $activities = array_slice($activities, 0, 10);
+
+                                        foreach ($activities as $activity) {
+                                            echo "<li class='list-group-item d-flex justify-content-between align-items-center wow fadeIn' data-wow-delay='1s'>
+                                                <div class='d-flex align-items-center'>
+                                                    <i class='" . $activity['icon'] . " fa-fw me-3 " . $activity['color'] . "'></i>
+                                                    <div>
+                                                        <strong>{$activity['title']}</strong>
+                                                        <small class='d-block text-muted'>{$activity['subtitle']}</small>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <span class="badge bg-light text-dark">15 mins ago</span>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center wow fadeIn" data-wow-delay="1.1s">
-                                            <div class="d-flex align-items-center">
-                                                <i class="fas fa-calendar-check fa-fw me-3 text-success"></i>
-                                                <div>
-                                                    <strong>New Booking:</strong> Toyota Camry by Jane Smith
-                                                    <small class="d-block text-muted">ID #1025 | May 20 - May 25</small>
-                                                </div>
-                                            </div>
-                                            <span class="badge bg-light text-dark">1 hour ago</span>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center wow fadeIn" data-wow-delay="1.2s">
-                                            <div class="d-flex align-items-center">
-                                                <i class="fas fa-car fa-fw me-3 text-primary"></i>
-                                                <div>
-                                                    <strong>Car Added:</strong> Ford Mustang
-                                                    <small class="d-block text-muted">License: XYZ123</small>
-                                                </div>
-                                            </div>
-                                            <span class="badge bg-light text-dark">3 hours ago</span>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center wow fadeIn" data-wow-delay="1.3s">
-                                            <div class="d-flex align-items-center">
-                                                <i class="fas fa-comment-dots fa-fw me-3 text-warning"></i>
-                                                <div>
-                                                    <strong>New Message Received</strong>
-                                                    <small class="d-block text-muted">From: Robert K. Subject: Inquiry</small>
-                                                </div>
-                                            </div>
-                                            <span class="badge bg-light text-dark">Yesterday</span>
-                                        </li>
+                                                <span class='badge bg-danger text-white'>" . $activity['time'] . "</span>
+                                            </li>";
+                                        }
+                                        ?>
                                     </ul>
                                 </div>
                             </div>
