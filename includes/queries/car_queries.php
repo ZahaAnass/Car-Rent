@@ -185,6 +185,16 @@
             }
         }
 
+        public function getRecentCars() {
+            try {
+                $stmt = $this->pdo->prepare("SELECT * FROM cars ORDER BY car_id DESC LIMIT 5");
+                $stmt->execute();
+                return $stmt->fetchAll();
+            } catch (PDOException $e) {
+                die("Query failed: " . $e->getMessage());
+            }
+        }
+
     }
 
 ?>
