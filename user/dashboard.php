@@ -20,7 +20,6 @@
 
     $displayName = $userData['first_name'] . ' ' . $userData['last_name'];
 
-
     $recentBookings = $booking->getRecentBookingsByUserId($_SESSION['user_id']);
     $recentSpendedMoney = $user->getRecentSpendedMoney($_SESSION['user_id']);
     $recentTestimonials = $testimonialQueries->getRecentTestimonialsByUserId($_SESSION['user_id']);
