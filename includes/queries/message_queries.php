@@ -88,6 +88,16 @@ class MessageQueries {
         }
     }
 
+    public function getRecentMessages() {
+        try {
+            $stmt = $this->pdo->prepare("SELECT * FROM messages ORDER BY received_at DESC LIMIT 5");
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
 }
 
 ?>
