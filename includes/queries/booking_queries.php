@@ -239,6 +239,58 @@ class BookingQueries {
         }
     }
 
+    public function getTotalRevenue() {
+        try {
+            $stmt = $this->pdo->prepare("SELECT SUM(total_price) AS total FROM bookings");
+            $stmt->execute();
+            return $stmt->fetchColumn();
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
+    public function getActiveRentals() {
+        try {
+            $stmt = $this->pdo->prepare("SELECT COUNT(*) AS count FROM bookings WHERE status = 'Active'");
+            $stmt->execute();
+            return $stmt->fetchColumn();
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
+    public function getRecentBookings() {
+        try {
+            $stmt = $this->pdo->prepare("SELECT * FROM bookings ORDER BY booking_id DESC LIMIT 5");
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
+    public function getRecentSpendedMoney() {
+        try {
+            $stmt = $this->pdo->prepare("
+                SELECT 
+                    b.booking_id,
+                    b.user_id,
+                    b.total_price,
+                    b.pickup_date,
+                    c.name as car_name,
+                    c.make as car_brand
+                FROM bookings b
+                JOIN cars c ON b.car_id = c.car_id
+                ORDER BY b.booking_id DESC
+                LIMIT 5
+            ");
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
     public function getRecentBookingsByUserId($user_id) {
         try {
             $stmt = $this->pdo->prepare("
