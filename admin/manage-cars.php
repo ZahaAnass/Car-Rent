@@ -1,35 +1,35 @@
 <?php
-    require_once "../includes/session.php";
-    start_session();
-    require_once "../config/database.php";
-    require_once "../includes/functions.php";
-    require_once "../includes/queries/car_queries.php";
-    $carQueries = new CarQueries($pdo);
+require_once '../includes/session.php';
+start_session();
+require_once '../config/database.php';
+require_once '../includes/functions.php';
+require_once '../includes/queries/car_queries.php';
+$carQueries = new CarQueries($pdo);
 
-    // Pagination Config
-    $limit = 7; // Number of cars per page
-    $type = isset($_GET['type']) ? $_GET['type'] : '';
-    $status = isset($_GET['status']) ? $_GET['status'] : '';
-    
-    // Validate status
-    if(!in_array($status, array('All', 'Available', 'Rented', 'Maintenance'))) {
-        $status = '';
-    }
-    
-    // Get total cars based on filters
-    $totalCars = $carQueries->getCarCount($type, $status);
-    $totalPages = max(1, ceil($totalCars / $limit)); // Ensure at least 1 page
+// Pagination Config
+$limit = 7;  // Number of cars per page
+$type = isset($_GET['type']) ? $_GET['type'] : '';
+$status = isset($_GET['status']) ? $_GET['status'] : '';
 
-    // Get current page and validate it
-    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-    if ($page < 1 || ($totalCars > 0 && $page > $totalPages)) {
-        header("Location: manage-cars.php?page=1");
-        exit();
-    }
-    $offset = ($page - 1) * $limit;
+// Validate status
+if (!in_array($status, array('All', 'Available', 'Rented', 'Maintenance'))) {
+    $status = '';
+}
 
-    // Fetch cars with pagination
-    $cars = $carQueries->getCarsWithLimit($limit, $offset, $status, $type);
+// Get total cars based on filters
+$totalCars = $carQueries->getCarCount($type, $status);
+$totalPages = max(1, ceil($totalCars / $limit));  // Ensure at least 1 page
+
+// Get current page and validate it
+$page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+if ($page < 1 || ($totalCars > 0 && $page > $totalPages)) {
+    header('Location: manage-cars.php?page=1');
+    exit();
+}
+$offset = ($page - 1) * $limit;
+
+// Fetch cars with pagination
+$cars = $carQueries->getCarsWithLimit($limit, $offset, $status, $type);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -92,16 +92,16 @@
                     </div>
 
                     <?php
-                        start_session();
-                        if (isset($_SESSION['register_success'])) {
-                            echo "<div class='alert alert-success'>{$_SESSION['register_success']}</div>";
-                            unset($_SESSION['register_success']);
-                        }
+                    start_session();
+                    if (isset($_SESSION['register_success'])) {
+                        echo "<div class='alert alert-success'>{$_SESSION['register_success']}</div>";
+                        unset($_SESSION['register_success']);
+                    }
 
-                        if (isset($_SESSION['register_error'])) {
-                            echo "<div class='alert alert-danger'>{$_SESSION['register_error']}</div>";
-                            unset($_SESSION['register_error']);
-                        }
+                    if (isset($_SESSION['register_error'])) {
+                        echo "<div class='alert alert-danger'>{$_SESSION['register_error']}</div>";
+                        unset($_SESSION['register_error']);
+                    }
                     ?>
 
                     <!-- Filters -->
@@ -113,8 +113,8 @@
                                         <input type="hidden" name="page" value="1">
                                         <div class="col-md-4">
                                             <label for="filterCarType" class="form-label visually-hidden">Car Type</label>
-                                            <?php 
-                                                $carTypes = $carQueries->getCarTypes();
+                                            <?php
+                                            $carTypes = $carQueries->getCarTypes();
                                             ?>
                                             <select class="form-select" id="filterCarType" name="type">
                                                 <option id="filterCarTypeAll" <?= $type === '' ? 'selected' : '' ?> value="">All Types</option>
@@ -166,15 +166,15 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php 
+                                                <?php
                                                 if (empty($cars)) {
                                                     echo '<tr><td colspan="6" class="text-center text-muted py-4">No cars found.</td></tr>';
                                                 } else {
-                                                    foreach ($cars as $car): 
-                                                ?>
+                                                    foreach ($cars as $car):
+                                                        ?>
                                                     <tr>
                                                         <td>
-                                                            <img src="<?= "../" . htmlspecialchars($car['image_url']) ?>" alt="<?= htmlspecialchars($car['name']) ?>" style="width: 80px; height: auto; object-fit: cover;">
+                                                            <img src="<?= '../' . htmlspecialchars($car['image_url']) ?>" alt="<?= htmlspecialchars($car['name']) ?>" style="width: 80px; max-height: 60px; object-fit: cover;">
                                                         </td>
                                                         <td><?= htmlspecialchars($car['name']) ?></td>
                                                         <td><?= htmlspecialchars($car['type']) ?></td>
@@ -183,23 +183,34 @@
                                                             <span class="badge bg-<?= ($car['status'] == 'Available') ? 'success' : (($car['status'] == 'Rented') ? 'warning' : 'info') ?>"><?= htmlspecialchars($car['status']) ?></span>
                                                         </td>
                                                         <td class="text-end">
-                                                            <button class="btn btn-sm btn-outline-primary me-1 edit-car-btn"
-                                                                    title = "Edit Car <?= $car['car_id'] ?>"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#editCarModal"
-                                                                    data-car-id="<?= $car['car_id'] ?>">
+                                                            <div class="btn-group">
+                                                                <button class="btn btn-sm btn-outline-primary me-1 edit-car-btn" 
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#editCarModal"
+                                                                        data-car-id="<?= $car['car_id'] ?>"
+                                                                        data-bs-tooltip="tooltip"
+                                                                        data-bs-placement="top"
+                                                                        title="Edit Car">
                                                                     <i class="fas fa-edit"></i>
-                                                            </button>
-                                                            <form action="manage-car-handeler.php" method="POST">
-                                                                <input type="hidden" name="car_id" value="<?= $car['car_id'] ?>">
-                                                                <button type="submit" name="delete_car" class="btn btn-sm btn-outline-danger" data-bs-toggle="tooltip" title="Delete Car <?= $car['car_id'] ?>">
-                                                                    <i class="fas fa-trash"></i>
+                                                                    <span class="d-none d-md-inline">Edit</span>
                                                                 </button>
-                                                            </form>
+                                                                <form action="manage-car-handeler.php" method="POST" class="d-inline">
+                                                                    <input type="hidden" name="car_id" value="<?= $car['car_id'] ?>">
+                                                                    <button type="submit" name="delete_car" 
+                                                                            class="btn btn-sm btn-outline-danger" 
+                                                                            data-bs-toggle="tooltip" 
+                                                                            data-bs-placement="top"
+                                                                            title="Delete Car"
+                                                                            onclick="return confirm('Are you sure you want to delete this car?')">
+                                                                        <i class="fas fa-trash"></i>
+                                                                        <span class="d-none d-md-inline">Delete</span>
+                                                                    </button>
+                                                                </form>
+                                                            </div>
                                                         </td>
                                                     </tr>
-                                                <?php 
-                                                    endforeach; 
+                                                <?php
+                                                    endforeach;
                                                 }
                                                 ?>
                                             </tbody>
@@ -215,13 +226,13 @@
                                                 </li>
 
                                                 <?php
-                                                $visiblePages = 2; // Number of pages before/after the current one to show
+                                                $visiblePages = 2;  // Number of pages before/after the current one to show
                                                 $start = max(1, $page - $visiblePages);
                                                 $end = min($totalPages, $page + $visiblePages);
 
                                                 // Always show first page
                                                 if ($start > 1):
-                                                ?>
+                                                    ?>
                                                     <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
                                                     <?php if ($start > 2): ?>
                                                         <li class="page-item disabled"><span class="page-link">...</span></li>
@@ -294,7 +305,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="carRate" class="form-label">Daily Rate ($)</label>
-                            <input type="number" step="0.01" class="form-control" id="carRate" name="daily_rate" required placeholder="e.g. 150.00">
+                            <input type="number" step="0.01" class="form-control" id="carRate" name="daily_rate" min="0" max="100000" required placeholder="e.g. 150.00">
                         </div>
                         <div class="mb-3">
                             <label for="carImageFile" class="form-label">Car Image</label>
@@ -469,7 +480,287 @@
     </script>
 
 
-    <script src="../assets/js/manage-car-verify.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    // Add Car Form Validation
+    const addCarForm = document.getElementById('addCarForm');
+    if (addCarForm) {
+    addCarForm.addEventListener('submit', function(e) {
+    // Clear all previous custom validity messages
+    clearAllValidityMessages('add');
+
+    // Get form values
+    const name = document.getElementById('carName').value.trim();
+    const type = document.getElementById('carType').value;
+    const daily_rate = document.getElementById('carRate').value.trim();
+    const status = document.getElementById('carStatus').value;
+    const year = document.getElementById('carYear').value.trim();
+    const make = document.getElementById('carMake').value.trim();
+    const model = document.getElementById('carModel').value.trim();
+    const color = document.getElementById('carColor').value.trim();
+    const seats = document.getElementById('carSeats').value.trim();
+    const fuel_type = document.getElementById('carFuel').value.trim();
+    const features = document.getElementById('carFeatures').value.trim();
+
+    // Validation patterns
+    const nameRegex = /^[a-zA-Z0-9\s\-_.&'\/]{2,50}$/;
+    const typeRegex = /^(Electric|SUV|Luxury|Economy)$/;
+    const rateRegex = /^\d+(\.\d{1,2})?$/;
+    const statusRegex = /^(Available|Unavailable)$/;
+    const yearRegex = /^\d{4}$/;
+    const carTextRegex = /^[a-zA-Z0-9\s\-_.&'\/]{1,50}$/;
+    const seatsRegex = /^[1-9]$/;
+    const fuelRegex = /^[a-zA-Z0-9\s\-_.&'\/]{1,30}$/;
+    const featuresRegex = /^[a-zA-Z0-9\s\-_,.]{0,200}$/;
+
+    let isValid = true;
+
+    // Validate required fields
+    if (!name || !type || !daily_rate || !license_plate || 
+        !year || !make || !model || !color || 
+        !seats || !fuel_type) {
+        setCustomError('carName', 'All required fields must be filled.');
+        isValid = false;
+    }
+
+    // Individual field validations
+    if (name && !nameRegex.test(name)) {
+    setCustomError('carName', 'Car name must be 2-50 characters and contain only letters, numbers, spaces, and basic punctuation.');
+    isValid = false;
+    }
+
+    if (type && !typeRegex.test(type)) {
+    setCustomError('carType', 'Please select a valid car type.');
+    isValid = false;
+    }
+
+    if (daily_rate && !rateRegex.test(daily_rate)) {
+    setCustomError('carRate', 'Daily rate must be a valid number (e.g., 150 or 150.50).');
+    isValid = false;
+    } else if (daily_rate && (parseFloat(daily_rate) <= 0 || parseFloat(daily_rate) > 100000)) {
+    setCustomError('carRate', 'Daily rate must be between $0.01 and $100,000.');
+    isValid = false;
+    }
+
+    if (status && !statusRegex.test(status)) {
+    setCustomError('carStatus', 'Please select a valid status.');
+    isValid = false;
+    }
+
+    if (year && !yearRegex.test(year)) {
+    setCustomError('carYear', 'Year must be a 4-digit number.');
+    isValid = false;
+    } else if (year && (parseInt(year) < 1900 || parseInt(year) > new Date().getFullYear() + 1)) {
+    setCustomError('carYear', `Year must be between 1900 and ${new Date().getFullYear() + 1}.`);
+    isValid = false;
+    }
+
+    if (make && !carTextRegex.test(make)) {
+    setCustomError('carMake', 'Car make must be 1-50 characters and contain only letters, numbers, spaces, and basic punctuation.');
+    isValid = false;
+    }
+
+    if (model && !carTextRegex.test(model)) {
+    setCustomError('carModel', 'Car model must be 1-50 characters and contain only letters, numbers, spaces, and basic punctuation.');
+    isValid = false;
+    }
+
+    if (color && !carTextRegex.test(color)) {
+    setCustomError('carColor', 'Color must be 1-50 characters and contain only letters, numbers, spaces, and basic punctuation.');
+    isValid = false;
+    }
+
+    if (seats && !seatsRegex.test(seats)) {
+    setCustomError('carSeats', 'Number of seats must be between 1 and 9.');
+    isValid = false;
+    }
+
+    if (fuel_type && !fuelRegex.test(fuel_type)) {
+    setCustomError('carFuel', 'Fuel type must be 1-30 characters and contain only letters, numbers, spaces, and basic punctuation.');
+    isValid = false;
+    }
+
+    if (features && !featuresRegex.test(features)) {
+    setCustomError('carFeatures', 'Features must be less than 200 characters and contain only letters, numbers, spaces, commas, hyphens, and underscores.');
+    isValid = false;
+    }
+
+    if (!isValid) {
+    e.preventDefault();
+    return false;
+    }
+    });
+    }
+
+    // Edit Car Form Validation
+    const editCarForm = document.getElementById('editCarForm');
+    if (editCarForm) {
+    editCarForm.addEventListener('submit', function(e) {
+    // Clear all previous custom validity messages
+    clearAllValidityMessages('edit');
+
+    // Get form values
+    const name = document.getElementById('editCarName').value.trim();
+    const type = document.getElementById('editCarType').value;
+    const daily_rate = document.getElementById('editCarRate').value.trim();
+    const license_plate = document.getElementById('editCarLicense').value.trim();
+    const status = document.getElementById('editCarStatus').value;
+    const year = document.getElementById('editCarYear').value.trim();
+    const make = document.getElementById('editCarMake').value.trim();
+    const model = document.getElementById('editCarModel').value.trim();
+    const color = document.getElementById('editCarColor').value.trim();
+    const seats = document.getElementById('editCarSeats').value.trim();
+    const fuel_type = document.getElementById('editCarFuel').value.trim();
+    const features = document.getElementById('editCarFeatures').value.trim();
+
+    // Same validation patterns as add car form
+    const nameRegex = /^[a-zA-Z0-9\s\-_.&'\/]{2,50}$/;
+    const typeRegex = /^(Electric|SUV|Luxury|Economy)$/;
+    const rateRegex = /^\d+(\.\d{1,2})?$/;
+    const licenseRegex = /^[A-Za-z0-9\-\s]{5,20}$/;
+    const statusRegex = /^(Available|Unavailable)$/;
+    const yearRegex = /^\d{4}$/;
+    const carTextRegex = /^[a-zA-Z0-9\s\-_.&'\/]{1,50}$/;
+    const seatsRegex = /^[1-9]$/;
+    const fuelRegex = /^[a-zA-Z0-9\s\-_.&'\/]{1,30}$/;
+    const featuresRegex = /^[a-zA-Z0-9\s\-_,.]{0,200}$/;
+
+    let isValid = true;
+
+    // Validate required fields
+    if (!name || !type || !daily_rate || !license_plate || 
+    !year || !make || !model || !color || 
+    !seats || !fuel_type) {
+    setCustomError('editCarName', 'All required fields must be filled.');
+    isValid = false;
+    }
+
+    // Individual field validations
+    if (name && !nameRegex.test(name)) {
+    setCustomError('editCarName', 'Car name must be 2-50 characters and contain only letters, numbers, spaces, and basic punctuation.');
+    isValid = false;
+    }
+
+    if (type && !typeRegex.test(type)) {
+    setCustomError('editCarType', 'Please select a valid car type.');
+    isValid = false;
+    }
+
+    if (daily_rate && !rateRegex.test(daily_rate)) {
+    setCustomError('editCarRate', 'Daily rate must be a valid number (e.g., 150 or 150.50).');
+    isValid = false;
+    } else if (daily_rate && (parseFloat(daily_rate) <= 0 || parseFloat(daily_rate) > 100000)) {
+    setCustomError('editCarRate', 'Daily rate must be between $0.01 and $100,000.');
+    isValid = false;
+    }
+
+    if (license_plate && !licenseRegex.test(license_plate)) {
+    setCustomError('editCarLicense', 'License plate must be 5-20 characters and contain only letters, numbers, hyphens, and spaces.');
+    isValid = false;
+    }
+
+    if (status && !statusRegex.test(status)) {
+    setCustomError('editCarStatus', 'Please select a valid status.');
+    isValid = false;
+    }
+
+    if (year && !yearRegex.test(year)) {
+    setCustomError('editCarYear', 'Year must be a 4-digit number.');
+    isValid = false;
+    } else if (year && (parseInt(year) < 1900 || parseInt(year) > new Date().getFullYear() + 1)) {
+    setCustomError('editCarYear', `Year must be between 1900 and ${new Date().getFullYear() + 1}.`);
+    isValid = false;
+    }
+
+    if (make && !carTextRegex.test(make)) {
+    setCustomError('editCarMake', 'Car make must be 1-50 characters and contain only letters, numbers, spaces, and basic punctuation.');
+    isValid = false;
+    }
+
+    if (model && !carTextRegex.test(model)) {
+    setCustomError('editCarModel', 'Car model must be 1-50 characters and contain only letters, numbers, spaces, and basic punctuation.');
+    isValid = false;
+    }
+
+    if (color && !carTextRegex.test(color)) {
+    setCustomError('editCarColor', 'Color must be 1-50 characters and contain only letters, numbers, spaces, and basic punctuation.');
+    isValid = false;
+    }
+
+    if (seats && !seatsRegex.test(seats)) {
+    setCustomError('editCarSeats', 'Number of seats must be between 1 and 9.');
+    isValid = false;
+    }
+
+    if (fuel_type && !fuelRegex.test(fuel_type)) {
+    setCustomError('editCarFuel', 'Fuel type must be 1-30 characters and contain only letters, numbers, spaces, and basic punctuation.');
+    isValid = false;
+    }
+
+    if (features && !featuresRegex.test(features)) {
+    setCustomError('editCarFeatures', 'Features must be less than 200 characters and contain only letters, numbers, spaces, commas, hyphens, and underscores.');
+    isValid = false;
+    }
+
+    if (!isValid) {
+    e.preventDefault();
+    return false;
+    }
+    });
+    }
+
+    // Helper function to set custom error messages
+    function setCustomError(fieldId, message) {
+    const field = document.getElementById(fieldId);
+    if (field) {
+    field.setCustomValidity(message);
+    field.reportValidity();
+    }
+    }
+
+    // Helper function to clear all custom validity messages
+    function clearAllValidityMessages(formType) {
+    const prefix = formType === 'edit' ? 'edit' : '';
+    const fields = [
+    `${prefix}carName`, `${prefix}carType`, `${prefix}carRate`, 
+    `${prefix}carLicense`, `${prefix}carStatus`, `${prefix}carYear`,
+    `${prefix}carMake`, `${prefix}carModel`, `${prefix}carColor`,
+    `${prefix}carSeats`, `${prefix}carFuel`, `${prefix}carFeatures`
+    ];
+
+    fields.forEach(fieldId => {
+    const field = document.getElementById(fieldId);
+    if (field) {
+    field.setCustomValidity('');
+    }
+    });
+    }
+
+    // Clear validation messages on input change
+    function addInputListeners(formType) {
+    const prefix = formType === 'edit' ? 'edit' : '';
+    const fields = [
+    `${prefix}carName`, `${prefix}carType`, `${prefix}carRate`, 
+    `${prefix}carLicense`, `${prefix}carStatus`, `${prefix}carYear`,
+    `${prefix}carMake`, `${prefix}carModel`, `${prefix}carColor`,
+    `${prefix}carSeats`, `${prefix}carFuel`, `${prefix}carFeatures`
+    ];
+
+    fields.forEach(fieldId => {
+    const field = document.getElementById(fieldId);
+    if (field) {
+    field.addEventListener('input', function() {
+        this.setCustomValidity('');
+    });
+    }
+    });
+    }
+
+    // Add input listeners for both forms
+    addInputListeners('add');
+    addInputListeners('edit');
+    });
+    </script>
 
 </body>
 </html>

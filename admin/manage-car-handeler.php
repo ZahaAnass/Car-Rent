@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $fuel_type = trim(filter_input(INPUT_POST, 'fuel_type', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
         $features = trim(filter_input(INPUT_POST, 'features', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
         
-        $image_path = '../assets/img/default-car.webp'; // Default image path
+        $image_path = 'assets/img/default-car.webp'; // Default image path
         
         // Handle car image upload
         if (!empty($image['name'])) {
@@ -42,70 +42,112 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $file_error = $image['error'];
             $file_tmp_name = $image['tmp_name'];
 
-            // Fix: Create a temporary array and store the parts, then get the last element
+            // Get file extension
             $file_parts = explode('.', $file_name);
             $file_ext = strtolower(end($file_parts));
             
             $allowed = ['jpg', 'jpeg', 'png', 'webp'];
 
+            // More detailed error messages
+            if ($file_error !== UPLOAD_ERR_OK) {
+                $upload_errors = [
+                    UPLOAD_ERR_INI_SIZE => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
+                    UPLOAD_ERR_FORM_SIZE => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form',
+                    UPLOAD_ERR_PARTIAL => 'The uploaded file was only partially uploaded',
+                    UPLOAD_ERR_NO_FILE => 'No file was uploaded',
+                    UPLOAD_ERR_NO_TMP_DIR => 'Missing a temporary folder',
+                    UPLOAD_ERR_CANT_WRITE => 'Failed to write file to disk',
+                    UPLOAD_ERR_EXTENSION => 'File upload stopped by extension'
+                ];
+                
+                $_SESSION['register_error'] = isset($upload_errors[$file_error]) 
+                    ? $upload_errors[$file_error] 
+                    : 'Unknown upload error occurred';
+                redirect('../admin/manage-cars.php');
+            }
+
             if (in_array($file_ext, $allowed)) {
-                if ($file_error === 0) {
-                    if ($file_size <= 20 * 1024 * 1024) {
-                        // Create uploads directory with proper path
-                        $upload_dir = '../assets/uploads';
-                        if (!is_dir($upload_dir)) {
-                            // Try to create directory with full permissions
-                            if (!mkdir($upload_dir, 0777, true)) {
-                                $error = 'Failed to create uploads directory.';
-                                error_log("Failed to create upload directory: $upload_dir");
-                            }
+                if ($file_size <= 20 * 1024 * 1024) { // 20MB limit
+                    // Create uploads directory with proper path
+                    $upload_dir = __DIR__ . '/../assets/uploads';
+                    
+                    // Ensure directory exists and is writable
+                    if (!is_dir($upload_dir)) {
+                        if (!mkdir($upload_dir, 0777, true)) {
+                            $_SESSION['register_error'] = 'Failed to create uploads directory. Please check permissions.';
+                            redirect('../admin/manage-cars.php');
                         }
+                    }
+                    
+                    // Check if directory is writable
+                    if (!is_writable($upload_dir)) {
+                        $_SESSION['register_error'] = 'Upload directory is not writable. Please check permissions.';
+                        redirect('../admin/manage-cars.php');
+                    }
 
-                        $file_name_new = 'car_' . uniqid('', true) . '.' . $file_ext;
-                        $file_destination = $upload_dir . '/' . $file_name_new;
+                    $file_name_new = 'car_' . uniqid('', true) . '.' . $file_ext;
+                    $file_destination = $upload_dir . '/' . $file_name_new;
+                    $relative_path = 'assets/uploads/' . $file_name_new; // Store relative path
 
-                        if (move_uploaded_file($file_tmp_name, $file_destination)) {
-                            $image_path = '../assets/uploads/' . $file_name_new;
-                        } else {
-                            $error = 'File upload failed. Check permissions for the uploads directory.';
-                            error_log("Failed to move uploaded file to: $file_destination");
-                        }
+                    // Try to move the uploaded file
+                    if (move_uploaded_file($file_tmp_name, $file_destination)) {
+                        // Change permissions to be readable by web server
+                        chmod($file_destination, 0644);
+                        $image_path = $relative_path;
                     } else {
-                        $error = 'Your file is too large!';
+                        $_SESSION['register_error'] = 'File upload failed. Please try again.';
+                        redirect('../admin/manage-cars.php');
                     }
                 } else {
-                    $error = 'There was an error uploading your file!';
+                    $_SESSION['register_error'] = 'File size must be less than 20MB.';
+                    redirect('../admin/manage-cars.php');
                 }
             } else {
-                $error = 'You cannot upload files of this type!';
+                $_SESSION['register_error'] = 'Only JPG, JPEG, PNG, and WEBP files are allowed.';
+                redirect('../admin/manage-cars.php');
             }
+        } else {
+            // No image uploaded, use default
+            $image_path = 'assets/img/default-car.webp';
         }
 
         // Validate inputs
         if (!validate_name($name)) {
-            $error = 'Name must be at least 2 characters and contain only letters and spaces.';
+            $_SESSION['register_error'] = 'Name must be at least 2 characters and contain only letters and spaces.';
+            redirect('../admin/manage-cars.php');
         } elseif (!validate_car($type)) {
-            $error = 'Type must be a valid car type.';
+            $_SESSION['register_error'] = 'Type must be a valid car type.';
+            redirect('../admin/manage-cars.php');
         } elseif (!validate_daily_rate($price)) {
-            $error = 'Please enter a valid price.';
+            $_SESSION['register_error'] = 'Please enter a valid price.';
+            redirect('../admin/manage-cars.php');
         } elseif (!validate_license_plate($license)) {
-            $error = 'License plate must be between 5 and 20 characters and contain only letters and numbers.';
+            $_SESSION['register_error'] = 'License plate must be between 5 and 20 characters and contain only letters and numbers.';
+            redirect('../admin/manage-cars.php');
         } elseif (!validate_car_status($status)) {
-            $error = 'Please select a valid status.';
+            $_SESSION['register_error'] = 'Please select a valid status.';
+            redirect('../admin/manage-cars.php');
         } elseif (!validate_year($year)) {
-            $error = 'Year must be a valid 4-digit year.';
+            $_SESSION['register_error'] = 'Year must be a valid 4-digit year.';
+            redirect('../admin/manage-cars.php');
         } elseif (!validate_car($make)) {
-            $error = 'Make must be a valid car make.';
+            $_SESSION['register_error'] = 'Make must be a valid car make.';
+            redirect('../admin/manage-cars.php');
         } elseif (!validate_car_model($model)) {
-            $error = 'Model must be a valid car model.';
+            $_SESSION['register_error'] = 'Model must be a valid car model.';
+            redirect('../admin/manage-cars.php');
         } elseif (!validate_car($color)) {
-            $error = 'Color must be a valid color.';
+            $_SESSION['register_error'] = 'Color must be a valid color.';
+            redirect('../admin/manage-cars.php');
         } elseif (!validate_seats($seats)) {
-            $error = 'Seats must be between 1 and 9.';
+            $_SESSION['register_error'] = 'Seats must be between 1 and 9.';
+            redirect('../admin/manage-cars.php');
         } elseif (!validate_fuel_type($fuel_type)) {
-            $error = 'Fuel type must be valid.';
+            $_SESSION['register_error'] = 'Fuel type must be valid.';
+            redirect('../admin/manage-cars.php');
         } elseif (!validate_features($features)) {
-            $error = 'Features can be empty or contain actual content.';
+            $_SESSION['register_error'] = 'Features can be empty or contain actual content.';
+            redirect('../admin/manage-cars.php');
         } else {
             try {
                 // Create CarQueries instance
@@ -117,7 +159,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $type,
                     $description,
                     $price,
-                    $image_path ?? '../assets/img/default-car.webp',
+                    $image_path ?? 'assets/img/default-car.webp',
                     $status,
                     $license,
                     $year,
@@ -130,29 +172,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 );
                     
                     if ($result === 'duplicate_license') {
-                        $error = 'License number is already registered.';
-                        error_log("Registration failed due to duplicate license: {$license}");
+                        $_SESSION['register_error'] = 'License number is already registered.';
                     }
                     elseif ($result) { 
                         // Registration successful
                         $_SESSION['register_success'] = 'Car added successfully!';
-                        error_log("Successful car registration: {$license}");
                         redirect('../admin/manage-cars.php');
                         exit;
                     } else {
                         // Registration failed
-                        $error = 'Registration failed. Please try again.';
-                        error_log("Registration failed for: {$license}");
+                        $_SESSION['register_error'] = 'Registration failed. Please try again.';
                     }
                 }catch (Exception $e) {
                 // Handle any unexpected errors
-                $error = 'An unexpected error occurred: ' . $e->getMessage();
-                error_log("Registration error: " . $e->getMessage());
+                $_SESSION['register_error'] = 'An unexpected error occurred: ' . $e->getMessage();
             }
         }
         // If registration fails, store error in session and redirect back
-        if (!empty($error)) {
-            $_SESSION['register_error'] = $error;
+        if (!empty($_SESSION['register_error'])) {
             redirect('../admin/manage-cars.php');
         }
     }elseif(isset($_POST["edit_car"])){
@@ -174,29 +211,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Validate inputs
         if (!validate_name($name)) {
-            $error = 'Name must be at least 2 characters and contain only letters and spaces.';
+            $_SESSION['register_error'] = 'Name must be at least 2 characters and contain only letters and spaces.';
+            redirect('../admin/manage-cars.php');
         } elseif (!validate_car($type)) {
-            $error = 'Type must be a valid car type.';
+            $_SESSION['register_error'] = 'Type must be a valid car type.';
+            redirect('../admin/manage-cars.php');
         } elseif (!validate_daily_rate($price)) {
-            $error = 'Please enter a valid price.';
+            $_SESSION['register_error'] = 'Please enter a valid price.';
+            redirect('../admin/manage-cars.php');
         } elseif (!validate_license_plate($license)) {
-            $error = 'License plate must be between 5 and 20 characters and contain only letters and numbers.';
+            $_SESSION['register_error'] = 'License plate must be between 5 and 20 characters and contain only letters and numbers.';
+            redirect('../admin/manage-cars.php');
         } elseif (!validate_car_status($status)) {
-            $error = 'Please select a valid status.';
+            $_SESSION['register_error'] = 'Please select a valid status.';
+            redirect('../admin/manage-cars.php');
         } elseif (!validate_year($year)) {
-            $error = 'Year must be a valid 4-digit year.';
+            $_SESSION['register_error'] = 'Year must be a valid 4-digit year.';
+            redirect('../admin/manage-cars.php');
         } elseif (!validate_car($make)) {
-            $error = 'Make must be a valid car make.';
+            $_SESSION['register_error'] = 'Make must be a valid car make.';
+            redirect('../admin/manage-cars.php');
         } elseif (!validate_car_model($model)) {
-            $error = 'Model must be a valid car model.';
+            $_SESSION['register_error'] = 'Model must be a valid car model.';
+            redirect('../admin/manage-cars.php');
         } elseif (!validate_car($color)) {
-            $error = 'Color must be a valid color.';
+            $_SESSION['register_error'] = 'Color must be a valid color.';
+            redirect('../admin/manage-cars.php');
         } elseif (!validate_seats($seats)) {
-            $error = 'Seats must be between 1 and 9.';
+            $_SESSION['register_error'] = 'Seats must be between 1 and 9.';
+            redirect('../admin/manage-cars.php');
         } elseif (!validate_fuel_type($fuel_type)) {
-            $error = 'Fuel type must be valid.';
+            $_SESSION['register_error'] = 'Fuel type must be valid.';
+            redirect('../admin/manage-cars.php');
         } elseif (!validate_features($features)) {
-            $error = 'Features can be empty or contain actual content.';
+            $_SESSION['register_error'] = 'Features can be empty or contain actual content.';
+            redirect('../admin/manage-cars.php');
         } else {
             try {
                 // Create CarQueries Object
@@ -245,15 +294,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 redirect('../admin/manage-cars.php');
                 exit;
             } else {
-                $error = 'Delete failed. Please try again.';
+                $_SESSION['register_error'] = 'Delete failed. Please try again.';
             }
         } catch (Exception $e) {
-            $error = 'An unexpected error occurred: ' . $e->getMessage();
+            $_SESSION['register_error'] = 'An unexpected error occurred: ' . $e->getMessage();
         }
-        if (!empty($error)) {
-            $_SESSION['register_error'] = $error;
+        if (!empty($_SESSION['register_error'])) {
             redirect('../admin/manage-cars.php');
         }
     }
+    redirect('../admin/manage-cars.php');
 }
 ?>
