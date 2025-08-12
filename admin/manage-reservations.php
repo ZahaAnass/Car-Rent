@@ -142,7 +142,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             <label for="search" class="form-label visually-hidden">Search</label>
-                                            <input type="text" class="form-control" id="search" name="search" placeholder="Search by User or Car..." value="<?= htmlspecialchars($search ?? '') ?>">
+                                            <input type="text" class="form-control" id="search" name="search" placeholder="Search by User or Car..." value="<?= htmlspecialchars($search ?? "") ?>">
                                         </div>
                                         <div class="col-md-2">
                                             <button type="submit" class="btn btn-outline-primary w-100">
@@ -169,18 +169,18 @@
                                         <table class="table table-hover align-middle mb-0">
                                             <thead class="table-light">
                                                 <tr>
-                                                    <th scope="col">#</th>
-                                                    <th scope="col">User</th>
-                                                    <th scope="col">Car</th>
-                                                    <th scope="col">Pickup Date</th>
-                                                    <th scope="col">Return Date</th>
-                                                    <th scope="col">Total Price</th>
-                                                    <th scope="col">Status</th>
-                                                    <th scope="col" class="text-end">Actions</th>
+                                                    <th scope="col" class="text-center">#</th>
+                                                    <th scope="col" class="text-center">User</th>
+                                                    <th scope="col" class="text-center">Car</th>
+                                                    <th scope="col" class="text-center">Dates</th>
+                                                    <th scope="col" class="text-center">Price</th>
+                                                    <th scope="col" class="text-center">Status</th>
+                                                    <th scope="col" class="text-center">Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php if (empty($bookings)): ?>
+                                                <?php if (empty($bookings)):
+ ?>
                                                     <tr>
                                                         <td colspan="8" class="text-center py-4">
                                                             <div class="d-flex flex-column align-items-center">
@@ -190,74 +190,65 @@
                                                             </div>
                                                         </td>
                                                     </tr>
-                                                <?php else: ?>
+                                                <?php else:
+ ?>
                                                     <?php foreach($bookings as $booking): 
-                                                        // Get car and user details
                                                         $car = $carQueries->getCarById($booking['car_id']);
                                                         $user = $userQueries->getUserById($booking['user_id']);
                                                     ?>
                                                         <tr>
-                                                            <td><?= htmlspecialchars($booking['booking_id']) ?></td>
+                                                            <td class="text-center"><?= htmlspecialchars($booking['booking_id']) ?></td>
                                                             <td>
-                                                                <?php if ($user): ?>
-                                                                    <?= htmlspecialchars($user['first_name'] . ' ' . $user['last_name']) ?>
-                                                                <?php else: ?>
-                                                                    <span class="text-muted">Unknown User</span>
-                                                                <?php endif; ?>
+                                                                <div class="d-flex align-items-center">
+                                                                    <div class="ms-3 text-center">
+                                                                        <p class="fw-bold mb-1"><?= htmlspecialchars($user['first_name'] . ' ' . $user['last_name']) ?></p>
+                                                                        <p class="text-muted mb-0"><?= htmlspecialchars($user['email']) ?></p>
+                                                                    </div>
+                                                                </div>
                                                             </td>
                                                             <td>
-                                                                <?php if ($car): ?>
-                                                                    <?= htmlspecialchars($car['name']) ?>
-                                                                <?php else: ?>
-                                                                    <span class="text-muted">Unknown Car</span>
-                                                                <?php endif; ?>
+                                                                <p class="fw-normal text-center mb-1"><?= htmlspecialchars($car['name'] ?? 'Unknown Car') ?></p>
+                                                                <!-- <p class="text-muted mb-0"><?= htmlspecialchars($car['license_plate'] ?? 'N/A') ?></p> -->
                                                             </td>
-                                                            <td><?= htmlspecialchars(date('M d, Y', strtotime($booking['pickup_date']))) ?></td>
-                                                            <td><?= htmlspecialchars(date('M d, Y', strtotime($booking['return_date']))) ?></td>
-                                                            <td>$<?= number_format($booking['total_price'], 2) ?></td>
                                                             <td>
+                                                                <p class="fw-normal text-center mb-1">P: <?= htmlspecialchars(date('M d, Y', strtotime($booking['pickup_date']))) ?></p>
+                                                                <p class="text-muted text-center mb-0">R: <?= htmlspecialchars(date('M d, Y', strtotime($booking['return_date']))) ?></p>
+                                                            </td>
+                                                            <td class="text-center">$<?= number_format($booking['total_price'], 2) ?></td>
+                                                            <td class="text-center">
                                                                 <?php 
                                                                     $status_badge = 'secondary';
                                                                     if ($booking['status'] == 'Confirmed') $status_badge = 'success';
                                                                     if ($booking['status'] == 'Pending') $status_badge = 'warning';
                                                                     if ($booking['status'] == 'Completed') $status_badge = 'info';
                                                                     if ($booking['status'] == 'Cancelled') $status_badge = 'danger';
+                                                                    if ($booking['status'] == 'Active') $status_badge = 'primary';
                                                                 ?>
-                                                                <span class="badge bg-<?= $status_badge ?>"><?= htmlspecialchars($booking['status']) ?></span>
+                                                                <span class="badge bg-<?= $status_badge ?> rounded-pill"><?= htmlspecialchars($booking['status']) ?></span>
                                                             </td>
-                                                            <td class="text-end">
-                                                                <!-- View Booking Details -->
-                                                                <button class="btn btn-sm btn-outline-info me-1" data-bs-toggle="modal" data-bs-target="#viewBookingModal<?= $booking['booking_id'] ?>" title="View Details">
-                                                                    <i class="fas fa-eye"></i>
-                                                                </button>
-                                                                
-                                                                <!-- Update Booking Status Buttons -->
-                                                                <form action="manage-reservation-handeler.php" method="POST" class="d-inline">
-                                                                    <input type="hidden" name="booking_id" value="<?= $booking['booking_id'] ?>">
-                                                                    
-                                                                    <?php if ($booking['status'] == 'Pending'): ?>
-                                                                    <!-- Confirm Button -->
-                                                                    <button type="submit" name="update_status" value="Confirmed" class="btn btn-sm btn-outline-success me-1" title="Confirm Booking">
-                                                                        <i class="fas fa-check"></i>
+                                                            <td class="text-center">
+                                                                <div class="btn-group">
+                                                                    <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#viewBookingModal<?= $booking['booking_id'] ?>" title="View Details">
+                                                                        <i class="fas fa-eye"></i>
                                                                     </button>
-                                                                    
-                                                                    <!-- Cancel Button -->
-                                                                    <button type="submit" name="update_status" value="Cancelled" class="btn btn-sm btn-outline-danger" title="Cancel Booking">
-                                                                        <i class="fas fa-times"></i>
-                                                                    </button>
-                                                                    
-                                                                    <?php elseif ($booking['status'] == 'Confirmed'): ?>
-                                                                    <!-- Mark as Completed -->
-                                                                    <button type="submit" name="update_status" value="Completed" class="btn btn-sm btn-outline-primary me-1" title="Mark as Completed">
-                                                                        <i class="fas fa-check-double"></i>
-                                                                    </button>
-                                                                    
-                                                                    <!-- Cancel Button -->
-                                                                    <button type="submit" name="update_status" value="Cancelled" class="btn btn-sm btn-outline-danger" title="Cancel Booking">
-                                                                        <i class="fas fa-times"></i>
-                                                                    </button>
-                                                                    <?php endif; ?>
-                                                                </form>
+                                                                    <div class="btn-group">
+                                                                        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false" title="Actions">
+                                                                            <span class="visually-hidden">Toggle Dropdown</span>
+                                                                        </button>
+                                                                        <ul class="dropdown-menu dropdown-menu-end">
+                                                                            <form action="manage-reservation-handeler.php" method="POST" class="d-inline">
+                                                                                <input type="hidden" name="booking_id" value="<?= $booking['booking_id'] ?>">
+                                                                                <?php if ($booking['status'] == 'Pending'): ?>
+                                                                                    <li><button type="submit" name="update_status" value="Confirmed" class="dropdown-item text-success"><i class="fas fa-check me-2"></i>Confirm</button></li>
+                                                                                    <li><button type="submit" name="update_status" value="Cancelled" class="dropdown-item text-danger" onclick="return confirm('Are you sure?')"><i class="fas fa-times me-2"></i>Cancel</button></li>
+                                                                                <?php elseif ($booking['status'] == 'Confirmed' || $booking['status'] == 'Active'): ?>
+                                                                                    <li><button type="submit" name="update_status" value="Completed" class="dropdown-item text-success"><i class="fas fa-check-double me-2"></i>Complete</button></li>
+                                                                                    <li><button type="submit" name="update_status" value="Cancelled" class="dropdown-item text-danger" onclick="return confirm('Are you sure?')"><i class="fas fa-times me-2"></i>Cancel</button></li>
+                                                                                <?php endif; ?>
+                                                                            </form>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
                                                             </td>
                                                         </tr>
                                                     <?php endforeach; ?>
