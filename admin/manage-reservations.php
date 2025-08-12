@@ -372,7 +372,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <img src="<?= htmlspecialchars($car['image_url'] ?? '../assets/img/default-car.webp') ?>" 
+                                    <img src="<?= "../" . htmlspecialchars($car['image_url'] ?? '../assets/img/default-car.webp') ?>" 
                                         class="img-fluid rounded" 
                                         alt="<?= htmlspecialchars($car['name'] ?? 'Car Image') ?>">
                                 </div>
