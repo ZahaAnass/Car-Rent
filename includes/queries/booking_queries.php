@@ -111,25 +111,48 @@ class BookingQueries {
             $search = $search ?? '';
             
             if (!$status_filter && !$search) {
-                $stmt = $this->pdo->prepare("SELECT b.* FROM bookings b");
+                $stmt = $this->pdo->prepare("SELECT b.* FROM bookings b ORDER BY b.booking_id DESC");
+                $stmt->execute();
             } elseif($status_filter && !$search) {
-                $stmt = $this->pdo->prepare("SELECT b.* FROM bookings b WHERE b.status = :status_filter");
-            } elseif(!$status_filter && $search) {
-                $search = "%$search%"; // Add wildcards for LIKE query
-                $stmt = $this->pdo->prepare("SELECT b.* FROM bookings b WHERE (b.user_id IN (SELECT id FROM users WHERE first_name LIKE :search OR last_name LIKE :search) OR b.car_id IN (SELECT id FROM cars WHERE name LIKE :search))");
-            } elseif($status_filter && $search) {
-                $search = "%$search%"; // Add wildcards for LIKE query
-                $stmt = $this->pdo->prepare("SELECT b.* FROM bookings b WHERE b.status = :status_filter AND (b.user_id IN (SELECT id FROM users WHERE first_name LIKE :search OR last_name LIKE :search) OR b.car_id IN (SELECT id FROM cars WHERE name LIKE :search))");
-            }
-            
-            if ($status_filter) {
+                $stmt = $this->pdo->prepare("SELECT b.* FROM bookings b WHERE b.status = :status_filter ORDER BY b.booking_id DESC");
                 $stmt->bindParam(':status_filter', $status_filter, PDO::PARAM_STR);
-            }
-            if ($search) {
+                $stmt->execute();
+            } elseif(!$status_filter && $search) {
+                $search = "%$search%";
+                $stmt = $this->pdo->prepare("
+                    SELECT DISTINCT b.* FROM bookings b 
+                    LEFT JOIN users u ON b.user_id = u.user_id 
+                    LEFT JOIN cars c ON b.car_id = c.car_id 
+                    WHERE (u.first_name LIKE :search 
+                        OR u.last_name LIKE :search 
+                        OR CONCAT(u.first_name, ' ', u.last_name) LIKE :search
+                        OR c.name LIKE :search
+                        OR c.make LIKE :search
+                        OR c.model LIKE :search)
+                    ORDER BY b.booking_id DESC
+                ");
                 $stmt->bindParam(':search', $search, PDO::PARAM_STR);
+                $stmt->execute();
+            } elseif($status_filter && $search) {
+                $search = "%$search%";
+                $stmt = $this->pdo->prepare("
+                    SELECT DISTINCT b.* FROM bookings b 
+                    LEFT JOIN users u ON b.user_id = u.user_id 
+                    LEFT JOIN cars c ON b.car_id = c.car_id 
+                    WHERE b.status = :status_filter 
+                    AND (u.first_name LIKE :search 
+                        OR u.last_name LIKE :search 
+                        OR CONCAT(u.first_name, ' ', u.last_name) LIKE :search
+                        OR c.name LIKE :search
+                        OR c.make LIKE :search
+                        OR c.model LIKE :search)
+                    ORDER BY b.booking_id DESC
+                ");
+                $stmt->bindParam(':status_filter', $status_filter, PDO::PARAM_STR);
+                $stmt->bindParam(':search', $search, PDO::PARAM_STR);
+                $stmt->execute();
             }
             
-            $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             error_log("Database error in getAllBookings: " . $e->getMessage());
@@ -167,31 +190,56 @@ class BookingQueries {
             $search = $search ?? '';
             $limit = filter_var($limit, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'default' => 10]]);
             $offset = filter_var($offset, FILTER_VALIDATE_INT, ['options' => ['min_range' => 0, 'default' => 0]]);
+            
             if (!$status_filter && !$search) {
-                $stmt = $this->pdo->prepare("SELECT b.* FROM bookings b LIMIT :limit OFFSET :offset");
+                $stmt = $this->pdo->prepare("SELECT b.* FROM bookings b ORDER BY b.booking_id DESC LIMIT :limit OFFSET :offset");
+                $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+                $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
             } elseif($status_filter && !$search) {
-                $stmt = $this->pdo->prepare("SELECT b.* FROM bookings b WHERE b.status = :status_filter LIMIT :limit OFFSET :offset");
+                $stmt = $this->pdo->prepare("SELECT b.* FROM bookings b WHERE b.status = :status_filter ORDER BY b.booking_id DESC LIMIT :limit OFFSET :offset");
+                $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+                $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+                $stmt->bindParam(':status_filter', $status_filter, PDO::PARAM_STR);
             } elseif(!$status_filter && $search) {
                 $search = "%" . $search . "%";
-                $stmt = $this->pdo->prepare("SELECT b.* FROM bookings b 
-                    WHERE (b.user_id IN (SELECT id FROM users WHERE first_name LIKE :search OR last_name LIKE :search) 
-                    OR b.car_id IN (SELECT id FROM cars WHERE name LIKE :search)) 
-                    LIMIT :limit OFFSET :offset");
+                $stmt = $this->pdo->prepare("
+                    SELECT DISTINCT b.* FROM bookings b 
+                    LEFT JOIN users u ON b.user_id = u.user_id 
+                    LEFT JOIN cars c ON b.car_id = c.car_id 
+                    WHERE (u.first_name LIKE :search 
+                        OR u.last_name LIKE :search 
+                        OR CONCAT(u.first_name, ' ', u.last_name) LIKE :search
+                        OR c.name LIKE :search
+                        OR c.make LIKE :search
+                        OR c.model LIKE :search)
+                    ORDER BY b.booking_id DESC
+                    LIMIT :limit OFFSET :offset
+                ");
+                $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+                $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+                $stmt->bindParam(':search', $search, PDO::PARAM_STR);
             } elseif($status_filter && $search) {
                 $search = "%" . $search . "%";
-                $stmt = $this->pdo->prepare("SELECT b.* FROM bookings b 
-                    WHERE b.status = :status_filter AND (b.user_id IN (SELECT id FROM users WHERE first_name LIKE :search OR last_name LIKE :search) 
-                    OR b.car_id IN (SELECT id FROM cars WHERE name LIKE :search)) 
-                    LIMIT :limit OFFSET :offset");
-            }
-            $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
-            $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
-            if ($status_filter) {
+                $stmt = $this->pdo->prepare("
+                    SELECT DISTINCT b.* FROM bookings b 
+                    LEFT JOIN users u ON b.user_id = u.user_id 
+                    LEFT JOIN cars c ON b.car_id = c.car_id 
+                    WHERE b.status = :status_filter 
+                    AND (u.first_name LIKE :search 
+                        OR u.last_name LIKE :search 
+                        OR CONCAT(u.first_name, ' ', u.last_name) LIKE :search
+                        OR c.name LIKE :search
+                        OR c.make LIKE :search
+                        OR c.model LIKE :search)
+                    ORDER BY b.booking_id DESC
+                    LIMIT :limit OFFSET :offset
+                ");
+                $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+                $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
                 $stmt->bindParam(':status_filter', $status_filter, PDO::PARAM_STR);
-            }
-            if ($search) {
                 $stmt->bindParam(':search', $search, PDO::PARAM_STR);
             }
+            
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);                
         } catch (PDOException $e) {
@@ -199,6 +247,7 @@ class BookingQueries {
             return [];
         }
     }
+
 
     public function cancelBooking($booking_id) {
         try {
@@ -241,7 +290,7 @@ class BookingQueries {
 
     public function getTotalRevenue() {
         try {
-            $stmt = $this->pdo->prepare("SELECT SUM(total_price) AS total FROM bookings");
+            $stmt = $this->pdo->prepare("SELECT SUM(total_price) AS total FROM bookings WHERE status != 'Pending' AND status != 'Cancelled'");
             $stmt->execute();
             return $stmt->fetchColumn();
         } catch (PDOException $e) {
