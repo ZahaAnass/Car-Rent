@@ -8,43 +8,30 @@
     
     $userQueries = new UserQueries($pdo);
     
-    // Get all users
-    $users = $userQueries->getAllUsers();
-
-    // Pagination Config
-    $limit = 100; // Number of users per page 
-    $totalUsers = $userQueries->getUserCount();
-    $totalPages = ceil($totalUsers / $limit);
-
-    // Get current page and validate it
-    $page = isset($_GET['page']) ? (int)$_GET["page"] : 1;
-    
-    // Validate page number
-    if ($page < 1 || ($totalPages > 0 && $page > $totalPages)) {
-        redirect("manage-users.php?page=1");
-    }
-    
-    $offset = ($page - 1) * $limit;
-
-    // Get filter status if set
+    // Get filter/search from GET
     $status_filter = isset($_GET['status']) ? $_GET['status'] : null;
     $search = isset($_GET['search']) ? $_GET['search'] : null;
-    
-    // Fetch users with pagination 
-    $users = $userQueries->getUsersWithLimit($limit, $offset, $status_filter, $search);
-    
-    // If filters are applied, update the total count and pages
-    if ($status_filter || $search) {
-        $totalUsers = count($userQueries->getAllUsers($status_filter, $search));
-        $totalPages = ceil($totalUsers / $limit);
-        
-        // Recheck page validity with new total
-        if ($page > $totalPages && $totalPages > 0) {
-            redirect("manage-users.php?page=1" . 
-                        ($status_filter ? "&status=" . urlencode($status_filter) : "") . 
-                        ($search ? "&search=" . urlencode($search) : ""));
-        }
+
+    // Pagination config
+    $limit = 20; // Number of users per page
+    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+    if ($page < 1) $page = 1;
+    $offset = ($page - 1) * $limit;
+
+    // Get total users with filter/search
+    $totalUsers = $userQueries->getUserCount($status_filter, $search);
+    $totalPages = ceil($totalUsers / $limit);
+    if ($page > $totalPages && $totalPages > 0) {
+        // Redirect to first page with current filters
+        $q = [];
+        if ($status_filter) $q[] = 'status=' . urlencode($status_filter);
+        if ($search) $q[] = 'search=' . urlencode($search);
+        $qs = $q ? ('&' . implode('&', $q)) : '';
+        redirect("manage-users.php?page=1$qs");
     }
+
+    // Fetch filtered users for current page
+    $users = $userQueries->getUsersWithLimit($limit, $offset, $status_filter, $search);
 
 ?>
 <!DOCTYPE html>
@@ -130,18 +117,18 @@
                         <div class="col-12">
                             <div class="card shadow-sm border-0">
                                 <div class="card-body">
-                                    <form class="row g-3 align-items-center">
+                                    <form class="row g-3 align-items-center" method="get" action="">
                                         <div class="col-md-4">
-                                            <label for="filterUserRole" class="form-label visually-hidden">Role</label>
-                                            <select class="form-select" id="filterUserRole">
-                                                <option selected value="">All Roles</option>
-                                                <option value="Admin">Admin</option>
-                                                <option value="User">User</option>
+                                            <label for="status" class="form-label visually-hidden">Role</label>
+                                            <select class="form-select" id="status" name="status">
+                                                <option value="" <?= $status_filter === null || $status_filter === '' ? 'selected' : '' ?>>All Roles</option>
+                                                <option value="Admin" <?= $status_filter === 'Admin' ? 'selected' : '' ?>>Admin</option>
+                                                <option value="User" <?= $status_filter === 'User' ? 'selected' : '' ?>>User</option>
                                             </select>
                                         </div>
                                         <div class="col-md-4">
-                                            <label for="filterSearchUser" class="form-label visually-hidden">Search</label>
-                                            <input type="text" class="form-control" id="filterSearchUser" placeholder="Search by Name/Email...">
+                                            <label for="search" class="form-label visually-hidden">Search</label>
+                                            <input type="text" class="form-control" id="search" name="search" placeholder="Search by Name/Email..." value="<?= htmlspecialchars($search ?? '') ?>">
                                         </div>
                                         <div class="col-md-2">
                                             <button type="submit" class="btn btn-outline-primary w-100">
@@ -149,9 +136,9 @@
                                             </button>
                                         </div>
                                         <div class="col-md-2">
-                                            <button type="reset" class="btn btn-outline-secondary w-100">
+                                            <a href="manage-users.php" class="btn btn-outline-secondary w-100">
                                                 <i class="fas fa-times me-1"></i> Reset
-                                            </button>
+                                            </a>
                                         </div>
                                     </form>
                                 </div>
@@ -233,12 +220,30 @@
                                     </div>
                                     
                                     <?php if (!empty($users)): ?>
-                                    <!-- Optional: Add Pagination -->
+                                    <!-- Pagination -->
                                     <nav aria-label="Page navigation" class="mt-4">
                                         <ul class="pagination justify-content-center">
-                                            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                                            <?php 
+                                            $q = [];
+                                            if ($status_filter) $q[] = 'status=' . urlencode($status_filter);
+                                            if ($search) $q[] = 'search=' . urlencode($search);
+                                            $qs = $q ? ('&' . implode('&', $q)) : '';
+                                            ?>
+                                            <li class="page-item<?= $page <= 1 ? ' disabled' : '' ?>">
+                                                <a class="page-link" href="manage-users.php?page=<?= $page-1 . $qs ?>" aria-label="Previous">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                </a>
+                                            </li>
+                                            <?php for ($p = 1; $p <= $totalPages; $p++): ?>
+                                                <li class="page-item<?= $p == $page ? ' active' : '' ?>">
+                                                    <a class="page-link" href="manage-users.php?page=<?= $p . $qs ?>"> <?= $p ?> </a>
+                                                </li>
+                                            <?php endfor; ?>
+                                            <li class="page-item<?= $page >= $totalPages ? ' disabled' : '' ?>">
+                                                <a class="page-link" href="manage-users.php?page=<?= $page+1 . $qs ?>" aria-label="Next">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                </a>
+                                            </li>
                                         </ul>
                                     </nav>
                                     <?php endif; ?>
