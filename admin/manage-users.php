@@ -4,6 +4,7 @@
     require_once "../config/database.php";
     require_once "../includes/functions.php";
     require_once "../includes/queries/user_queries.php";
+    require_once "../includes/auth_admin_check.php";
     
     $userQueries = new UserQueries($pdo);
     
