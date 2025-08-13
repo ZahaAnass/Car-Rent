@@ -184,12 +184,53 @@ class UserQueries {
         }
     }
 
-    public function getUserCount(){
+    public function getUserCount($status = null, $search = null){
         try{
-            $stmt = $this->pdo->prepare("SELECT COUNT(*) as user_count FROM users");
-            $stmt->execute();
+            $query = "SELECT COUNT(*) as user_count FROM users WHERE 1=1";
+            $params = [];
+            if ($status !== null && $status !== "") {
+                $query .= " AND role = :role";
+                $params['role'] = $status;
+            }
+            if ($search !== null && $search !== "") {
+                $query .= " AND (first_name LIKE :search OR last_name LIKE :search OR email LIKE :search)";
+                $params['search'] = "%{$search}%";
+            }
+            $stmt = $this->pdo->prepare($query);
+            $stmt->execute($params);
             return $stmt->fetchColumn();
         }catch(PDOException $e){
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
+    public function getUsersWithLimit($limit, $offset, $status = null, $search = null) {
+        try {
+            $query = "SELECT * FROM users WHERE 1=1";
+            $params = [];
+            if ($status !== null && $status !== "") {
+                $query .= " AND role = :role";
+                $params['role'] = $status;
+            }
+            if ($search !== null && $search !== "") {
+                $query .= " AND (first_name LIKE :search OR last_name LIKE :search OR email LIKE :search)";
+                $params['search'] = "%{$search}%";
+            }
+            $query .= " ORDER BY user_id DESC LIMIT :limit OFFSET :offset";
+            $params['limit'] = (int)$limit;
+            $params['offset'] = (int)$offset;
+            $stmt = $this->pdo->prepare($query);
+            // Bind limit and offset as integers
+            foreach ($params as $key => $value) {
+                if ($key === 'limit' || $key === 'offset') {
+                    $stmt->bindValue(":" . $key, $value, PDO::PARAM_INT);
+                } else {
+                    $stmt->bindValue(":" . $key, $value);
+                }
+            }
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
             die("Query failed: " . $e->getMessage());
         }
     }
@@ -234,43 +275,6 @@ class UserQueries {
             return $stmt->fetchAll();
         } catch (PDOException $e) {
             die("Query failed: " . $e->getMessage());
-        }
-    }
-
-    public function getUsersWithLimit($limit, $offset, $status_filter, $search) {
-        try {
-            $status_filter = $status_filter ?? '';
-            $search = $search ?? '';
-            $limit = filter_var($limit, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'default' => 10]]);
-            $offset = filter_var($offset, FILTER_VALIDATE_INT, ['options' => ['min_range' => 0, 'default' => 0]]);
-            if (!$status_filter && !$search) {
-                $stmt = $this->pdo->prepare("SELECT * FROM users LIMIT :limit OFFSET :offset");
-            } elseif($status_filter && !$search) {
-                $stmt = $this->pdo->prepare("SELECT * FROM users WHERE role = :status_filter LIMIT :limit OFFSET :offset");
-            } elseif(!$status_filter && $search) {
-                $search = "%" . $search . "%";
-                $stmt = $this->pdo->prepare("SELECT * FROM users 
-                    WHERE (first_name LIKE :search OR last_name LIKE :search) 
-                    LIMIT :limit OFFSET :offset");
-            } elseif($status_filter && $search) {
-                $search = "%" . $search . "%";
-                $stmt = $this->pdo->prepare("SELECT * FROM users 
-                    WHERE role = :status_filter AND (first_name LIKE :search OR last_name LIKE :search) 
-                    LIMIT :limit OFFSET :offset");
-            }
-            $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
-            $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
-            if ($status_filter) {
-                $stmt->bindParam(':status_filter', $status_filter, PDO::PARAM_STR);
-            }
-            if ($search) {
-                $stmt->bindParam(':search', $search, PDO::PARAM_STR);
-            }
-            $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);                
-        } catch (PDOException $e) {
-            error_log("Database error in getUsersWithLimit: " . $e->getMessage());
-            return [];
         }
     }
 

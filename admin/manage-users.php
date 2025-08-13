@@ -13,7 +13,7 @@
     $search = isset($_GET['search']) ? $_GET['search'] : null;
 
     // Pagination config
-    $limit = 20; // Number of users per page
+    $limit = 10; // Number of users per page
     $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
     if ($page < 1) $page = 1;
     $offset = ($page - 1) * $limit;
