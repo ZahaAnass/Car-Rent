@@ -74,7 +74,33 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 break;
 
             case "delete":
-                // TODO: Add delete logic here
+                if (!isset($_POST['userId'])) {
+                    $_SESSION['action_error'] = 'Missing required data.';
+                    redirect("manage-users.php");
+                }
+                $user_id = validate_user_id($_POST['userId']);
+                if ($user_id === false || $user_id === null) {
+                    $_SESSION['action_error'] = 'Invalid user ID specified.';
+                    redirect("manage-users.php");
+                }
+
+                $user_id = $_POST['userId'];
+                if ((int)$user_id === (int)$current_user_id) {
+                    $_SESSION['action_error'] = 'You cannot delete your own account.';
+                    $_SESSION['action_error'] = "user_id = {$user_id} current_user_id = {$current_user_id}";
+                    redirect("manage-users.php");
+                }
+                $targetUser = $userQueries->getUserById($user_id);
+                if (!$targetUser) {
+                    $_SESSION['action_error'] = 'User not found.';
+                    redirect("manage-users.php");
+                }
+                if ($userQueries->deleteUser($user_id)) {
+                    $_SESSION['action_success'] = "User deleted successfully.";
+                } else {
+                    $_SESSION['action_error'] = 'Failed to delete user. Please try again.';
+                }
+                redirect("manage-users.php");
                 break;
 
             case "add":
