@@ -100,7 +100,7 @@ function validate_booking_id($booking_id){
 }
 
 function validate_user_id($user_id){
-    return filter_var($user_id, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[0-9]{1,10}$/']]) !== false;
+    return filter_var($user_id, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[0-9]{1,11}$/']]) !== false;
 }
 
 function validate_action($action){

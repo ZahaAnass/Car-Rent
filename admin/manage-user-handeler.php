@@ -29,17 +29,63 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(isset($action)){
         switch($action){
             case "update_role":
-                
+                if (!isset($_POST['userId']) || !isset($_POST['role'])) {
+                    $_SESSION['action_error'] = 'Missing required data.';
+                    redirect("manage-users.php");
+                }
+
+                $user_id = validate_user_id($_POST['userId']);
+                $new_role = validate_role($_POST['role']);
+
+                if ($user_id === false || $user_id === null) {
+                    $_SESSION['action_error'] = 'Invalid user ID specified.';
+                    redirect("manage-users.php");
+                }
+
+                if ($new_role === false || $new_role === null) {
+                    $_SESSION['action_error'] = 'Invalid role specified.';
+                    redirect("manage-users.php");
+                }
+
+                $user_id = $_POST['userId'];
+                $new_role = $_POST['role'];
+
+                if (!in_array($new_role, ['Admin', 'User'])) {
+                    $_SESSION['action_error'] = 'Invalid role specified. Must be Admin or User.';
+                    redirect("manage-users.php");
+                }
+
+                if ((int)$user_id === (int)$current_user_id) {
+                    $_SESSION['action_error'] = 'You cannot change your own role.';
+                    redirect("manage-users.php");
+                }
+                $targetUser = $userQueries->getUserById($user_id);
+                if (!$targetUser) {
+                    $_SESSION['action_error'] = 'User not found.';
+                    redirect("manage-users.php");
+                }
+
+                if ($userQueries->changeUserRole($user_id, $new_role)) {
+                    $_SESSION['action_success'] = "User role updated successfully to {$new_role}.";
+                } else {
+                    $_SESSION['action_error'] = 'Failed to update user role. Please try again.';
+                }
+                redirect("manage-users.php");
                 break;
+
             case "delete":
-                
+                // TODO: Add delete logic here
                 break;
+
             case "add":
-                
+                // TODO: Add user creation logic here
                 break;
+
             default:
                 $_SESSION['action_error'] = 'Invalid action specified.';
+                redirect("manage-users.php");
                 break;
         }
     }
 }
+?>

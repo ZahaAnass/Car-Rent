@@ -168,17 +168,17 @@
                                                 if (empty($users)) {
                                                     echo '<tr><td colspan="6" class="text-center text-muted py-4">No users found.</td></tr>';
                                                 } else {
-                                                    foreach ($users as $user): 
-                                                        $isCurrentUser = ($user['user_id'] == $_SESSION['user_id']);
+                                                    foreach ($users as $singleUser): 
+                                                    $isCurrentUser = ($singleUser['user_id'] == $_SESSION['user_id']);
                                                 ?>
                                                     <tr>
-                                                        <td>#<?= htmlspecialchars($user['user_id']) ?></td>
-                                                        <td><?= htmlspecialchars($user['first_name'] . ' ' . $user['last_name']) ?></td>
-                                                        <td><?= htmlspecialchars($user['email']) ?></td>
-                                                        <td><?= date('M d, Y', strtotime($user['registered_at'])) ?></td>
+                                                        <td>#<?= htmlspecialchars($singleUser['user_id']) ?></td>
+                                                        <td><?= htmlspecialchars($singleUser['first_name'] . ' ' . $singleUser['last_name']) ?></td>
+                                                        <td><?= htmlspecialchars($singleUser['email']) ?></td>
+                                                        <td><?= date('M d, Y', strtotime($singleUser['registered_at'])) ?></td>
                                                         <td>
-                                                            <span class="badge bg-<?= $user['role'] == 'Admin' ? 'primary' : 'secondary' ?>">
-                                                                <?= htmlspecialchars($user['role']) ?>
+                                                            <span class="badge bg-<?= $singleUser['role'] == 'Admin' ? 'primary' : 'secondary' ?>">
+                                                                <?= htmlspecialchars($singleUser['role']) ?>
                                                             </span>
                                                         </td>
                                                         <td class="text-end">
@@ -186,16 +186,16 @@
                                                                 <div class="d-flex justify-content-end gap-2">
                                                                     <!-- Role Selector -->
                                                                     <form action="manage-user-handeler.php?action=update_role" method="post" style="min-width: 120px;">
-                                                                        <input type="hidden" name="user_id" value="<?= $user['user_id'] ?>">
+                                                                        <input type="hidden" name="userId" value="<?= $singleUser['user_id'] ?>">
                                                                         <select name="role" onchange="this.form.submit()" class="form-select form-select-sm">
-                                                                            <option value="User" <?= $user['role'] === 'User' ? 'selected' : '' ?>>User</option>
-                                                                            <option value="Admin" <?= $user['role'] === 'Admin' ? 'selected' : '' ?>>Admin</option>
+                                                                            <option value="User" <?= $singleUser['role'] === 'User' ? 'selected' : '' ?>>User</option>
+                                                                            <option value="Admin" <?= $singleUser['role'] === 'Admin' ? 'selected' : '' ?>>Admin</option>
                                                                         </select>
                                                                     </form>
                                                                     
                                                                     <!-- Delete Button -->
                                                                     <form action="manage-user-handeler.php?action=delete" method="post" class="d-inline">
-                                                                        <input type="hidden" name="user_id" value="<?= $user['user_id'] ?>">
+                                                                        <input type="hidden" name="userId" value="<?= $singleUser['user_id'] ?>">
                                                                         <button type="submit" 
                                                                                 class="btn btn-sm btn-outline-danger" 
                                                                                 onclick="return confirm('Are you sure you want to delete this user? This action cannot be undone.')"
