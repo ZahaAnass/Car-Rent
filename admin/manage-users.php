@@ -185,8 +185,7 @@
                                                             <?php if (!$isCurrentUser): ?> 
                                                                 <div class="d-flex justify-content-end gap-2">
                                                                     <!-- Role Selector -->
-                                                                    <form action="manage-user-handeler.php" method="post" style="min-width: 120px;">
-                                                                        <input type="hidden" name="action" value="update_role">
+                                                                    <form action="manage-user-handeler.php?action=update_role" method="post" style="min-width: 120px;">
                                                                         <input type="hidden" name="user_id" value="<?= $user['user_id'] ?>">
                                                                         <select name="role" onchange="this.form.submit()" class="form-select form-select-sm">
                                                                             <option value="User" <?= $user['role'] === 'User' ? 'selected' : '' ?>>User</option>
@@ -195,8 +194,7 @@
                                                                     </form>
                                                                     
                                                                     <!-- Delete Button -->
-                                                                    <form action="manage-user-handeler.php" method="post" class="d-inline">
-                                                                        <input type="hidden" name="action" value="delete">
+                                                                    <form action="manage-user-handeler.php?action=delete" method="post" class="d-inline">
                                                                         <input type="hidden" name="user_id" value="<?= $user['user_id'] ?>">
                                                                         <button type="submit" 
                                                                                 class="btn btn-sm btn-outline-danger" 
