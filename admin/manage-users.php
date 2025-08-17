@@ -120,7 +120,7 @@
                                     <form class="row g-3 align-items-center" method="get" action="">
                                         <div class="col-md-4">
                                             <label for="status" class="form-label visually-hidden">Role</label>
-                                            <select class="form-select" id="status" name="status">
+                                            <select class="form-select" id="status" name="status" onchange="this.form.submit()">
                                                 <option value="" <?= $status_filter === null || $status_filter === '' ? 'selected' : '' ?>>All Roles</option>
                                                 <option value="Admin" <?= $status_filter === 'Admin' ? 'selected' : '' ?>>Admin</option>
                                                 <option value="User" <?= $status_filter === 'User' ? 'selected' : '' ?>>User</option>
