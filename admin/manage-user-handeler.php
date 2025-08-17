@@ -104,8 +104,89 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 break;
 
             case "add":
-                // TODO: Add user creation logic here
-                break;
+                    // Sanitize inputs first
+                    $first_name = trim(filter_input(INPUT_POST, 'first_name', FILTER_SANITIZE_STRING));
+                    $last_name  = trim(filter_input(INPUT_POST, 'last_name', FILTER_SANITIZE_STRING));
+                    $email      = trim(filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL));
+                    $phone      = trim(filter_input(INPUT_POST, 'phone_number', FILTER_SANITIZE_STRING));
+                    $license_number = trim(filter_input(INPUT_POST, 'license_number', FILTER_SANITIZE_STRING));
+                    $country    = trim(filter_input(INPUT_POST, 'country', FILTER_SANITIZE_STRING));
+                    $city       = trim(filter_input(INPUT_POST, 'city', FILTER_SANITIZE_STRING));
+                    $role       = trim(filter_input(INPUT_POST, 'role', FILTER_SANITIZE_STRING));
+                    $password   = $_POST['password'] ?? ''; 
+                    $confirm_password = $_POST['confirm_password'] ?? '';
+                    
+                    // Validate inputs
+                    if (!validate_name($first_name)) {
+                        $error = 'First name must be at least 2 characters';
+                    } elseif (!validate_name($last_name)) {
+                        $error = 'Last name must be at least 2 characters';
+                    } elseif (!validate_email($email)) {
+                        $error = 'Please enter a valid email address';
+                    } elseif (!validate_phone($phone)) {
+                        $error = 'Please enter a valid phone number';
+                    } elseif (!validate_license($license_number)) {
+                        $error = 'License number must be 5-15 alphanumeric characters';
+                    } elseif (empty($country)) {
+                        $error = 'Please select your country';
+                    } elseif (empty($city)) {
+                        $error = 'Please select your city';
+                    } elseif (!in_array($role, ['Admin', 'User'])) {
+                        $error = 'Invalid role specified. Must be Admin or User.';
+                    } elseif (!validate_password($password)) {
+                        $error = 'Password must be at least 8 characters with uppercase, lowercase, and number';
+                    } elseif (!validate_confirm_password($password, $confirm_password)) {
+                        $error = 'Passwords do not match';
+                    } else {
+                        try {
+                            if ($userQueries->emailExists($email)) {
+                                $error = 'Email address is already registered';
+                                error_log("Add user attempt with existing email: {$email}");
+                            } 
+                            elseif ($userQueries->licenseExists($license_number)) {
+                                $error = 'License number is already registered';
+                                error_log("Add user attempt with existing license: {$license_number}");
+                            }
+                            else {
+                                $hashed_password = hash_password($password);
+                                $result = $userQueries->createUser(
+                                    $first_name,
+                                    $last_name,
+                                    $email,
+                                    $hashed_password,
+                                    $phone,
+                                    $license_number,
+                                    $role, 
+                                    $country,
+                                    $city
+                                );
+                                
+                                if ($result === 'duplicate_license') {
+                                    $error = 'License number is already registered.';
+                                    error_log("Add user failed due to duplicate license: {$license_number}");
+                                }
+                                elseif ($result) { 
+                                    $_SESSION['action_success'] = 'User created successfully!';
+                                    error_log("Successful user creation by admin: {$email}");
+                                    redirect("manage-users.php");
+                                } else {
+                                    
+                                    $error = 'User creation failed. Please try again.';
+                                    error_log("User creation failed for: {$email}");
+                                }
+                            }
+                        } catch (Exception $e) {
+                            $error = 'An unexpected error occurred. Please try again.';
+                            error_log("User creation error: " . $e->getMessage());
+                        }
+                    }
+                    
+                    // If user creation fails, store error in session and redirect back
+                    if (!empty($error)) {
+                        $_SESSION['action_error'] = $error;
+                        redirect("manage-users.php");
+                    }
+                    break;
 
             default:
                 $_SESSION['action_error'] = 'Invalid action specified.';

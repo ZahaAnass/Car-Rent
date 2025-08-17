@@ -309,9 +309,11 @@
                             <div class="col-md-6 mb-3">
                                 <label for="phone_number" class="form-label">Phone Number</label>
                                 <div class="input-group">
-                                    <span class="input-group-text">+212</span>
+                                    <span class="input-group-text">
+                                        <i class="fas fa-phone"></i>
+                                    </span>
                                     <input type="tel" class="form-control" id="phone_number" name="phone_number" 
-                                        pattern="[0-9]{9}" title="Please enter a valid 9-digit phone number">
+                                        pattern="[0-9]{9,15}" required title="Please enter a valid 9-digit phone number">
                                 </div>
                                 <div class="form-text"></div>
                             </div>

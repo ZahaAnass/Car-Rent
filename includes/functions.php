@@ -20,7 +20,7 @@ function validate_email($email){
 }
 
 function validate_phone($phone) {
-    return filter_var($phone, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[0-9]{10,15}$/']]) !== false;
+    return filter_var($phone, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[0-9]{9,15}$/']]) !== false;
 }
 
 function validate_password($password) {

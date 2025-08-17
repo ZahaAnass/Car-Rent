@@ -179,8 +179,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php if (empty($bookings)):
- ?>
+                                                <?php if (empty($bookings)):?>
                                                     <tr>
                                                         <td colspan="8" class="text-center py-4">
                                                             <div class="d-flex flex-column align-items-center">
@@ -190,8 +189,7 @@
                                                             </div>
                                                         </td>
                                                     </tr>
-                                                <?php else:
- ?>
+                                                <?php else:?>
                                                     <?php foreach($bookings as $booking): 
                                                         $car = $carQueries->getCarById($booking['car_id']);
                                                         $user = $userQueries->getUserById($booking['user_id']);
