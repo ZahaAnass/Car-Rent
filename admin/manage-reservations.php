@@ -131,7 +131,7 @@
                                     <form class="row g-3 align-items-center" method="GET" action="manage-reservations.php">
                                         <div class="col-md-4">
                                             <label for="status" class="form-label visually-hidden">Status</label>
-                                            <select class="form-select" id="status" name="status">
+                                            <select class="form-select" id="status" name="status" onchange="this.form.submit()">
                                                 <option value="" <?= !$status_filter ? 'selected' : '' ?>>All Statuses</option>
                                                 <option value="Confirmed" <?= $status_filter == 'Confirmed' ? 'selected' : '' ?>>Confirmed</option>
                                                 <option value="Pending" <?= $status_filter == 'Pending' ? 'selected' : '' ?>>Pending</option>

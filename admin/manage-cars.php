@@ -116,7 +116,7 @@ $cars = $carQueries->getCarsWithLimit($limit, $offset, $status, $type);
                                             <?php
                                             $carTypes = $carQueries->getCarTypes();
                                             ?>
-                                            <select class="form-select" id="filterCarType" name="type">
+                                            <select class="form-select" id="filterCarType" name="type" onchange="this.form.submit()">
                                                 <option id="filterCarTypeAll" <?= $type === '' ? 'selected' : '' ?> value="">All Types</option>
                                                 <?php foreach ($carTypes as $carType): ?>
                                                     <option id="filterCarType<?= htmlspecialchars($carType['type']) ?>" value="<?= htmlspecialchars($carType['type']) ?>" <?= $carType['type'] === $type ? 'selected' : '' ?>><?= htmlspecialchars($carType['type']) ?></option>
