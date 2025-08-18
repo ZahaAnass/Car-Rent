@@ -96,16 +96,6 @@ class TestimonialQueries {
         }
     }
 
-    public function getTestimonialCount() {
-        try {
-            $stmt = $this->pdo->prepare("SELECT COUNT(*) AS count FROM testimonials");
-            $stmt->execute();
-            return $stmt->fetchColumn();
-        } catch (PDOException $e) {
-            die("Query failed: " . $e->getMessage());
-        }
-    }
-
     public function getAllTestimonialsCount($user_id) {
         try {
             $stmt = $this->pdo->prepare("SELECT COUNT(*) AS count FROM testimonials WHERE user_id = :user_id");
@@ -142,6 +132,96 @@ class TestimonialQueries {
         try {
             $stmt = $this->pdo->prepare("SELECT * FROM testimonials ORDER BY testimonial_id DESC LIMIT 5");
             $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
+    public function getTestimonialsWithLimit($limit, $offset, $status_filter = null, $search = null) {
+        try {
+            $sql = "SELECT t.*, u.first_name, u.last_name FROM testimonials t 
+                    LEFT JOIN users u ON t.user_id = u.user_id WHERE 1=1";
+            $params = [];
+
+            // Add status filter
+            if ($status_filter && $status_filter !== '') {
+                $sql .= " AND t.status = :status";
+                $params['status'] = $status_filter;
+            }
+
+            // Add search filter
+            if ($search && $search !== '') {
+                $sql .= " AND (t.user_name_display LIKE :search OR t.testimonial_text LIKE :search OR u.first_name LIKE :search OR u.last_name LIKE :search OR u.email LIKE :search)";
+                $params['search'] = '%' . $search . '%';
+            }
+
+            $sql .= " ORDER BY t.testimonial_id DESC LIMIT :limit OFFSET :offset";
+
+            $stmt = $this->pdo->prepare($sql);
+            
+            // Bind parameters
+            foreach ($params as $key => $value) {
+                $stmt->bindValue(':' . $key, $value);
+            }
+            $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+            $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
+    public function getTestimonialCount($status_filter = null, $search = null) {
+        try {
+            $sql = "SELECT COUNT(*) as count FROM testimonials t 
+                    LEFT JOIN users u ON t.user_id = u.user_id WHERE 1=1";
+            $params = [];
+
+            // Add status filter
+            if ($status_filter && $status_filter !== '') {
+                $sql .= " AND t.status = :status";
+                $params['status'] = $status_filter;
+            }
+
+            // Add search filter
+            if ($search && $search !== '') {
+                $sql .= " AND (t.user_name_display LIKE :search OR t.testimonial_text LIKE :search OR u.first_name LIKE :search OR u.last_name LIKE :search OR u.email LIKE :search)";
+                $params['search'] = '%' . $search . '%';
+            }
+
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute($params);
+            return $stmt->fetchColumn();
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
+    public function getAllTestimonialsWithFilter($status_filter = null, $search = null) {
+        try {
+            $sql = "SELECT t.*, u.first_name, u.last_name FROM testimonials t 
+                    LEFT JOIN users u ON t.user_id = u.user_id WHERE 1=1";
+            $params = [];
+
+            // Add status filter
+            if ($status_filter && $status_filter !== '') {
+                $sql .= " AND t.status = :status";
+                $params['status'] = $status_filter;
+            }
+
+            // Add search filter
+            if ($search && $search !== '') {
+                $sql .= " AND (t.user_name_display LIKE :search OR t.testimonial_text LIKE :search OR u.first_name LIKE :search OR u.last_name LIKE :search OR u.email LIKE :search)";
+                $params['search'] = '%' . $search . '%';
+            }
+
+            $sql .= " ORDER BY t.testimonial_id DESC";
+
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute($params);
             return $stmt->fetchAll();
         } catch (PDOException $e) {
             die("Query failed: " . $e->getMessage());
