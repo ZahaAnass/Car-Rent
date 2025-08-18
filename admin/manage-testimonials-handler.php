@@ -78,24 +78,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-else if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])) {
-    $testimonial_id = (int)$_GET['id'];
-    if ($testimonial_id > 0) {
-        try {
-            if ($testimonialQueries->deleteTestimonial($testimonial_id)) {
-                $_SESSION['success'] = 'Testimonial deleted successfully!';
-            } else {
-                $_SESSION['error'] = 'Failed to delete testimonial. Please try again.';
-            }
-        } catch (Exception $e) {
-            error_log('Testimonial deletion failed: ' . $e->getMessage());
-            $_SESSION['error'] = 'An error occurred while deleting the testimonial.';
-        }
-    } else {
-        $_SESSION['error'] = 'Invalid testimonial ID.';
-    }
-}
-
 $query_params = [];
 if (isset($_GET['page']) && (int)$_GET['page'] > 0) $query_params['page'] = (int)$_GET['page'];
 if (isset($_GET['status']) && !empty($_GET['status'])) $query_params['status'] = $_GET['status'];
