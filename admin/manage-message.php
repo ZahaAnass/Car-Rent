@@ -1,8 +1,37 @@
 <?php
-// Add session start and authentication check if needed
-// session_start();
-// include '../includes/session.php'; // Assuming you have session handling
-// if (!is_admin()) { header('Location: ../login.php'); exit; } 
+require_once "../includes/session.php";
+start_session();
+require_once "../config/database.php";
+require_once "../includes/functions.php";
+require_once "../includes/queries/message_queries.php";
+require_once "../includes/auth_admin_check.php";
+
+$messageQueries = new MessageQueries($pdo);
+
+// Get filter/search from GET
+$status_filter = isset($_GET['status']) ? $_GET['status'] : null;
+$search = isset($_GET['search']) ? $_GET['search'] : null;
+
+// Pagination config
+$limit = 10; // Number of messages per page
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+if ($page < 1) $page = 1;
+$offset = ($page - 1) * $limit;
+
+// Get total messages with filter/search
+$totalMessages = $messageQueries->getMessageCount($status_filter, $search);
+$totalPages = ceil($totalMessages / $limit);
+if ($page > $totalPages && $totalPages > 0) {
+    // Redirect to first page with current filters
+    $q = [];
+    if ($status_filter) $q[] = 'status=' . urlencode($status_filter);
+    if ($search) $q[] = 'search=' . urlencode($search);
+    $qs = $q ? ('&' . implode('&', $q)) : '';
+    redirect("manage-message.php?page=1$qs");
+}
+
+// Fetch filtered messages for current page
+$messages = $messageQueries->getMessagesWithLimit($limit, $offset, $status_filter, $search);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -59,24 +88,42 @@
                         </div>
                     </div>
 
+                    <!-- Session Messages -->
+                    <?php if(isset($_SESSION['message_success'])): ?>
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="fas fa-check-circle me-2"></i>
+                            <?php echo $_SESSION['message_success']; ?>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    <?php endif;
+                    unset($_SESSION['message_success']); ?>
+
+                    <?php if(isset($_SESSION['message_error'])): ?>
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-circle me-2"></i>
+                            <?php echo $_SESSION['message_error']; ?>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    <?php endif;
+                    unset($_SESSION['message_error']); ?>
+
                     <!-- Filters -->
                     <div class="row mb-4 wow fadeInUp" data-wow-delay="0.1s">
                         <div class="col-12">
                             <div class="card shadow-sm border-0">
                                 <div class="card-body">
-                                    <form class="row g-3 align-items-center">
+                                    <form class="row g-3 align-items-center" method="get" action="">
                                         <div class="col-md-4">
-                                            <label for="filterMessageStatus" class="form-label visually-hidden">Status</label>
-                                            <select class="form-select" id="filterMessageStatus">
-                                                <option selected value="">All Statuses</option>
-                                                <option value="unread">Unread</option>
-                                                <option value="read">Read</option>
-                                                <option value="replied">Replied</option>
+                                            <label for="status" class="form-label visually-hidden">Status</label>
+                                            <select class="form-select" id="status" name="status" onchange="this.form.submit()">
+                                                <option value="" <?= $status_filter === null || $status_filter === '' ? 'selected' : '' ?>>All Statuses</option>
+                                                <option value="Unread" <?= $status_filter === 'Unread' ? 'selected' : '' ?>>Unread</option>
+                                                <option value="Read" <?= $status_filter === 'Read' ? 'selected' : '' ?>>Read</option>
                                             </select>
                                         </div>
                                         <div class="col-md-4">
-                                            <label for="filterSearchMessage" class="form-label visually-hidden">Search</label>
-                                            <input type="text" class="form-control" id="filterSearchMessage" placeholder="Search by Name, Email, Subject...">
+                                            <label for="search" class="form-label visually-hidden">Search</label>
+                                            <input type="text" class="form-control" id="search" name="search" placeholder="Search by Name, Email, Subject..." value="<?= htmlspecialchars($search ?? '') ?>">
                                         </div>
                                         <div class="col-md-2">
                                             <button type="submit" class="btn btn-outline-primary w-100">
@@ -84,9 +131,9 @@
                                             </button>
                                         </div>
                                         <div class="col-md-2">
-                                            <button type="reset" class="btn btn-outline-secondary w-100">
+                                            <a href="manage-message.php" class="btn btn-outline-secondary w-100">
                                                 <i class="fas fa-times me-1"></i> Reset
-                                            </button>
+                                            </a>
                                         </div>
                                     </form>
                                 </div>
@@ -114,76 +161,88 @@
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                // --- PHP Logic to fetch messages from database would go here ---
-                                                // Example placeholder data:
-                                                $messages = [
-                                                    ['id' => 1, 'name' => 'John Doe', 'email' => 'john.doe@example.com', 'subject' => 'Question about SUV rental', 'message' => 'Hi, I was wondering about the availability of the Honda CR-V next weekend...', 'timestamp' => '2025-05-05 10:30:00', 'status' => 'unread'],
-                                                    ['id' => 2, 'name' => 'Jane Smith', 'email' => 'jane.s@sample.net', 'subject' => 'Feedback on service', 'message' => 'Just wanted to say I had a great experience renting the Camry. Smooth process!', 'timestamp' => '2025-05-04 15:00:00', 'status' => 'read'],
-                                                    ['id' => 3, 'name' => 'Robert Johnson', 'email' => 'r.johnson@mail.com', 'subject' => 'Problem with booking', 'message' => 'I seem to be having trouble completing my booking online. Can you help?', 'timestamp' => '2025-05-05 14:15:00', 'status' => 'replied'],
-                                                    ['id' => 4, 'name' => 'Emily White', 'email' => 'emily.w@example.com', 'subject' => 'Urgent: Change Pickup Time', 'message' => 'Need to change my pickup time for booking #12345 to 3 PM instead of 1 PM.', 'timestamp' => '2025-05-06 09:00:00', 'status' => 'unread'],
-                                                    ['id' => 5, 'name' => 'Michael Brown', 'email' => 'michael.b@example.com', 'subject' => 'Request for refund', 'message' => 'I need to request a refund for my recent booking #67890 due to a vehicle issue.', 'timestamp' => '2025-05-07 11:45:00', 'status' => 'unread'],
-                                                    ['id' => 6, 'name' => 'Sarah Davis', 'email' => 'sarah.d@example.com', 'subject' => 'Booking confirmation', 'message' => 'Just wanted to confirm my booking for the Honda CR-V next weekend. Please let me know if there are any changes.', 'timestamp' => '2025-05-08 16:30:00', 'status' => 'read'],
-                                                    ['id' => 7, 'name' => 'William Wilson', 'email' => 'william.w@example.com', 'subject' => 'Issue with vehicle', 'message' => 'I seem to be having trouble with my vehicle. Can you help me resolve this issue?', 'timestamp' => '2025-05-09 10:15:00', 'status' => 'unread'],
-                                                ];
-
                                                 if (empty($messages)) {
                                                     echo '<tr><td colspan="7" class="text-center text-muted py-4">No messages found.</td></tr>';
                                                 } else {
                                                     foreach ($messages as $message):
-                                                        $status_badge = 'secondary'; // Default for 'read'
+                                                        $status_badge = $message['status'] == 'Unread' ? 'danger' : 'secondary';
                                                         $status_text = ucfirst($message['status']);
-                                                        if ($message['status'] == 'unread') {
-                                                            $status_badge = 'danger'; // Red for unread
-                                                        } elseif ($message['status'] == 'replied') {
-                                                            $status_badge = 'success'; // Green for replied
-                                                        }
                                                 ?>
                                                     <tr>
-                                                        <td>#<?= htmlspecialchars($message['id']) ?></td>
+                                                        <td>#<?= htmlspecialchars($message['message_id']) ?></td>
                                                         <td><?= htmlspecialchars($message['name']) ?></td>
                                                         <td><a href="mailto:<?= htmlspecialchars($message['email']) ?>"><?= htmlspecialchars($message['email']) ?></a></td>
                                                         <td><?= htmlspecialchars(substr($message['subject'], 0, 30)) . (strlen($message['subject']) > 30 ? '...' : '') ?></td>
                                                         <td>
                                                             <?php
                                                                 try {
-                                                                    $date = new DateTime($message['timestamp']);
+                                                                    $date = new DateTime($message['received_at']);
                                                                     echo $date->format('M d, Y H:i');
                                                                 } catch (Exception $e) {
-                                                                    echo htmlspecialchars($message['timestamp']);
+                                                                    echo htmlspecialchars($message['received_at']);
                                                                 }
                                                             ?>
                                                         </td>
                                                         <td><span class="badge bg-<?= $status_badge ?>"><?= htmlspecialchars($status_text) ?></span></td>
                                                         <td class="text-end">
-                                                            <button class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#viewMessageModal<?= $message['id'] ?>" data-bs-toggle="tooltip" title="View Message <?= $message['id'] ?>">
-                                                                <i class="fas fa-eye"></i>
-                                                            </button>
-                                                            <?php if ($message['status'] == 'unread' || $message['status'] == 'read'): ?>
-                                                            <button class="btn btn-sm btn-outline-secondary me-1" data-bs-toggle="tooltip" title="Mark as Read/Replied <?= $message['id'] ?>">
-                                                                <i class="fas fa-check"></i> <!-- Icon could change based on action -->
-                                                            </button>
-                                                            <?php endif; ?>
-                                                            <button class="btn btn-sm btn-outline-danger" data-bs-toggle="tooltip" title="Delete Message <?= $message['id'] ?>">
-                                                                <i class="fas fa-trash"></i>
-                                                            </button>
+                                                            <div class="btn-group">
+                                                                <button class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#viewMessageModal<?= $message['message_id'] ?>" data-bs-toggle="tooltip" title="View Message">
+                                                                    <i class="fas fa-eye"></i>
+                                                                </button>
+                                                                
+                                                                <?php if ($message['status'] == 'Unread'): ?>
+                                                                <form action="manage-message-handler.php" method="POST" class="d-inline">
+                                                                    <input type="hidden" name="message_id" value="<?= $message['message_id'] ?>">
+                                                                    <input type="hidden" name="action" value="mark_read">
+                                                                    <button type="submit" class="btn btn-sm btn-outline-success me-1" data-bs-toggle="tooltip" title="Mark as Read">
+                                                                        <i class="fas fa-check"></i>
+                                                                    </button>
+                                                                </form>
+                                                                <?php endif; ?>
+                                                                
+                                                                <form action="manage-message-handler.php" method="POST" class="d-inline">
+                                                                    <input type="hidden" name="message_id" value="<?= $message['message_id'] ?>">
+                                                                    <input type="hidden" name="action" value="delete">
+                                                                    <button type="submit" class="btn btn-sm btn-outline-danger" data-bs-toggle="tooltip" title="Delete Message" onclick="return confirm('Are you sure you want to delete this message?')">
+                                                                        <i class="fas fa-trash"></i>
+                                                                    </button>
+                                                                </form>
+                                                            </div>
                                                         </td>
                                                     </tr>
                                                 <?php
                                                     endforeach;
                                                 }
-                                                // --- End PHP Logic ---
                                                 ?>
                                             </tbody>
                                         </table>
                                     </div>
 
-                                    <?php if (!empty($messages)): ?>
-                                    <!-- Optional: Add Pagination if many messages -->
+                                    <?php if (!empty($messages) && $totalPages > 1): ?>
+                                    <!-- Pagination -->
                                     <nav aria-label="Page navigation" class="mt-4">
                                         <ul class="pagination justify-content-center">
-                                            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                                            <?php 
+                                            $q = [];
+                                            if ($status_filter) $q[] = 'status=' . urlencode($status_filter);
+                                            if ($search) $q[] = 'search=' . urlencode($search);
+                                            $qs = $q ? ('&' . implode('&', $q)) : '';
+                                            ?>
+                                            <li class="page-item<?= $page <= 1 ? ' disabled' : '' ?>">
+                                                <a class="page-link" href="manage-message.php?page=<?= $page-1 . $qs ?>" aria-label="Previous">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                </a>
+                                            </li>
+                                            <?php for ($p = 1; $p <= $totalPages; $p++): ?>
+                                                <li class="page-item<?= $p == $page ? ' active' : '' ?>">
+                                                    <a class="page-link" href="manage-message.php?page=<?= $p . $qs ?>"> <?= $p ?> </a>
+                                                </li>
+                                            <?php endfor; ?>
+                                            <li class="page-item<?= $page >= $totalPages ? ' disabled' : '' ?>">
+                                                <a class="page-link" href="manage-message.php?page=<?= $page+1 . $qs ?>" aria-label="Next">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                </a>
+                                            </li>
                                         </ul>
                                     </nav>
                                     <?php endif; ?>
@@ -191,25 +250,53 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Add Modals for viewing full messages if needed -->
+                    
+                    <!-- Message View Modals -->
                     <?php foreach ($messages as $message): ?>
-                    <div class="modal fade" id="viewMessageModal<?= $message['id'] ?>" tabindex="-1" aria-labelledby="viewMessageModalLabel<?= $message['id'] ?>" aria-hidden="true">
+                    <div class="modal fade" id="viewMessageModal<?= $message['message_id'] ?>" tabindex="-1" aria-labelledby="viewMessageModalLabel<?= $message['message_id'] ?>" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="viewMessageModalLabel<?= $message['id'] ?>"><?= htmlspecialchars($message['subject']) ?></h5>
+                                    <h5 class="modal-title" id="viewMessageModalLabel<?= $message['message_id'] ?>"><?= htmlspecialchars($message['subject']) ?></h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <p><strong>From:</strong> <?= htmlspecialchars($message['name']) ?> (<?= htmlspecialchars($message['email']) ?>)</p>
-                                    <p><strong>Date:</strong> <?php try { $date = new DateTime($message['timestamp']); echo $date->format('M d, Y H:i A'); } catch (Exception $e) { echo htmlspecialchars($message['timestamp']); } ?></p>
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <p><strong>From:</strong> <?= htmlspecialchars($message['name']) ?></p>
+                                            <p><strong>Email:</strong> <?= htmlspecialchars($message['email']) ?></p>
+                                            <p><strong>Phone:</strong> <?= htmlspecialchars($message['phone']) ?></p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p><strong>Inquiry Type:</strong> <?= htmlspecialchars($message['inquiry_type']) ?></p>
+                                            <p><strong>Date:</strong> <?php try { $date = new DateTime($message['received_at']); echo $date->format('M d, Y H:i A'); } catch (Exception $e) { echo htmlspecialchars($message['received_at']); } ?></p>
+                                            <p><strong>Status:</strong> <span class="badge bg-<?= $message['status'] == 'Unread' ? 'danger' : 'secondary' ?>"><?= htmlspecialchars($message['status']) ?></span></p>
+                                        </div>
+                                    </div>
                                     <hr>
-                                    <p><?= nl2br(htmlspecialchars($message['message'])) ?></p>
+                                    <div class="mb-3">
+                                        <strong>Message:</strong>
+                                        <div class="mt-2 p-3 bg-light rounded text-start" style="white-space: pre-line;">
+                                            <?= html_entity_decode(htmlspecialchars_decode($message['message_body'])) ?>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <!-- Optional: Add Reply Button -->
-                                    <button type="button" class="btn btn-primary"><i class="fas fa-reply me-1"></i> Reply</button>
+                                    
+                                    <?php if ($message['status'] == 'Unread'): ?>
+                                    <form action="manage-message-handler.php" method="POST" class="d-inline">
+                                        <input type="hidden" name="message_id" value="<?= $message['message_id'] ?>">
+                                        <input type="hidden" name="action" value="mark_read">
+                                        <button type="submit" class="btn btn-success">
+                                            <i class="fas fa-check me-1"></i> Mark as Read
+                                        </button>
+                                    </form>
+                                    <?php endif; ?>
+                                    
+                                    <a href="mailto:<?= htmlspecialchars($message['email']) ?>?subject=Re: <?= htmlspecialchars($message['subject']) ?>" class="btn btn-primary">
+                                        <i class="fas fa-reply me-1"></i> Reply via Email
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -222,7 +309,6 @@
 
     <!-- Mobile Bottom Navigation -->
     <?php require_once '../includes/bottom-nav.php'; ?>
-
 
 </body>
 </html>
