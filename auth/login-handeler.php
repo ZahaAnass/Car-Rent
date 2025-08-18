@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $_SESSION['user_email'] = $user['email'];
                     $_SESSION['user_role'] = $user['role'];
 
-                    $_SESSION['success'] = "Login successful";
+                    $_SESSION['login_success'] = "Login successful";
 
                     // Remember Me: create token and set cookie
                     if ($remember_me) {
@@ -59,17 +59,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 } else {
                     // Failed login - incorrect password
                     $error = 'Invalid email or password';
-                    $_SESSION['error'] = "Failed login attempt (incorrect password): {$email}";
+                    $_SESSION['login_error'] = "Failed login attempt (incorrect password): {$email}";
                 }
             } else {
                 // User not found
                 $error = 'Invalid email or password';
-                $_SESSION['error'] = "Failed login attempt (user not found): {$email}";
+                $_SESSION['login_error'] = "Failed login attempt (user not found): {$email}";
             }
         } catch (Exception $e) {
             // Handle any unexpected errors
             $error = 'An unexpected error occurred. Please try again.';
-            $_SESSION['error'] = "Login error: " . $e->getMessage();
+            $_SESSION['login_error'] = "Login error: " . $e->getMessage();
         }
     }
 

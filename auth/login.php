@@ -27,22 +27,22 @@
     <div class="container py-5">
         <div class="row justify-content-center">
             <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
-                <?php if(isset($_SESSION['error'])): ?>
+                <?php if(isset($_SESSION['login_error'])): ?>
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <i class="fas fa-exclamation-circle me-2"></i>
-                        <?= $_SESSION['error'] ?>
+                        <?= $_SESSION['login_error'] ?>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
-                    <?php unset($_SESSION['error']); ?>
+                    <?php unset($_SESSION['login_error']); ?>
                 <?php endif; ?>
                 
-                <?php if(isset($_SESSION['success'])): ?>
+                <?php if(isset($_SESSION['login_success'])): ?>
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                         <i class="fas fa-check-circle me-2"></i>
-                        <?= $_SESSION['success'] ?>
+                        <?= $_SESSION['login_success'] ?>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
-                    <?php unset($_SESSION['success']); ?>
+                    <?php unset($_SESSION['login_success']); ?>
                 <?php endif; ?>
                 
                 <div class="login-container">
