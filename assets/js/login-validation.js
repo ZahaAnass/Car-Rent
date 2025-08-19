@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const loginForm = document.querySelector(".login-form");
     const emailInput = document.querySelector("input[name='email']");
     const passwordInput = document.querySelector("input[name='password']");
-    const togglePassword = document.querySelector('.toggle-password');
 
     // Enhanced Email Validation
     function validateEmail(email) {
