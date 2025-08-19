@@ -44,19 +44,6 @@
     <!-- Template Stylesheet -->
     <link href="../assets/css/style.css" rel="stylesheet">
 
-    <style>
-        /* Custom styles for settings page if needed */
-        .form-section-title {
-            font-size: 1.1rem;
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-        }
-        .form-section-description {
-            font-size: 0.9rem;
-            color: #6c757d; /* text-muted */
-            margin-bottom: 1rem;
-        }
-    </style>
 </head>
 <body>
     <!-- Spinner Start -->
@@ -109,8 +96,8 @@
                         <div class="card-body p-4">
                             <form id="settingsForm" method="POST" action="settings-handler.php">
                                 <!-- Personal Information Section -->
-                                <h5 class="form-section-title">Personal Information</h5>
-                                <p class="form-section-description">Update your personal details.</p>
+                                <h5 class="setting_form-section-title">Personal Information</h5>
+                                <p class="setting_form-section-description">Update your personal details.</p>
                                 <hr class="mb-4">
 
                                 <div class="row g-3 mb-3">
@@ -139,15 +126,94 @@
                                     <button type="submit" class="btn btn-primary px-4">Save Changes</button>
                                 </div>
                             </form>
+                            <!-- Change Password Form -->
+                            <div class="card border-0 shadow-sm mt-4">
+                                <div class="card-header bg-light py-3">
+                                    <h5 class="mb-0"><i class="fas fa-key me-2"></i>Change Password</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form id="changePasswordForm" method="POST" action="settings-handler.php">
+                                        <input type="hidden" name="action" value="change_password">
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <label for="currentPassword" class="setting_form-label">Current Password</label>
+                                                <div class="input-group">
+                                                    <input type="password" class="form-control" id="currentPassword" name="current_password" required>
+                                                    <span class="input-group-text toggle-password">
+                                                        <i class="fas fa-eye-slash"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6"></div>
+                                            <div class="col-md-6">
+                                                <label for="newPassword" class="setting_form-label">New Password</label>
+                                                <div class="input-group">
+                                                    <input type="password" class="form-control" id="newPassword" name="new_password" required>
+                                                    <span class="input-group-text toggle-password">
+                                                        <i class="fas fa-eye-slash"></i>
+                                                    </span>
+                                                </div>
+                                                <div class="form-text">Must be at least 8 characters long</div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="confirmPassword" class="setting_form-label">Confirm New Password</label>
+                                                <div class="input-group">
+                                                    <input type="password" class="form-control" id="confirmPassword" name="confirm_password" required>
+                                                    <span class="input-group-text toggle-password">
+                                                        <i class="fas fa-eye-slash"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mt-4 text-end">
+                                            <button type="submit" class="btn btn-warning px-4">
+                                                <i class="fas fa-save me-2"></i>Update Password
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <!-- Delete Account Form -->
+                            <div class="setting_form-card border-0 shadow-sm mt-4 border-danger">
+                                <div class="setting_form-card-header bg-danger text-white py-3">
+                                    <h5 class="mb-0"><i class="fas fa-exclamation-triangle me-2"></i>Danger Zone</h5>
+                                </div>
+                                <div class="setting_form-card-body">
+                                    <h6 class="setting_form-subtitle mb-3 text-danger">Delete Your Account</h6>
+                                    <p class="card-text text-muted small mb-4">
+                                        Warning: This action is irreversible. All your data, including bookings and personal information, will be permanently deleted.
+                                    </p>
+                                    <form id="deleteForm" method="POST" action="settings-handler.php" onsubmit="return confirmDeleteAccount()">
+                                        <input type="hidden" name="action" value="delete_account">
+                                        <div class="mb-3">
+                                            <label for="deleteConfirm" class="setting_form-label text-danger">Type "DELETE" to confirm</label>
+                                            <input type="text" class="form-control" id="deleteConfirm" name="delete_confirm" required>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="setting_form-check">
+                                                <input class="setting_form-check-input" type="checkbox" id="confirmCheck" required>
+                                                <label class="setting_form-check-label small text-muted" for="confirmCheck">
+                                                    I understand that this action cannot be undone
+                                                </label>
+                                            </div>
+                                            <button type="submit" class="btn btn-outline-danger px-4" id="deleteAccountBtn" disabled>
+                                                <i class="fas fa-trash-alt me-2"></i>Delete My Account
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </main>
         </div>
     </div>
-
+    
+    <!-- Setting JS -->
+    <script src="../assets/js/setting.js"></script>
     <!-- Bottom Navigation With The Scripts -->
     <?php include '../includes/bottom-nav.php'; ?>
-
 </body>
 </html>
