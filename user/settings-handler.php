@@ -12,8 +12,7 @@ $userQueries = new UserQueries($pdo);
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
     $_SESSION['error'] = "Please log in first.";
-    redirect("../login.php");
-    exit();
+    redirect("../auth/login.php");
 }
 
 // Process form submission

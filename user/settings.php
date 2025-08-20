@@ -54,24 +54,7 @@
     </div>
     <!-- Spinner End -->
 
-    <?php if (isset($_SESSION['error'])): ?>
-        <div class="alert alert-danger alert-dismissible fade show fixed-top m-3" role="alert" style="z-index: 1030;">
-            <i class="fas fa-exclamation-triangle me-2"></i>
-            <?= htmlspecialchars($_SESSION['error']) ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        <?php unset($_SESSION['error']); ?>
-    <?php endif; ?>
-
-    <?php if (isset($_SESSION['success'])): ?>
-        <div class="alert alert-success alert-dismissible fade show fixed-top m-3" role="alert" style="z-index: 1030;">
-            <i class="fas fa-check-circle me-2"></i>
-            <?= htmlspecialchars($_SESSION['success']) ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        <?php unset($_SESSION['success']); ?>
-    <?php endif; ?>
-
+    
     <div class="container-fluid">
         <div class="row">
             <!-- Sidebar -->
@@ -88,12 +71,30 @@
                         </div>
                     </div>
 
+                    <?php if (isset($_SESSION['error'])): ?>
+                        <div class="alert alert-danger alert-dismissible fade show fixed-top m-3" role="alert" style="z-index: 1030;">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <?= htmlspecialchars($_SESSION['error']) ?>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        <?php unset($_SESSION['error']); ?>
+                    <?php endif; ?>
+                
+                    <?php if (isset($_SESSION['success'])): ?>
+                        <div class="alert alert-success alert-dismissible fade show fixed-top m-3" role="alert" style="z-index: 1030;">
+                            <i class="fas fa-check-circle me-2"></i>
+                            <?= htmlspecialchars($_SESSION['success']) ?>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        <?php unset($_SESSION['success']); ?>
+                    <?php endif; ?>
+
                     <!-- Settings Form Card -->
                     <div class="card border-0 shadow-sm wow fadeInUp" data-wow-delay="0.2s">
                         <div class="card-header bg-light py-3">
                                     <h5 class="mb-0"><i class="fas fa-user-edit me-2"></i>User Profile</h5>
                                 </div>
-                        <div class="card-body p-4">
+                                <div class="card-body p-4">
                             <form id="settingsForm" method="POST" action="settings-handler.php">
                                 <!-- Personal Information Section -->
                                 <h5 class="setting_form-section-title">Personal Information</h5>
