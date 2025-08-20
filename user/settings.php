@@ -97,6 +97,7 @@
                             <form id="settingsForm" method="POST" action="settings-handler.php">
                                 <!-- Personal Information Section -->
                                 <h5 class="setting_form-section-title">Personal Information</h5>
+                                <input type="hidden" name='action' value='update_profile'>
                                 <p class="setting_form-section-description">Update your personal details.</p>
                                 <hr class="mb-4">
 
@@ -114,7 +115,7 @@
                                     <div class="col-md-6">
                                         <input type="hidden" name="current_email" value="<?= htmlspecialchars($userData['email']) ?>" disable>
                                         <label for="email" class="form-label">Email Address</label>
-                                        <input type="email" class="form-control" id="email" value="<?= htmlspecialchars($userData['email']) ?>" name="email" required>
+                                        <input pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" type="email" class="form-control" id="email" value="<?= htmlspecialchars($userData['email']) ?>" name="email" required>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="phone" class="form-label">Phone Number</label>
@@ -175,28 +176,32 @@
                             </div>
 
                             <!-- Delete Account Form -->
-                            <div class="setting_form-card border-0 shadow-sm mt-4 border-danger">
-                                <div class="setting_form-card-header bg-danger text-white py-3">
+                            <div class="card border-danger border-0 shadow-sm mt-4">
+                                <div class="card-header bg-danger text-white py-3">
                                     <h5 class="mb-0"><i class="fas fa-exclamation-triangle me-2"></i>Danger Zone</h5>
                                 </div>
-                                <div class="setting_form-card-body">
-                                    <h6 class="setting_form-subtitle mb-3 text-danger">Delete Your Account</h6>
-                                    <p class="card-text text-muted small mb-4">
+                                <div class="card-body">
+                                    <h6 class="text-danger mb-3">Delete Your Account</h6>
+                                    <p class="text-muted small mb-4">
                                         Warning: This action is irreversible. All your data, including bookings and personal information, will be permanently deleted.
                                     </p>
-                                    <form id="deleteForm" method="POST" action="settings-handler.php" onsubmit="return confirmDeleteAccount()">
+                                    <form id="deleteForm" method="POST" action="settings-handler.php">
                                         <input type="hidden" name="action" value="delete_account">
-                                        <div class="mb-3">
-                                            <label for="deleteConfirm" class="setting_form-label text-danger">Type "DELETE" to confirm</label>
-                                            <input type="text" class="form-control" id="deleteConfirm" name="delete_confirm" required>
-                                        </div>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="setting_form-check">
-                                                <input class="setting_form-check-input" type="checkbox" id="confirmCheck" required>
-                                                <label class="setting_form-check-label small text-muted" for="confirmCheck">
-                                                    I understand that this action cannot be undone
-                                                </label>
+                                        <div class="row g-3">
+                                            <div class="col-12">
+                                                <label for="deleteConfirm" class="form-label text-danger">Type "DELETE" to confirm</label>
+                                                <input type="text" class="form-control" id="deleteConfirm" name="delete_confirm" required>
                                             </div>
+                                            <div class="col-12">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="confirmCheck" required>
+                                                    <label class="form-check-label small text-muted" for="confirmCheck">
+                                                        I understand that this action cannot be undone
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mt-4 text-end">
                                             <button type="submit" class="btn btn-outline-danger px-4" id="deleteAccountBtn" disabled>
                                                 <i class="fas fa-trash-alt me-2"></i>Delete My Account
                                             </button>
