@@ -1,21 +1,17 @@
 <?php
-// Add session start and authentication check if needed
-// session_start();
-// include '../includes/session.php'; // Assuming you have session handling
-// if (!is_admin()) { header('Location: ../login.php'); exit; } 
 
-// --- PHP Logic for settings ---
-// Fetch current settings (e.g., site name, admin email) from DB or config file
-$current_settings = [
-    'admin_first_name' => 'Admin', // Fetch from session or user table
-    'admin_last_name' => 'User',    // Fetch from session or user table
-    'admin_email' => 'admin@zoomix.com', // Fetch from session or user table
-    'admin_phone' => '+1234567890'  // Fetch from session or user table
-];
+    require_once "../includes/session.php";
+    start_session();
+    require_once "../config/database.php";
+    require_once "../includes/queries/user_queries.php";
+    require_once "../includes/auth_admin_check.php";
+    
+    // Initialize database connection
+    $userQueries = new UserQueries($pdo);
+    $userData = $userQueries->getUserById($_SESSION['user_id']);
 
-// Handle form submissions (update settings, change password)
-$update_message = '';
-$error_message = '';
+    // Add current email to session for validation 
+    $_SESSION['current_email'] = $userData['email'];
 
 ?>
 <!DOCTYPE html>
@@ -23,8 +19,8 @@ $error_message = '';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zoomix Admin - Settings</title>
-    
+    <title>Rent-A-Wheels - Settings</title>
+
     <!-- Favicon -->
     <link href="../assets/img/favicon.ico" rel="icon">
 
@@ -39,12 +35,14 @@ $error_message = '';
 
     <!-- Libraries Stylesheet -->
     <link href="../assets/lib/animate/animate.min.css" rel="stylesheet">
-    
+    <link href="../assets/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="../assets/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+
     <!-- Customized Bootstrap Stylesheet -->
     <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="../assets/css/style.css" rel="stylesheet"> 
+    <link href="../assets/css/style.css" rel="stylesheet">
 
 </head>
 <body>
@@ -56,102 +54,172 @@ $error_message = '';
     </div>
     <!-- Spinner End -->
 
+    
     <div class="container-fluid">
         <div class="row">
+            <!-- Sidebar -->
+            <?php include '../includes/sidebar.php'; ?>
             
-            <!-- Admin Sidebar -->
-            <?php require_once '../includes/sidebar.php'; ?>
-
             <!-- Main Content -->
-            <main class="col-12 col-lg-9 col-md-8 ms-sm-auto min-vh-100 px-md-4 py-5">
+            <main class="col-12 col-lg-9 col-md-8 ms-sm-auto px-md-4 py-5 wow fadeInDown">
                 <div class="container-fluid">
-                    <!-- Page Title -->
-                    <div class="row mb-4 align-items-center wow fadeInDown">
-                        <div class="col">
-                            <h1 class="display-6 mb-2">Settings</h1>
-                            <p class="text-muted mb-0">Manage site configuration and admin profile.</p>
+                    <!-- Hero Section -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h1 class="display-6 mb-2 wow fadeInDown">Settings</h1>
+                            <p class="text-muted wow fadeInUp" data-wow-delay="0.1s">Manage your account settings and preferences.</p>
                         </div>
                     </div>
-
-                    <!-- Display Success/Error Messages -->
-                    <?php if ($update_message): ?>
-                        <div class="alert alert-success alert-dismissible fade show wow fadeInUp" role="alert">
-                            <?= htmlspecialchars($update_message) ?>
+                    
+                    <?php if (isset($_SESSION['error'])): ?>
+                        <div class="alert alert-danger alert-dismissible fade show fixed-top m-3" role="alert" style="z-index: 1030;">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <?= htmlspecialchars($_SESSION['error']) ?>
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
+                        <?php unset($_SESSION['error']); ?>
                     <?php endif; ?>
-                    <?php if ($error_message): ?>
-                        <div class="alert alert-danger alert-dismissible fade show wow fadeInUp" role="alert">
-                            <?= htmlspecialchars($error_message) ?>
+                
+                    <?php if (isset($_SESSION['success'])): ?>
+                        <div class="alert alert-success alert-dismissible fade show fixed-top m-3" role="alert" style="z-index: 1030;">
+                            <i class="fas fa-check-circle me-2"></i>
+                            <?= htmlspecialchars($_SESSION['success']) ?>
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
+                        <?php unset($_SESSION['success']); ?>
                     <?php endif; ?>
 
-                    <!-- Settings Sections -->
-                    <div class="row g-4">
+                    <!-- Settings Form Card -->
+                    <div class="card border-0 shadow-sm wow fadeInUp" data-wow-delay="0.2s">
+                        <div class="card-header bg-light py-3">
+                                    <h5 class="mb-0"><i class="fas fa-user-edit me-2"></i>User Profile</h5>
+                                </div>
+                        <div class="card-body p-4">
+                            <form id="settingsForm" method="POST" action="settings-handler.php">
+                                <!-- Personal Information Section -->
+                                <h5 class="setting_form-section-title">Personal Information</h5>
+                                <input type="hidden" name='action' value='update_profile'>
+                                <p class="setting_form-section-description">Update your personal details.</p>
+                                <hr class="mb-4">
 
-                        <!-- Admin Profile Card -->
-                        <div class="col-lg-12 wow fadeInUp" data-wow-delay="0.2s">
-                            <div class="card shadow-sm border-0 h-100">
+                                <div class="row g-3 mb-3">
+                                    <div class="col-md-6">
+                                        <label for="firstName" class="form-label">First Name</label>
+                                        <input type="text" class="form-control" id="firstName" value="<?= htmlspecialchars($userData['first_name']) ?>" name="first_name" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="lastName" class="form-label">Last Name</label>
+                                        <input type="text" class="form-control" id="lastName" value="<?= htmlspecialchars($userData['last_name']) ?>" name="last_name" required>
+                                    </div>
+                                </div>
+                                <div class="row g-3 mb-3">
+                                    <div class="col-md-6">
+                                        <input type="hidden" name="current_email" value="<?= htmlspecialchars($userData['email']) ?>" disable>
+                                        <label for="email" class="form-label">Email Address</label>
+                                        <input pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" type="email" class="form-control" id="email" value="<?= htmlspecialchars($userData['email']) ?>" name="email" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="phone" class="form-label">Phone Number</label>
+                                        <input type="tel" class="form-control" id="phone" value="<?= htmlspecialchars($userData['phone_number']) ?>" name="phone_number">
+                                    </div>
+                                </div>
+                                <!-- Save Button -->
+                                <div class="mt-4 text-end">
+                                    <button type="submit" class="btn btn-primary px-4">Save Changes</button>
+                                </div>
+                            </form>
+                            <!-- Change Password Form -->
+                            <div class="card border-0 shadow-sm mt-4">
                                 <div class="card-header bg-light py-3">
-                                    <h5 class="mb-0"><i class="fas fa-user-edit me-2"></i>Admin Profile</h5>
+                                    <h5 class="mb-0"><i class="fas fa-key me-2"></i>Change Password</h5>
                                 </div>
                                 <div class="card-body">
-                                    <form method="POST" class="row">
-                                        <div class="col-lg-6 mb-3">
-                                            <label for="admin_first_name" class="form-label">First Name</label>
-                                            <input type="text" class="form-control" id="admin_first_name" name="admin_first_name" value="<?= htmlspecialchars($current_settings['admin_first_name']) ?>" required>
+                                    <form id="changePasswordForm" method="POST" action="settings-handler.php">
+                                        <input type="hidden" name="action" value="change_password">
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <label for="currentPassword" class="setting_form-label">Current Password</label>
+                                                <div class="input-group">
+                                                    <input type="password" class="form-control" id="currentPassword" name="current_password" required>
+                                                    <span class="input-group-text toggle-password">
+                                                        <i class="fas fa-eye-slash"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6"></div>
+                                            <div class="col-md-6">
+                                                <label for="newPassword" class="setting_form-label">New Password</label>
+                                                <div class="input-group">
+                                                    <input type="password" class="form-control" id="newPassword" name="new_password" required>
+                                                    <span class="input-group-text toggle-password">
+                                                        <i class="fas fa-eye-slash"></i>
+                                                    </span>
+                                                </div>
+                                                <div class="form-text">Must be at least 8 characters long</div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="confirmPassword" class="setting_form-label">Confirm New Password</label>
+                                                <div class="input-group">
+                                                    <input type="password" class="form-control" id="confirmPassword" name="confirm_password" required>
+                                                    <span class="input-group-text toggle-password">
+                                                        <i class="fas fa-eye-slash"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="col-lg-6 mb-3">
-                                            <label for="admin_last_name" class="form-label">Last Name</label>
-                                            <input type="text" class="form-control" id="admin_last_name" name="admin_last_name" value="<?= htmlspecialchars($current_settings['admin_last_name']) ?>" required>
-                                        </div>
-                                        <div class="col-lg-6 mb-1">
-                                            <label for="admin_email" class="form-label">Your Email</label>
-                                            <input type="text" class="form-control" id="admin_email" name="admin_email" value="<?= htmlspecialchars($current_settings['admin_email']) ?>" required>
-                                        </div>
-                                        <div class="col-lg-6 mb-1">
-                                            <label for="admin_phone" class="form-label">Your Phone</label>
-                                            <input type="text" class="form-control" id="admin_phone" name="admin_phone" value="<?= htmlspecialchars($current_settings['admin_phone']) ?>" required>
-                                        </div>
-                                        <!-- Save Button -->
                                         <div class="mt-4 text-end">
-                                            <button type="submit" class="btn btn-primary px-4">Save Changes</button>
+                                            <button type="submit" class="btn btn-warning px-4">
+                                                <i class="fas fa-save me-2"></i>Update Password
+                                            </button>
                                         </div>
                                     </form>
-                                    <hr>
-                                    <h6 class="mt-4 mb-3">Change Password</h6>
-                                    <form method="POST">
-                                        <div class="mb-3">
-                                            <label for="current_password" class="form-label">Current Password</label>
-                                            <input type="password" class="form-control" id="current_password" name="current_password" required>
+                                </div>
+                            </div>
+
+                            <!-- Delete Account Form -->
+                            <div class="card border-danger border-0 shadow-sm mt-4">
+                                <div class="card-header bg-danger text-white py-3">
+                                    <h5 class="mb-0"><i class="fas fa-exclamation-triangle me-2"></i>Danger Zone</h5>
+                                </div>
+                                <div class="card-body">
+                                    <h6 class="text-danger mb-3">Delete Your Account</h6>
+                                    <p class="text-muted small mb-4">
+                                        Warning: This action is irreversible. All your data, including bookings and personal information, will be permanently deleted.
+                                    </p>
+                                    <form id="deleteForm" method="POST" action="settings-handler.php">
+                                        <input type="hidden" name="action" value="delete_account">
+                                        <div class="row g-3">
+                                            <div class="col-12">
+                                                <label for="deleteConfirm" class="form-label text-danger">Type "DELETE" to confirm</label>
+                                                <input type="text" class="form-control" id="deleteConfirm" name="delete_confirm" required>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="confirmCheck" required>
+                                                    <label class="form-check-label small text-muted" for="confirmCheck">
+                                                        I understand that this action cannot be undone
+                                                    </label>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="mb-3">
-                                            <label for="new_password" class="form-label">New Password</label>
-                                            <input type="password" class="form-control" id="new_password" name="new_password" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="confirm_password" class="form-label">Confirm New Password</label>
-                                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
-                                        </div>
-                                        <!-- Save Button -->
                                         <div class="mt-4 text-end">
-                                            <button type="submit" class="btn btn-primary px-4">Save Changes</button>
+                                            <button type="submit" class="btn btn-outline-danger px-4" id="deleteAccountBtn" disabled>
+                                                <i class="fas fa-trash-alt me-2"></i>Delete My Account
+                                            </button>
                                         </div>
                                     </form>
                                 </div>
                             </div>
                         </div>
-
-                    </div> <!-- End row -->
+                    </div>
                 </div>
             </main>
-
         </div>
     </div>
-
-    <!-- Mobile Bottom Navigation -->
-    <?php require_once '../includes/bottom-nav.php'; ?>
-
+    
+    <!-- Setting JS -->
+    <script src="../assets/js/setting.js"></script>
+    <!-- Bottom Navigation With The Scripts -->
+    <?php include '../includes/bottom-nav.php'; ?>
 </body>
 </html>
