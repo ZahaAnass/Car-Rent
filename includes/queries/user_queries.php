@@ -106,6 +106,17 @@ class UserQueries {
         }
     }
 
+    public function validateCurrentPassword($user_id, $password) {
+        try {
+            $stmt = $this->pdo->prepare("SELECT password_hash FROM users WHERE user_id = :user_id");
+            $stmt->execute(['user_id' => $user_id]);
+            $row = $stmt->fetch();
+            return password_verify($password, $row['password_hash']);
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
     public function deleteUser($user_id) {
         try {
             $stmt = $this->pdo->prepare("DELETE FROM users WHERE user_id = :user_id");
@@ -132,6 +143,21 @@ class UserQueries {
             $stmt->execute([
                 'user_id' => $user_id,
                 'role' => $role
+            ]);
+            return $stmt->rowCount() > 0;
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
+
+
+    public function changePassword($user_id, $password) {
+        try {
+            $stmt = $this->pdo->prepare("UPDATE users SET password_hash = :password_hash WHERE user_id = :user_id");
+            $stmt->execute([
+                'user_id' => $user_id,
+                'password_hash' => password_hash($password, PASSWORD_DEFAULT)
             ]);
             return $stmt->rowCount() > 0;
         } catch (PDOException $e) {
