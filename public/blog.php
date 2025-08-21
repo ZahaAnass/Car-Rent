@@ -40,9 +40,9 @@
                                     <div class="small"><span class="fa fa-user text-primary"></span><span class="ms-2">Sarah Thompson</span></div>
                                     <div class="small"><span class="fa fa-comment-alt text-primary"></span><span class="ms-2">6 Comments</span></div>
                                 </div>
-                                <a href="#" class="h4 d-block mb-3">Navigating Driving Fines: A Comprehensive Guide</a>
+                                <a href="cars.php" class="h4 d-block mb-3">Navigating Driving Fines: A Comprehensive Guide</a>
                                 <p class="mb-3">Learn how to check, understand, and manage driving fines effectively. Our expert guide provides crucial insights for responsible drivers.</p>
-                                <a href="#" class="">Read More  <i class="fa fa-arrow-right"></i></a>
+                                <a href="cars.php" class="">Read More  <i class="fa fa-arrow-right"></i></a>
                             </div>
                         </div>
                     </div>
@@ -57,9 +57,9 @@
                                     <div class="small"><span class="fa fa-user text-primary"></span><span class="ms-2">Michael Rodriguez</span></div>
                                     <div class="small"><span class="fa fa-comment-alt text-primary"></span><span class="ms-2">4 Comments</span></div>
                                 </div>
-                                <a href="#" class="h4 d-block mb-3">Top 5 Road Trip Destinations for 2026</a>
+                                <a href="cars.php" class="h4 d-block mb-3">Top 5 Road Trip Destinations for 2026</a>
                                 <p class="mb-3">Discover the most exciting and scenic road trip routes that promise unforgettable adventures and breathtaking landscapes.</p>
-                                <a href="#" class="">Read More  <i class="fa fa-arrow-right"></i></a>
+                                <a href="cars.php" class="">Read More  <i class="fa fa-arrow-right"></i></a>
                             </div>
                         </div>
                     </div>
@@ -74,9 +74,9 @@
                                     <div class="small"><span class="fa fa-user text-primary"></span><span class="ms-2">Emily Chen</span></div>
                                     <div class="small"><span class="fa fa-comment-alt text-primary"></span><span class="ms-2">5 Comments</span></div>
                                 </div>
-                                <a href="#" class="h4 d-block mb-3">Eco-Friendly Driving: Reducing Your Carbon Footprint</a>
+                                <a href="cars.php" class="h4 d-block mb-3">Eco-Friendly Driving: Reducing Your Carbon Footprint</a>
                                 <p class="mb-3">Explore practical tips and strategies for minimizing environmental impact while enjoying the freedom of car rental.</p>
-                                <a href="#" class="">Read More  <i class="fa fa-arrow-right"></i></a>
+                                <a href="cars.php" class="">Read More  <i class="fa fa-arrow-right"></i></a>
                             </div>
                         </div>
                     </div>
