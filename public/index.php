@@ -651,57 +651,57 @@
             <div class="container py-5">
                 <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 800px;">
                     <h1 class="display-5 text-capitalize mb-3">Zoomix<span class="text-primary"> Insights</span></h1>
-                    <p class="mb-0">Stay informed with our latest articles. From rental tips and travel advice to industry insights, our blog is your go-to resource for everything related to car rentals and travel.</p>
+                    <p class="mb-0">Stay informed with the latest trends, tips, and expert advice in car rental, travel, and automotive technology.</p>
                 </div>
                 <div class="row g-4">
                     <div class="col-lg-4 wow fadeInUp" data-wow-delay="0.1s">
                         <div class="blog-item">
                             <div class="blog-img">
-                                <img src="../assets/img/blog-1.jpg" class="img-fluid rounded-top w-100" alt="Navigating Driving Fines and Rental Cars">
+                                <img src="../assets/img/blog-1.jpg" class="img-fluid rounded-top w-100" alt="Image">
                             </div>
                             <div class="blog-content rounded-bottom p-4">
                                 <div class="blog-date">30 Dec 2025</div>
                                 <div class="blog-comment my-3">
-                                    <div class="small"><span class="fa fa-user text-primary"></span><span class="ms-2">Martin Chapman</span></div>
+                                    <div class="small"><span class="fa fa-user text-primary"></span><span class="ms-2">Sarah Thompson</span></div>
                                     <div class="small"><span class="fa fa-comment-alt text-primary"></span><span class="ms-2">6 Comments</span></div>
                                 </div>
-                                <a href="#" class="h4 d-block mb-3">Understanding Driving Fines with Rental Cars</a>
-                                <p class="mb-3">Learn how to handle and prevent driving fines when renting a vehicle. Our comprehensive guide helps you stay informed and avoid unexpected penalties.</p>
-                                <a href="#" class="">Read More  <i class="fa fa-arrow-right"></i></a>
+                                <a href="cars.php" class="h4 d-block mb-3">Navigating Driving Fines: A Comprehensive Guide</a>
+                                <p class="mb-3">Learn how to check, understand, and manage driving fines effectively. Our expert guide provides crucial insights for responsible drivers.</p>
+                                <a href="cars.php" class="">Read More  <i class="fa fa-arrow-right"></i></a>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-4 wow fadeInUp" data-wow-delay="0.3s">
                         <div class="blog-item">
                             <div class="blog-img">
-                                <img src="../assets/img/blog-2.jpg" class="img-fluid rounded-top w-100" alt="Car Rental Pricing Guide for Sports and Luxury Vehicles">
+                                <img src="../assets/img/blog-2.jpg" class="img-fluid rounded-top w-100" alt="Image">
                             </div>
                             <div class="blog-content rounded-bottom p-4">
                                 <div class="blog-date">25 Dec 2025</div>
                                 <div class="blog-comment my-3">
-                                    <div class="small"><span class="fa fa-user text-primary"></span><span class="ms-2">Emily Rodriguez</span></div>
-                                    <div class="small"><span class="fa fa-comment-alt text-primary"></span><span class="ms-2">6 Comments</span></div>
+                                    <div class="small"><span class="fa fa-user text-primary"></span><span class="ms-2">Michael Rodriguez</span></div>
+                                    <div class="small"><span class="fa fa-comment-alt text-primary"></span><span class="ms-2">4 Comments</span></div>
                                 </div>
-                                <a href="#" class="h4 d-block mb-3">Sports Cars and Luxury Vehicle Rentals</a>
-                                <p class="mb-3">Discover the true costs and benefits of renting sports and luxury vehicles. Our expert breakdown helps you make an informed decision.</p>
-                                <a href="#" class="">Read More  <i class="fa fa-arrow-right"></i></a>
+                                <a href="cars.php" class="h4 d-block mb-3">Top 5 Road Trip Destinations for 2026</a>
+                                <p class="mb-3">Discover the most exciting and scenic road trip routes that promise unforgettable adventures and breathtaking landscapes.</p>
+                                <a href="cars.php" class="">Read More  <i class="fa fa-arrow-right"></i></a>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-4 wow fadeInUp" data-wow-delay="0.5s">
                         <div class="blog-item">
                             <div class="blog-img">
-                                <img src="../assets/img/blog-3.jpg" class="img-fluid rounded-top w-100" alt="Essential Documents for Car Rental">
+                                <img src="../assets/img/blog-3.jpg" class="img-fluid rounded-top w-100" alt="Image">
                             </div>
                             <div class="blog-content rounded-bottom p-4">
-                                <div class="blog-date">27 Dec 2025</div>
+                                <div class="blog-date">20 Dec 2025</div>
                                 <div class="blog-comment my-3">
-                                    <div class="small"><span class="fa fa-user text-primary"></span><span class="ms-2">Alex Turner</span></div>
-                                    <div class="small"><span class="fa fa-comment-alt text-primary"></span><span class="ms-2">6 Comments</span></div>
+                                    <div class="small"><span class="fa fa-user text-primary"></span><span class="ms-2">Emily Chen</span></div>
+                                    <div class="small"><span class="fa fa-comment-alt text-primary"></span><span class="ms-2">5 Comments</span></div>
                                 </div>
-                                <a href="#" class="h4 d-block mb-3">Car Rental Documentation Essentials</a>
-                                <p class="mb-3">A comprehensive checklist of all documents you'll need for a smooth car rental experience. Be prepared and avoid last-minute hassles.</p>
-                                <a href="#" class="">Read More  <i class="fa fa-arrow-right"></i></a>
+                                <a href="cars.php" class="h4 d-block mb-3">Eco-Friendly Driving: Reducing Your Carbon Footprint</a>
+                                <p class="mb-3">Explore practical tips and strategies for minimizing environmental impact while enjoying the freedom of car rental.</p>
+                                <a href="cars.php" class="">Read More  <i class="fa fa-arrow-right"></i></a>
                             </div>
                         </div>
                     </div>
@@ -815,77 +815,79 @@
         <!-- Team End -->
 
         <!-- Testimonial Start -->
-        <div class="container-fluid testimonial pb-5">
-            <div class="container pb-5">
+        <div class="container-fluid testimonial py-5">
+            <div class="container py-5">
                 <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 800px;">
                     <h1 class="display-5 text-capitalize mb-3">Our Clients<span class="text-primary"> Reviews</span></h1>
-                    <p class="mb-0">Hear directly from our satisfied customers who have experienced the Zoomix difference. Their stories showcase our commitment to exceptional service and unforgettable travel experiences.</p>
+                    <p class="mb-0">Hear directly from our satisfied customers who have experienced the Zoomix difference. Their stories showcase our commitment to exceptional service, reliability, and unforgettable travel experiences.</p>
                 </div>
+                
+                <?php
+                    require_once '../includes/queries/testimonial_queries.php';
+                    $testimonialQueries = new TestimonialQueries($pdo);
+                    
+                    // Get only approved testimonials
+                    $approvedTestimonials = $testimonialQueries->getAllTestimonialsWithFilter('Approved');
+                    
+                    if (!empty($approvedTestimonials)):
+                ?>
                 <div class="owl-carousel testimonial-carousel wow fadeInUp" data-wow-delay="0.1s">
+                    <?php 
+                        $imageCount = 3; // We have 3 testimonial images available
+                        $imageIndex = 1;
+                        
+                        foreach ($approvedTestimonials as $testimonial): 
+                            // Cycle through the available images
+                            $imagePath = "../assets/img/testimonial-" . $imageIndex . ".jpg";
+                            $imageIndex = ($imageIndex % $imageCount) + 1;
+                    ?>
                     <div class="testimonial-item">
                         <div class="testimonial-quote"><i class="fa fa-quote-right fa-2x"></i>
                         </div>
                         <div class="testimonial-inner p-4">
-                            <img src="../assets/img/testimonial-1.jpg" class="img-fluid" alt="David Martinez, Business Traveler">
+                            <img src="<?php echo $imagePath; ?>" class="img-fluid" alt="<?php echo htmlspecialchars($testimonial['user_name_display']); ?>">
                             <div class="ms-4">
-                                <h4>David Martinez</h4>
-                                <p>Business Consultant</p>
+                                <h4><?php echo htmlspecialchars($testimonial['user_name_display']); ?></h4>
+                                <p><?php echo !empty($testimonial['first_name']) ? htmlspecialchars($testimonial['first_name'] . ' ' . $testimonial['last_name']) : 'Customer'; ?></p>
                                 <div class="d-flex text-primary">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
+                                    <?php 
+                                        $rating = (int)$testimonial['rating'];
+                                        // Show filled stars for the rating
+                                        for ($i = 1; $i <= 5; $i++) {
+                                            if ($i <= $rating) {
+                                                echo '<i class="fas fa-star"></i>';
+                                            } else {
+                                                echo '<i class="fas fa-star text-body"></i>';
+                                            }
+                                        }
+                                    ?>
                                 </div>
                             </div>
                         </div>
                         <div class="border-top rounded-bottom p-4">
-                            <p class="mb-0">"Zoomix has been my go-to car rental service for business trips. Their fleet is always clean, reliable, and perfectly maintained. The booking process is seamless, and their customer support is exceptional."</p>
+                            <p class="mb-0">"<?php echo htmlspecialchars($testimonial['testimonial_text']); ?>"</p>
                         </div>
                     </div>
-                    <div class="testimonial-item">
-                        <div class="testimonial-quote"><i class="fa fa-quote-right fa-2x"></i>
-                        </div>
-                        <div class="testimonial-inner p-4">
-                            <img src="../assets/img/testimonial-2.jpg" class="img-fluid" alt="Emily Chen, Travel Enthusiast">
-                            <div class="ms-4">
-                                <h4>Emily Chen</h4>
-                                <p>Travel Blogger</p>
-                                <div class="d-flex text-primary">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star text-body"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="border-top rounded-bottom p-4">
-                            <p class="mb-0">"As a travel blogger, I've rented cars from many companies, but Zoomix stands out. Their diverse vehicle selection, competitive prices, and friendly service make every trip memorable. Highly recommended!"</p>
-                        </div>
-                    </div>
-                    <div class="testimonial-item">
-                        <div class="testimonial-quote"><i class="fa fa-quote-right fa-2x"></i>
-                        </div>
-                        <div class="testimonial-inner p-4">
-                            <img src="../assets/img/testimonial-3.jpg" class="img-fluid" alt="Michael Rodriguez, Family Traveler">
-                            <div class="ms-4">
-                                <h4>Michael Rodriguez</h4>
-                                <p>Family Vacationer</p>
-                                <div class="d-flex text-primary">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star text-body"></i>
-                                    <i class="fas fa-star text-body"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="border-top rounded-bottom p-4">
-                            <p class="mb-0">"Planning a family road trip can be stressful, but Zoomix made it easy. They helped us find the perfect SUV for our needs, and the whole process was smooth from start to finish. Great service!"</p>
-                        </div>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
+                <?php else: ?>
+                <div class="text-center py-5">
+                    <div class="mb-4">
+                        <i class="fas fa-comment-slash fa-4x text-muted"></i>
+                    </div>
+                    <h3 class="text-muted">No testimonials available yet</h3>
+                    <p class="text-muted">Be the first to share your experience with us!</p>
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                    <a href="../user/submit-testimonial.php" class="btn btn-primary mt-3">
+                        <i class="fas fa-plus-circle me-2"></i>Submit a Testimonial
+                    </a>
+                    <?php else: ?>
+                    <a href="../auth/login.php" class="btn btn-primary mt-3">
+                        <i class="fas fa-sign-in-alt me-2"></i>Login to Submit a Testimonial
+                    </a>
+                    <?php endif; ?>
+                </div>
+                <?php endif; ?>
             </div>
         </div>
         <!-- Testimonial End -->
