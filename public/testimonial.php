@@ -28,71 +28,73 @@
                     <h1 class="display-5 text-capitalize mb-3">Our Clients<span class="text-primary"> Reviews</span></h1>
                     <p class="mb-0">Hear directly from our satisfied customers who have experienced the Zoomix difference. Their stories showcase our commitment to exceptional service, reliability, and unforgettable travel experiences.</p>
                 </div>
+                
+                <?php
+                    require_once '../includes/queries/testimonial_queries.php';
+                    $testimonialQueries = new TestimonialQueries($pdo);
+                    
+                    // Get only approved testimonials
+                    $approvedTestimonials = $testimonialQueries->getAllTestimonialsWithFilter('Approved');
+                    
+                    if (!empty($approvedTestimonials)):
+                ?>
                 <div class="owl-carousel testimonial-carousel wow fadeInUp" data-wow-delay="0.1s">
+                    <?php 
+                        $imageCount = 3; // We have 3 testimonial images available
+                        $imageIndex = 1;
+                        
+                        foreach ($approvedTestimonials as $testimonial): 
+                            // Cycle through the available images
+                            $imagePath = "../assets/img/testimonial-" . $imageIndex . ".jpg";
+                            $imageIndex = ($imageIndex % $imageCount) + 1;
+                    ?>
                     <div class="testimonial-item">
                         <div class="testimonial-quote"><i class="fa fa-quote-right fa-2x"></i>
                         </div>
                         <div class="testimonial-inner p-4">
-                            <img src="../assets/img/testimonial-1.jpg" class="img-fluid" alt="David Martinez, Business Traveler">
+                            <img src="<?php echo $imagePath; ?>" class="img-fluid" alt="<?php echo htmlspecialchars($testimonial['user_name_display']); ?>">
                             <div class="ms-4">
-                                <h4>David Martinez</h4>
-                                <p>Business Consultant</p>
+                                <h4><?php echo htmlspecialchars($testimonial['user_name_display']); ?></h4>
+                                <p><?php echo !empty($testimonial['first_name']) ? htmlspecialchars($testimonial['first_name'] . ' ' . $testimonial['last_name']) : 'Customer'; ?></p>
                                 <div class="d-flex text-primary">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
+                                    <?php 
+                                        $rating = (int)$testimonial['rating'];
+                                        // Show filled stars for the rating
+                                        for ($i = 1; $i <= 5; $i++) {
+                                            if ($i <= $rating) {
+                                                echo '<i class="fas fa-star"></i>';
+                                            } else {
+                                                echo '<i class="fas fa-star text-body"></i>';
+                                            }
+                                        }
+                                    ?>
                                 </div>
                             </div>
                         </div>
                         <div class="border-top rounded-bottom p-4">
-                            <p class="mb-0">"As a frequent business traveler, I've tried numerous car rental services. Zoomix stands out with their impeccable fleet, seamless booking process, and exceptional customer support. They've made my business trips significantly smoother."</p>
+                            <p class="mb-0">"<?php echo htmlspecialchars($testimonial['testimonial_text']); ?>"</p>
                         </div>
                     </div>
-                    <div class="testimonial-item">
-                        <div class="testimonial-quote"><i class="fa fa-quote-right fa-2x"></i>
-                        </div>
-                        <div class="testimonial-inner p-4">
-                            <img src="../assets/img/testimonial-2.jpg" class="img-fluid" alt="Emily Chen, Travel Enthusiast">
-                            <div class="ms-4">
-                                <h4>Emily Chen</h4>
-                                <p>Travel Blogger</p>
-                                <div class="d-flex text-primary">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star text-body"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="border-top rounded-bottom p-4">
-                            <p class="mb-0">"Zoomix has been my trusted companion for road trips across the country. Their diverse vehicle selection, competitive pricing, and user-friendly service make every journey an adventure. Highly recommended for fellow travelers!"</p>
-                        </div>
-                    </div>
-                    <div class="testimonial-item">
-                        <div class="testimonial-quote"><i class="fa fa-quote-right fa-2x"></i>
-                        </div>
-                        <div class="testimonial-inner p-4">
-                            <img src="../assets/img/testimonial-3.jpg" class="img-fluid" alt="Michael Rodriguez, Family Traveler">
-                            <div class="ms-4">
-                                <h4>Michael Rodriguez</h4>
-                                <p>Family Vacationer</p>
-                                <div class="d-flex text-primary">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star text-body"></i>
-                                    <i class="fas fa-star text-body"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="border-top rounded-bottom p-4">
-                            <p class="mb-0">"Family road trips can be challenging, but Zoomix made our vacation planning effortless. They helped us find the perfect SUV for our needs, with excellent customer service and transparent pricing. We'll definitely use them again!"</p>
-                        </div>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
+                <?php else: ?>
+                <div class="text-center py-5">
+                    <div class="mb-4">
+                        <i class="fas fa-comment-slash fa-4x text-muted"></i>
+                    </div>
+                    <h3 class="text-muted">No testimonials available yet</h3>
+                    <p class="text-muted">Be the first to share your experience with us!</p>
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                    <a href="../user/submit-testimonial.php" class="btn btn-primary mt-3">
+                        <i class="fas fa-plus-circle me-2"></i>Submit a Testimonial
+                    </a>
+                    <?php else: ?>
+                    <a href="../auth/login.php" class="btn btn-primary mt-3">
+                        <i class="fas fa-sign-in-alt me-2"></i>Login to Submit a Testimonial
+                    </a>
+                    <?php endif; ?>
+                </div>
+                <?php endif; ?>
             </div>
         </div>
         <!-- Testimonial End -->
