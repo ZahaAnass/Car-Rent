@@ -122,6 +122,10 @@
                                         <label for="phone" class="form-label">Phone Number</label>
                                         <input type="tel" class="form-control" id="phone" value="<?= htmlspecialchars($userData['phone_number']) ?>" name="phone_number">
                                     </div>
+                                    <div class="col-md-6">
+                                        <label for="licenseNumber" class="form-label">License Number</label>
+                                        <input type="text" class="form-control" id="licenseNumber" value="<?= htmlspecialchars($userData['license_number']) ?>" name="license_number">
+                                    </div>
                                 </div>
                                 <!-- Save Button -->
                                 <div class="mt-4 text-end">
