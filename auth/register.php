@@ -18,6 +18,22 @@ if (isset($_SESSION['register_error'])) {
     $register_error_message = $_SESSION['register_error'];
     unset($_SESSION['register_error']); // Clear the error message after retrieving it
 }
+
+// Add this at the top with other includes
+require __DIR__ . "/../vendor/autoload.php";
+
+use Dotenv\Dotenv;
+$dotenv = Dotenv::createImmutable(__DIR__ . "/../");
+$dotenv->load();
+
+$client = new Google\Client;
+$client->setClientId($_ENV["CLIENT_ID"]);
+$client->setClientSecret($_ENV["CLIENT_SECRET"]);
+$client->setRedirectUri($_ENV["REDIRECT_URI"]);
+$client->addScope("email");
+$client->addScope("profile");
+$authUrl = $client->createAuthUrl();
+
 ?>
 
 <!-- Spinner Start -->
@@ -143,9 +159,9 @@ if (isset($_SESSION['register_error'])) {
                         </div>
                         
                         <div class="social-login wow fadeInUp" data-wow-delay="0.7s">
-                            <button type="button" class="btn btn-google p-3">
+                            <a href="<?= $authUrl ?>" class="btn btn-google p-3">
                                 <i class="fab fa-google me-2"></i>Register with Google
-                            </button>
+                            </a>
                             <button type="button" class="btn btn-facebook p-3">
                                 <i class="fab fa-facebook me-2"></i>Register with Facebook
                             </button>
