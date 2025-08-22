@@ -77,15 +77,16 @@ class UserQueries {
         }
     }
 
-    public function updateUserProfile($user_id, $first_name, $last_name, $email, $phone_number) {
+    public function updateUserProfile($user_id, $first_name, $last_name, $email, $phone_number, $license_number) {
         try {
-            $stmt = $this->pdo->prepare("UPDATE users SET first_name = :first_name, last_name = :last_name, email = :email, phone_number = :phone_number WHERE user_id = :user_id");
+            $stmt = $this->pdo->prepare("UPDATE users SET first_name = :first_name, last_name = :last_name, email = :email, phone_number = :phone_number, license_number = :license_number WHERE user_id = :user_id");
             $stmt->execute([
                 'user_id' => $user_id,
                 'first_name' => $first_name,
                 'last_name' => $last_name,
                 'email' => $email,
                 'phone_number' => $phone_number,
+                'license_number' => $license_number
             ]);
             return $stmt->rowCount() > 0;
         } catch (PDOException $e) {
@@ -150,7 +151,74 @@ class UserQueries {
         }
     }
 
-
+    public function createGoogleUser($first_name, $last_name, $email, $password_hash, $phone_number, $license_number, $role, $address_country, $address_city) {
+        try {
+            if ($this->emailExists($email)) {
+                return false; // Email already exists
+            }
+            
+            $stmt = $this->pdo->prepare(
+                "INSERT INTO users (first_name, last_name, email, password_hash, phone_number, license_number, role, address_country, address_city) " .
+                "VALUES (:first_name, :last_name, :email, :password_hash, :phone_number, :license_number, :role, :address_country, :address_city)"
+            );
+            $stmt->execute([
+                'first_name' => $first_name,
+                'last_name' => $last_name,
+                'email' => $email,
+                'password_hash' => $password_hash,
+                'phone_number' => $phone_number,
+                'license_number' => $license_number, // Can be null for Google users initially
+                'role' => $role,
+                'address_country' => $address_country,
+                'address_city' => $address_city
+            ]);
+            return $this->pdo->lastInsertId();
+        } catch (PDOException $e) {
+            die("Create Google user query failed: " . $e->getMessage());
+        }
+    }
+    
+    public function isProfileComplete($user_id) {
+        try {
+            $stmt = $this->pdo->prepare("SELECT phone_number, license_number, address_country, address_city FROM users WHERE user_id = :user_id");
+            $stmt->execute(['user_id' => $user_id]);
+            $user = $stmt->fetch();
+            
+            // Check if all required fields are filled
+            return  !empty($user['phone_number']) && 
+                    !empty($user['license_number']) && 
+                    !empty($user['address_country']) && 
+                    !empty($user['address_city']);
+        } catch (PDOException $e) {
+            die("Profile check query failed: " . $e->getMessage());
+        }
+    }
+    
+    public function completeProfile($user_id, $phone_number, $license_number, $address_country, $address_city) {
+        try {
+            // Check if license number is already taken by another user
+            $stmt = $this->pdo->prepare("SELECT user_id FROM users WHERE license_number = :license_number AND user_id != :user_id");
+            $stmt->execute(['license_number' => $license_number, 'user_id' => $user_id]);
+            if ($stmt->rowCount() > 0) {
+                return 'duplicate_license';
+            }
+            
+            $stmt = $this->pdo->prepare(
+                "UPDATE users SET phone_number = :phone_number, license_number = :license_number, " .
+                "address_country = :address_country, address_city = :address_city WHERE user_id = :user_id"
+            );
+            $stmt->execute([
+                'user_id' => $user_id,
+                'phone_number' => $phone_number,
+                'license_number' => $license_number,
+                'address_country' => $address_country,
+                'address_city' => $address_city
+            ]);
+            return $stmt->rowCount() > 0;
+        } catch (PDOException $e) {
+            die("Complete profile query failed: " . $e->getMessage());
+        }
+    }
 
     public function changePassword($user_id, $password) {
         try {
