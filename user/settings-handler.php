@@ -28,9 +28,10 @@ try {
                     $last_name = trim(filter_input(INPUT_POST, 'last_name', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
                     $email = trim(filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL));
                     $phone_number = trim(filter_input(INPUT_POST, 'phone_number', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+                    $license_number = trim(filter_input(INPUT_POST, 'license_number', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
                     $current_email = trim(filter_input(INPUT_POST, 'current_email', FILTER_SANITIZE_EMAIL));
 
-                    if (validate_name($first_name) && validate_name($last_name) && validate_email($email) && validate_phone($phone_number) && validate_email($current_email)) {
+                    if (validate_name($first_name) && validate_name($last_name) && validate_email($email) && validate_phone($phone_number) && validate_email($current_email) && validate_license($license_number)) {
 
                         if ($email !== $current_email) {
                             if ($userQueries->emailExists($email)) {
@@ -39,7 +40,7 @@ try {
                             }
                         }
 
-                        if ($userQueries->updateUserProfile($_SESSION['user_id'], $first_name, $last_name, $email, $phone_number)) {
+                        if ($userQueries->updateUserProfile($_SESSION['user_id'], $first_name, $last_name, $email, $phone_number, $license_number)) {
                             $_SESSION['success'] = "Profile updated successfully!";
                             $_SESSION['user_name'] = $first_name . ' ' . $last_name;
                             $_SESSION['user_email'] = $email;
