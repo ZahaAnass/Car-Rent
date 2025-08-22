@@ -159,12 +159,9 @@ $authUrl = $client->createAuthUrl();
                         </div>
                         
                         <div class="social-login wow fadeInUp" data-wow-delay="0.7s">
-                            <a href="<?= $authUrl ?>" class="btn btn-google p-3">
-                                <i class="fab fa-google me-2"></i>Register with Google
+                            <a href="<?= $authUrl ?>" class="btn btn-google w-100 p-3">
+                                <i class="fab fa-google me-2"></i>Login with Google
                             </a>
-                            <button type="button" class="btn btn-facebook p-3">
-                                <i class="fab fa-facebook me-2"></i>Register with Facebook
-                            </button>
                         </div>
                         
                         <div class="register-footer text-center mt-4 wow fadeInUp" data-wow-delay="1s">

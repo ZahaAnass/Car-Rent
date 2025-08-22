@@ -51,6 +51,12 @@ try {
         $_SESSION['google_user'] = true;
         $_SESSION["user"] = $existingUser;
 
+        $token = bin2hex(random_bytes(32));
+        // Set secure, httpOnly cookie for 30 days
+        setcookie('remember_me', $token, time() + (86400 * 30), '/');
+        // Store token in DB
+        $userQueries->createRememberMeToken($existingUser['user_id'], $token, date('Y-m-d H:i:s', time() + (86400 * 30)));
+
         // Redirect based on role
         if ($existingUser['role'] === 'Admin') {
             redirect('../admin/dashboard.php');
@@ -88,8 +94,14 @@ try {
             $_SESSION['login_success'] = "Account created successfully! Please complete your profile.";
             $_SESSION['google_signup'] = true; // Flag to show profile completion prompt
             $_SESSION['google_user'] = true;
-            $_SESSION["user"] = $existingUser;
+            $_SESSION["user"] = $userQueries->getUserById($userId) ?? [];
             
+            $token = bin2hex(random_bytes(32));
+            // Set secure, httpOnly cookie for 30 days
+            setcookie('remember_me', $token, time() + (86400 * 30), '/');
+            // Store token in DB
+            $userQueries->createRememberMeToken($userId, $token, date('Y-m-d H:i:s', time() + (86400 * 30)));
+
             redirect('../auth/profile-completion.php');
         } else {
             $_SESSION['login_error'] = "Failed to create account. Please try again.";
