@@ -1,15 +1,15 @@
 <?php
 
-    require __DIR__ . "/vendor/autoload.php";
+    require __DIR__ . "/../vendor/autoload.php";
 
     use Dotenv\Dotenv;
-    $dotenv = Dotenv::createImmutable(__DIR__);
+    $dotenv = Dotenv::createImmutable(__DIR__ . "/../");
     $dotenv->load();
-
+    
     $client = new Google\Client;
     $client->setClientId($_ENV["CLIENT_ID"]);
     $client->setClientSecret($_ENV["CLIENT_SECRET"]);
-    $client->setRedirectUri($_ENV["REDIRECT_URI"]);
+    $client->setRedirectUri($_ENV["REDIRECT_URI"]); 
 
     if(!isset($_GET['code'])){
         exit("Login Failed");
