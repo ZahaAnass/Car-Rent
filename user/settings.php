@@ -122,12 +122,21 @@
                                         <label for="phone" class="form-label">Phone Number</label>
                                         <input type="tel" class="form-control" id="phone" value="<?= htmlspecialchars($userData['phone_number']) ?>" name="phone_number">
                                     </div>
+                                    <div class="col-md-6">
+                                        <label for="licenseNumber" class="form-label">License Number</label>
+                                        <input type="text" class="form-control" id="licenseNumber" value="<?= htmlspecialchars($userData['license_number']) ?>" name="license_number">
+                                    </div>
                                 </div>
                                 <!-- Save Button -->
                                 <div class="mt-4 text-end">
                                     <button type="submit" class="btn btn-primary px-4">Save Changes</button>
                                 </div>
                             </form>
+
+                            <?php
+                                if($_SESSION['google_user'] != true):
+                            ?>
+
                             <!-- Change Password Form -->
                             <div class="card border-0 shadow-sm mt-4">
                                 <div class="card-header bg-light py-3">
@@ -175,6 +184,8 @@
                                     </form>
                                 </div>
                             </div>
+
+                            <?php endif; ?>
 
                             <!-- Delete Account Form -->
                             <div class="card border-danger border-0 shadow-sm mt-4">
