@@ -6,5 +6,3 @@
 *.md linguist-language=Markdown
 *.sql linguist-detectable=true
 *.sql linguist-language=sql
-*.sh linguist-detectable=true
-*.sh linguist-language=shell
