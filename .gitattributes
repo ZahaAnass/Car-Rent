@@ -4,4 +4,5 @@
 *.json linguist-language=JSON
 *.txt linguist-language=Text
 *.md linguist-language=Markdown
-*.sql linguist-detectable=true linguist-language=sql
+*.sql linguist-detectable=true
+*.sql linguist-language=sql
