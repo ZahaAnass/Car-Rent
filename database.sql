@@ -93,6 +93,22 @@ CREATE TABLE remember_me_tokens (
     UNIQUE KEY (token)
 );
 
+-- Create password reset tokens table
+CREATE TABLE password_reset_tokens (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    code VARCHAR(10) NOT NULL,
+    token VARCHAR(255) NOT NULL UNIQUE,
+    expires_at DATETIME NOT NULL,
+    is_used BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    INDEX idx_code (code),
+    INDEX idx_token (token),
+    INDEX idx_user_id (user_id),
+    INDEX idx_expires (expires_at)
+);
+
 -- Inserting Data
 
 INSERT INTO cars (name, type, description, daily_rate, image_url, status, license_plate, year, make, model, color, seats, fuel_type, features)
