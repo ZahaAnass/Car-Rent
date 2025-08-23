@@ -372,5 +372,112 @@ class UserQueries {
         }
     }
 
+    public function deleteResetCodes($user_id) {
+        try {
+            $stmt = $this->pdo->prepare("DELETE FROM password_reset_tokens WHERE user_id = :user_id");
+            $stmt->execute(['user_id' => $user_id]);
+            return $stmt->rowCount() > 0;
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
+    public function storeResetCode($user_id, $code, $token, $expires_at) {
+        try {
+            $stmt = $this->pdo->prepare("INSERT INTO password_reset_tokens (user_id, code, token, expires_at) VALUES (:user_id, :code, :token, :expires_at)");
+            
+            $stmt->execute([
+                ':user_id' => $user_id,
+                ':code' => $code,
+                ':token' => $token,
+                ':expires_at' => $expires_at
+            ]);
+
+            return $stmt->rowCount() > 0;
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
+    public function verifyCode($user_id, $code) {
+        try {
+            $stmt = $this->pdo->prepare("SELECT token FROM password_reset_tokens WHERE user_id = :user_id AND code = :code AND expires_at > NOW() AND is_used = FALSE");
+            $stmt->execute([
+                ':user_id' => $user_id,
+                ':code' => $code
+            ]);
+            $resetData = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $resetData;
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
+    public function markCodeAsUsed($token) {
+        try {
+            $stmt = $this->pdo->prepare("UPDATE password_reset_tokens SET is_used = TRUE WHERE token = :token");
+            $stmt->execute([':token' => $token]);
+            return $stmt->rowCount() > 0;
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
+    public function verifyToken($token) {
+        try {
+            $stmt = $this->pdo->prepare("SELECT prt.user_id, u.email FROM password_reset_tokens prt JOIN users u ON prt.user_id = u.user_id WHERE prt.token = :token AND prt.is_used = TRUE AND prt.expires_at > NOW()");
+            $stmt->execute([':token' => $token]);
+            $reset_data = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $reset_data;
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
+    public function updatePassword($user_id, $password) {
+        try{
+            $hashed_password = hash_password($password);
+        
+            $stmt = $this->pdo->prepare("UPDATE users SET password_hash = :password WHERE user_id = :user_id");
+            $result = $stmt->execute([
+                ':password' => $hashed_password,
+                ':user_id' => $user_id
+            ]);
+            return $result;
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }            
+    }
+
+    public function deleteResetTokens($user_id) {
+        try{
+            $stmt = $this->pdo->prepare("DELETE FROM password_reset_tokens WHERE user_id = :user_id");
+            $stmt->execute([':user_id' => $user_id]);
+        }catch(PDOException $e){
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
+    public function deleteRememberMeTokens($user_id) {
+        try{
+            $stmt = $this->pdo->prepare("DELETE FROM remember_me_tokens WHERE user_id = :user_id");
+            $stmt->execute([':user_id' => $user_id]);
+        }catch(PDOException $e){
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
+    public function getUserFromToken($token, $email) {
+        try{
+            $stmt = $this->pdo->prepare("SELECT u.first_name FROM users u JOIN password_reset_tokens prt ON u.user_id = prt.user_id WHERE prt.token = :token AND u.email = :email AND prt.is_used = TRUE");
+            $stmt->execute([':token' => $token, ':email' => $email]);
+            $userData = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $userData;
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
 }
+
 ?>
