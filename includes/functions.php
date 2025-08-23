@@ -1,5 +1,15 @@
 <?php
 
+// PHPMailer setup
+require __DIR__ . "/../vendor/autoload.php";
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+use Dotenv\Dotenv;
+$dotenv = Dotenv::createImmutable(__DIR__ . "/../");
+$dotenv->load();
+
 function redirect($url) {
     header("Location: $url");
     exit();
@@ -132,6 +142,94 @@ function get_get_var($var_name) {
         return $_GET[$var_name];
     }
     return null;
+}
+
+function sendVerificationCodeEmail($email, $firstName, $code) {
+
+    $mail = new PHPMailer(true);
+    
+    try {
+        // SMTP configuration
+        $mail->isSMTP();
+        $mail->Host = $_ENV['MAIL_HOST']; // Gmail STMP server
+        $mail->SMTPAuth = true;
+        $mail->Username = $_ENV['MAIL_USERNAME']; // Email
+        $mail->Password = $_ENV['MAIL_PASSWORD']; // App password
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port = $_ENV['MAIL_PORT'];
+        
+        // Recipients
+        $mail->setFrom($_ENV['MAIL_USERNAME'], 'Zoomix'); 
+        $mail->addAddress($email, $firstName);
+        $mail->addReplyTo($_ENV['MAIL_USERNAME'], 'Zoomix Support');
+
+        // Content
+        $mail->isHTML(true);
+        $mail->Subject = 'Password Reset Code - Zoomix';
+        $mail->Body = generateVerificationEmailTemplate($firstName, $code);
+
+        $mail->send();
+        return true;
+    } catch (Exception $e) {
+        $_SESSION['forgot_error'] = "Email sending failed: " . $mail->ErrorInfo;
+        return false;
+    }
+}
+
+function generateVerificationEmailTemplate($firstName, $code) {
+    return "
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset='UTF-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+        <title>Password Reset Code - Zoomix</title>
+        <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; background-color: #f4f4f4; margin: 0; padding: 0; }
+            .container { max-width: 600px; margin: 0 auto; background: white; }
+            .header { background: #007bff; color: white; padding: 30px; text-align: center; }
+            .logo { font-size: 28px; font-weight: bold; margin-bottom: 10px; }
+            .content { padding: 40px 30px; }
+            .code-box { background: #f8f9fa; border: 2px dashed #007bff; padding: 30px; text-align: center; margin: 30px 0; border-radius: 10px; }
+            .code { font-size: 36px; font-weight: bold; color: #007bff; letter-spacing: 5px; font-family: monospace; }
+            .footer { background: #f8f9fa; padding: 20px; text-align: center; color: #666; font-size: 14px; }
+            .warning { background: #fff3cd; border: 1px solid #ffeaa7; color: #856404; padding: 15px; border-radius: 5px; margin: 20px 0; }
+        </style>
+    </head>
+    <body>
+        <div class='container'>
+            <div class='header'>
+                <div class='logo'>🚗 Zoomix</div>
+                <div>Password Reset Verification</div>
+            </div>
+            <div class='content'>
+                <h2 style='color: #333; margin-top: 0;'>Hello " . htmlspecialchars($firstName) . "!</h2>
+                <p>We received a request to reset your password for your Zoomix account.</p>
+                <p>Please use the following 6-digit verification code:</p>
+                
+                <div class='code-box'>
+                    <div style='font-size: 16px; margin-bottom: 10px; color: #666;'>Your Verification Code</div>
+                    <div class='code'>" . $code . "</div>
+                </div>
+                
+                <div class='warning'>
+                    <strong>⚠️ Important:</strong>
+                    <ul style='margin: 10px 0; padding-left: 20px;'>
+                        <li>This code will expire in <strong>15 minutes</strong></li>
+                        <li>Don't share this code with anyone</li>
+                        <li>If you didn't request this, please ignore this email</li>
+                    </ul>
+                </div>
+                
+                <p>Enter this code on the password reset page to continue setting your new password.</p>
+            </div>
+            <div class='footer'>
+                <p>This is an automated message from Zoomix. Please do not reply to this email.</p>
+                <p>Need help? Contact us at support@zoomix.com</p>
+            </div>
+        </div>
+    </body>
+    </html>";
 }
 
 
