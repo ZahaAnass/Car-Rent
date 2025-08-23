@@ -91,7 +91,7 @@
                                     Remember me
                                 </label>
                             </div>
-                            <a href="#" class="text-primary forgot-password">Forgot Password?</a>
+                            <a href="forgot-password.php" class="text-primary forgot-password">Forgot Password?</a>
                         </div>
                         
                         <div class="form-group wow fadeInUp" data-wow-delay="0.5s">
