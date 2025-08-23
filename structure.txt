@@ -1,0 +1,157 @@
+Car-Rent/
+├── admin/
+│   ├── dashboard.php
+│   ├── index.php
+│   ├── manage-car-handeler.php
+│   ├── manage-cars.php
+│   ├── manage-message-handler.php
+│   ├── manage-message.php
+│   ├── manage-reservation-handeler.php
+│   ├── manage-reservations.php
+│   ├── manage-testimonials-handler.php
+│   ├── manage-testimonials.php
+│   ├── manage-user-handeler.php
+│   ├── manage-users.php
+│   ├── settings-handler.php
+│   └── settings.php
+├── api/
+│   └── get_car_details.php
+├── assets/
+│   ├── cars/
+│   │   ├── Audi
+│   │   ├── A8.png
+│   │   ├── BMW
+│   │   ├── 7
+│   │   ├── Series.png
+│   │   ├── Chevrolet
+│   │   ├── Bolt
+│   │   ├── EV.png
+│   │   ├── Ford
+│   │   ├── Explorer.png
+│   │   ├── Honda
+│   │   ├── Civic.png
+│   │   ├── Honda
+│   │   ├── CR-V.png
+│   │   ├── Hyundai
+│   │   ├── Elantra.png
+│   │   ├── Hyundai
+│   │   ├── Ioniq
+│   │   ├── 5.png
+│   │   ├── Hyundai
+│   │   ├── Tucson.png
+│   │   ├── Jeep
+│   │   ├── Grand
+│   │   ├── Cherokee.png
+│   │   ├── Kia
+│   │   ├── EV6.png
+│   │   ├── Kia
+│   │   ├── Rio.png
+│   │   ├── Lexus
+│   │   ├── LS.png
+│   │   ├── Mercedes-Benz
+│   │   ├── S-Classcom.png
+│   │   ├── Nissan
+│   │   ├── Leaf.png
+│   │   ├── Nissan
+│   │   ├── Versa.png
+│   │   ├── Tesla
+│   │   ├── Model
+│   │   ├── 3.png
+│   │   ├── Tesla
+│   │   ├── Model
+│   │   ├── S.png
+│   │   ├── Toyota
+│   │   ├── Corolla.png
+│   │   ├── Toyota
+│   │   └── RAV4.png
+│   ├── css/
+│   │   ├── bootstrap.min.css
+│   │   └── style.css
+│   ├── img/
+│   │   └── [various image files...]
+│   ├── js/
+│   │   ├── add-user-validation.js
+│   │   ├── countries-cities.json
+│   │   ├── countries.js
+│   │   ├── filterCars.js
+│   │   ├── header_footer.js
+│   │   ├── login-validation.js
+│   │   ├── main.js
+│   │   ├── register-validation.js
+│   │   └── setting.js
+│   ├── lib/
+│   │   └── [various library files...]
+│   └── uploads/
+├── auth/
+│   ├── forgot-password-handler.php
+│   ├── forgot-password.php
+│   ├── google-handler.php
+│   ├── index.php
+│   ├── login-handeler.php
+│   ├── login.php
+│   ├── logout.php
+│   ├── profile-completion-handler.php
+│   ├── profile-completion.php
+│   ├── register-handeler.php
+│   ├── register.php
+│   ├── reset-password-handler.php
+│   ├── reset-password.php
+│   ├── send-code-again.php
+│   ├── verify-code-handler.php
+│   └── verify-code.php
+├── composer.json
+├── composer.lock
+├── config/
+│   ├── config.php
+│   └── database.php
+├── database.sql
+├── includes/
+│   ├── auth_admin_check.php
+│   ├── auth_footer.php
+│   ├── auth_header.php
+│   ├── auth_user_check.php
+│   ├── auto-login.php
+│   ├── bottom-nav.php
+│   ├── footer.php
+│   ├── functions.php
+│   ├── header.php
+│   ├── queries/
+│   │   ├── booking_queries.php
+│   │   ├── car_queries.php
+│   │   ├── message_queries.php
+│   │   ├── testimonial_queries.php
+│   │   └── user_queries.php
+│   ├── session.php
+│   └── sidebar.php
+├── index.php
+├── public/
+│   ├── 404.php
+│   ├── about.php
+│   ├── blog.php
+│   ├── cars.php
+│   ├── contact-handler.php
+│   ├── contact.php
+│   ├── feature.php
+│   ├── index.php
+│   ├── privacy.php
+│   ├── service.php
+│   ├── team.php
+│   ├── terms.php
+│   └── testimonial.php
+├── README.md
+├── structure.txt
+├── tree_structure.sh
+├── user/
+│   ├── add-testimonial.php
+│   ├── book-car-handeler.php
+│   ├── book-car.php
+│   ├── cancel-booking.php
+│   ├── dashboard.php
+│   ├── index.php
+│   ├── my-reservations.php
+│   ├── settings-handler.php
+│   ├── settings.php
+│   └── testimonial-handler.php
+└── vendor/
+    ├── autoload.php
+    └── [composer dependencies...]
