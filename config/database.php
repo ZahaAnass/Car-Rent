@@ -1,9 +1,15 @@
 <?php
-$host = 'localhost';
-$dbname = 'zoomix_rental';
-$username = 'root';
-$password = '';
-$charset = 'utf8mb4';
+require __DIR__ . "/../vendor/autoload.php";
+
+use Dotenv\Dotenv;
+$dotenv = Dotenv::createImmutable(__DIR__ . "/../");
+$dotenv->load();
+
+$host = $_ENV['DB_HOST'];
+$dbname = $_ENV['DB_NAME'];
+$username = $_ENV['DB_USER'];
+$password = $_ENV['DB_PASSWORD'];
+$charset = $_ENV['DB_CHARSET'];
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=$charset", $username, $password);
