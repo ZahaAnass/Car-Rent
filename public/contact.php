@@ -6,14 +6,15 @@
     require_once '../includes/session.php';
     start_session();
 
-    // Check if user is logged in
-    if (!isset($_SESSION['user_id'])) {
-        redirect("../auth/login.php");
-    }
+    $user_id = $_SESSION['user_id'] ?? 0;
 
     try {
-        $user = new UserQueries($pdo);
-        $userData = $user->getUserById($_SESSION['user_id']);
+        if ($user_id == 0) {
+            $userData = [];
+        } else {
+            $user = new UserQueries($pdo);
+            $userData = $user->getUserById($_SESSION['user_id']);
+        }
         
         $pageTitle = "Contact Us";
         $displayName = $userData['first_name'] . ' ' . $userData['last_name'] ?? 'Guest';
