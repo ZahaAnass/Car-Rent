@@ -202,21 +202,31 @@
                                             return strtotime($b['timestamp']) - strtotime($a['timestamp']);
                                         });
 
-                                        $activities = array_slice($activities, 0, 5);
+                                        $activities = array_slice($activities, 0, 10);
 
-                                        foreach ($activities as $activity) {
-                                            $timeAgo = timeAgo($activity['timestamp']);
-                                            
+                                        if (empty($activities)) {
                                             echo "<li class='list-group-item d-flex justify-content-between align-items-center wow fadeIn' data-wow-delay='1s'>
                                                 <div class='d-flex align-items-center'>
-                                                    <i class='fas {$activity['icon']} {$activity['icon_color']} me-3'></i>
+                                                    <i class='fas fa-info-circle text-info me-3'></i>
                                                     <div>
-                                                        <strong>{$activity['title']}</strong>
-                                                        <small class='d-block text-muted'>{$activity['subtitle']}</small>
+                                                        <strong>No activities found</strong>
                                                     </div>
                                                 </div>
-                                                <span class='badge bg-{$activity['badge_color']} rounded-pill'>{$timeAgo}</span>
                                             </li>";
+                                        } else {
+                                            foreach ($activities as $activity) {
+                                                $timeAgo = timeAgo($activity['timestamp']);
+                                                    echo "<li class='list-group-item d-flex justify-content-between align-items-center wow fadeIn' data-wow-delay='1s'>
+                                                            <div class='d-flex align-items-center'>
+                                                                <i class='fas {$activity['icon']} {$activity['icon_color']} me-3'></i>
+                                                                <div>
+                                                                    <strong>{$activity['title']}</strong>
+                                                                    <small class='d-block text-muted'>{$activity['subtitle']}</small>
+                                                                </div>
+                                                            </div>
+                                                            <span class='badge bg-{$activity['badge_color']} rounded-pill'>{$timeAgo}</span>
+                                                        </li>";
+                                            }
                                         }
                                         ?>
                                     </ul>
