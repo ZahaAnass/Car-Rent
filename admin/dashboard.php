@@ -234,20 +234,31 @@
                                             return strtotime($b['time']) - strtotime($a['time']);
                                         });
 
-                                        // Display up to 5 activities
+                                        // Display up to 10 activities
                                         $activities = array_slice($activities, 0, 10);
 
-                                        foreach ($activities as $activity) {
+                                        if (empty($activities)) {
                                             echo "<li class='list-group-item d-flex justify-content-between align-items-center wow fadeIn' data-wow-delay='1s'>
                                                 <div class='d-flex align-items-center'>
-                                                    <i class='" . $activity['icon'] . " fa-fw me-3 " . $activity['color'] . "'></i>
+                                                    <i class='fas fa-info-circle text-info me-3'></i>
                                                     <div>
-                                                        <strong>{$activity['title']}</strong>
-                                                        <small class='d-block text-muted'>{$activity['subtitle']}</small>
+                                                        <strong>No activities found</strong>
                                                     </div>
                                                 </div>
-                                                <span class='badge bg-danger text-white'>" . $activity['time'] . "</span>
                                             </li>";
+                                        } else {
+                                            foreach ($activities as $activity) {
+                                                echo "<li class='list-group-item d-flex justify-content-between align-items-center wow fadeIn' data-wow-delay='1s'>
+                                                    <div class='d-flex align-items-center'>
+                                                        <i class='" . $activity['icon'] . " fa-fw me-3 " . $activity['color'] . "'></i>
+                                                        <div>
+                                                            <strong>{$activity['title']}</strong>
+                                                            <small class='d-block text-muted'>{$activity['subtitle']}</small>
+                                                        </div>
+                                                    </div>
+                                                    <span class='badge bg-danger text-white'>" . $activity['time'] . "</span>
+                                                </li>";
+                                            }
                                         }
                                         ?>
                                     </ul>
