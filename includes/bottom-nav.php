@@ -19,6 +19,12 @@ $small_style = 'style="font-size: 11px;"';
                 
                 <!-- Admin Bottom Nav Links -->
                 <div class="col-2 p-0">
+                    <a href="../public/index.php" class="text-center text-white">
+                        <i class="fas fa-home"></i>
+                        <small class="d-block" <?= $small_style ?>>Home</small>
+                    </a>
+                </div>
+                <div class="col-2 p-0">
                     <a href="dashboard.php" class="text-center <?= $current_page == 'dashboard.php' ? 'text-primary' : 'text-white' ?>">
                         <i class="fas fa-tachometer-alt"></i>
                         <small class="d-block" <?= $small_style ?>>Dashboard</small>
@@ -40,12 +46,6 @@ $small_style = 'style="font-size: 11px;"';
                     <a href="manage-users.php" class="text-center <?= $current_page == 'manage-users.php' ? 'text-primary' : 'text-white' ?>">
                         <i class="fas fa-users"></i>
                         <small class="d-block" <?= $small_style ?>>Users</small>
-                    </a>
-                </div>
-                <div class="col-2 p-0">
-                    <a href="manage-message.php" class="text-center <?= $current_page == 'manage-message.php' ? 'text-primary' : 'text-white' ?>">
-                        <i class="fas fa-envelope"></i>
-                        <small class="d-block" <?= $small_style ?>>Messages</small>
                     </a>
                 </div>
                 <div class="col-2 p-0">
@@ -89,9 +89,9 @@ $small_style = 'style="font-size: 11px;"';
                     </a>
                 </div>
                 <div class="col-2 p-0">
-                    <a href="add-testimonial.php" class="text-center <?= $current_page == 'add-testimonial.php' ? 'text-primary' : 'text-white' ?>">
-                        <i class="fas fa-comment-dots"></i>
-                        <small class="d-block" <?= $small_style ?>>Testimonial</small>
+                    <a href="../auth/logout.php" class="text-center text-danger">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <small class="d-block" <?= $small_style ?>>Logout</small>
                     </a>
                 </div>
 
