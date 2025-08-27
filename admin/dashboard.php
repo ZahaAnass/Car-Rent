@@ -286,6 +286,12 @@
                                         <a href="manage-testimonials.php" class="btn btn-warning wow fadeInDown" data-wow-delay="1.4s">
                                             <i class="fas fa-comments me-2"></i>Manage Testimonials
                                         </a>
+                                        <a href="manage-messages.php" class="btn btn-info wow fadeInDown" data-wow-delay="1.5s">
+                                            <i class="fas fa-envelope me-2"></i>Manage Messages
+                                        </a>
+                                        <a href="settings.php" class="btn btn-dark wow fadeInDown" data-wow-delay="1.6s">
+                                            <i class="fas fa-cog me-2"></i>Settings
+                                        </a>
                                     </div>
                                 </div>
                             </div>
