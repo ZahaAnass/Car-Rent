@@ -254,6 +254,9 @@
                                         <a href="add-testimonial.php" class="btn btn-warning text-white wow fadeInDown" data-wow-delay="4s">
                                             <i class="fas fa-star me-2"></i>Add Testimonial
                                         </a>
+                                        <a href="settings.php" class="btn btn-dark wow fadeInDown" data-wow-delay="1.6s">
+                                            <i class="fas fa-cog me-2"></i>Settings
+                                        </a>
                                     </div>
                                 </div>
                             </div>
